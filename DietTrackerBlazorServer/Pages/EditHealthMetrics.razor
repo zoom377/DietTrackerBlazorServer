@@ -1,0 +1,113 @@
+﻿@page "/healthmetric"
+
+@if (Loaded)
+{
+    <Card>
+        <CardHeader>
+            Health metrics
+        </CardHeader>
+
+
+        <DataGrid TItem="HealthMetric"
+              Data="@HealthMetrics"
+              @bind-SelectedRow="@SelectedHealthMetric"
+              Responsive>
+
+
+
+            <DataGridCommandColumn />
+            <DataGridColumn Field="@nameof(HealthMetric.Name)" Caption="Name" />
+            <DataGridColumn Field="@nameof(HealthMetric.Description)" Caption="Description" />
+
+        </DataGrid>
+
+        <CardFooter>
+            <Button Clicked="OnAddNewMetricButtonClicked" Color="Color.Primary">
+                <Icon Name="IconName.Add" />
+                Add new metric
+            </Button>
+            <Button Color="Color.Warning">
+                <Icon Name="IconName.Edit" />
+                Edit metric
+            </Button>
+            <Button Color="Color.Danger">
+                <Icon Name="IconName.Delete" />
+                Delete metric
+            </Button>
+        </CardFooter>
+    </Card>
+}
+else
+{
+    <Column>
+        <Row>
+            <Text>
+                Loading...
+            </Text>
+        </Row>
+    </Column>
+}
+
+
+
+<Modal @ref="AddModal">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>New health metric</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit @bind-Text="NewHealthMetric.Name" Placeholder="Enter a name..."></TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Description</FieldLabel>
+                <TextEdit @bind-Text="NewHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@OnModalAddButtonClicked">Add</Button>
+            <Button Color="Color.Danger" Clicked="@OnModalAddButtonClicked">Cancel</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+
+@code {
+
+    protected bool Loaded { get; set; }
+
+    [Inject]
+    protected IHealthMetricData HealthMetricData { get; set; }
+
+    protected HealthMetric SelectedHealthMetric { get; set; }
+    protected List<HealthMetric> HealthMetrics { get; set; }
+
+    protected Modal AddModal { get; set; }
+    protected HealthMetric NewHealthMetric { get; set; } = new HealthMetric();
+
+
+    private Task OnAddNewMetricButtonClicked()
+    {
+        return AddModal.Show();
+    }
+
+    private Task OnModalAddButtonClicked()
+    {
+        HealthMetricData.AddHealthMetric(NewHealthMetric);
+        return AddModal.Close(CloseReason.UserClosing);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HealthMetrics = (await HealthMetricData.GetAllHealthMetrics()).ToList();
+        Loaded = true;
+    }
+
+
+
+
+}
+
+

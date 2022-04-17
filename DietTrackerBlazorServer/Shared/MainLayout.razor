@@ -1,0 +1,55 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>DietTrackerBlazorServer</PageTitle>
+
+<Layout Sider>
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode="BarMode.VerticalPopout"
+                 CollapseMode="BarCollapseMode.Small"
+                 Breakpoint="Breakpoint.Desktop"
+                 NavigationBreakpoint="Breakpoint.Mobile">
+
+                <BarBrand>
+                    <BarItem>
+                        <BarLink>
+                            <Heading Size="HeadingSize.Is3">
+                                Diet Tracker
+                            </Heading>
+                        </BarLink>
+                    </BarItem>
+                    <BarToggler />
+                </BarBrand>
+
+                <BarStart>
+
+                    <BarItem>
+                        <BarLink>
+                            <BarIcon IconName="IconName.Add" />
+                            Health metrics
+                        </BarLink>
+                    </BarItem>
+
+                    <BarItem>
+                        <BarLink>
+                            <BarIcon IconName="IconName.Edit" />
+                            Data points
+                        </BarLink>
+                    </BarItem>
+
+                    <BarItem>
+                        <BarLink>
+                            <BarIcon IconName="IconName.Bars" />
+                            Stats
+                        </BarLink>
+                    </BarItem>
+
+                </BarStart>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <LayoutContent Margin="Margin.Is3">
+        @Body
+    </LayoutContent>
+
+</Layout>
