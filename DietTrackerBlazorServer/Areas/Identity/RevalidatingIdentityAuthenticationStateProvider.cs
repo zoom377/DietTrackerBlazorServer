@@ -48,6 +48,8 @@ namespace DietTrackerBlazorServer.Areas.Identity
             }
         }
 
+
+
         private async Task<bool> ValidateSecurityStampAsync(UserManager<TUser> userManager, ClaimsPrincipal principal)
         {
             var user = await userManager.GetUserAsync(principal);

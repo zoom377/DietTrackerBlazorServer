@@ -1,55 +1,92 @@
 ﻿@inherits LayoutComponentBase
 
+
 <PageTitle>DietTrackerBlazorServer</PageTitle>
 
 <Layout Sider>
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar Mode="BarMode.VerticalPopout"
+            <Bar @ref="SideBar" Mode="BarMode.VerticalPopout"
                  CollapseMode="BarCollapseMode.Small"
                  Breakpoint="Breakpoint.Desktop"
                  NavigationBreakpoint="Breakpoint.Mobile">
 
-                <BarBrand>
+                @*<BarBrand>
                     <BarItem>
-                        <BarLink>
-                            <Heading Size="HeadingSize.Is3">
-                                Diet Tracker
-                            </Heading>
-                        </BarLink>
+                    <BarLink>
+                    <Heading Size="HeadingSize.Is3">
+                    Diet Tracker
+                    </Heading>
+                    </BarLink>
                     </BarItem>
-                    <BarToggler />
-                </BarBrand>
+                    </BarBrand>*@
+
 
                 <BarStart>
 
                     <BarItem>
-                        <BarLink>
+                        <BarLink To="/edithealthmetrics">
                             <BarIcon IconName="IconName.Add" />
                             Health metrics
                         </BarLink>
                     </BarItem>
 
                     <BarItem>
-                        <BarLink>
+                        <BarLink To="/newdatapoint">
                             <BarIcon IconName="IconName.Edit" />
                             Data points
                         </BarLink>
                     </BarItem>
 
                     <BarItem>
-                        <BarLink>
+                        <BarLink To="/viewstats">
                             <BarIcon IconName="IconName.Bars" />
                             Stats
                         </BarLink>
                     </BarItem>
 
+                    @*<BarItem>
+                        <BarLink To="Identity/Account/Login">
+                        <BarIcon IconName="IconName.Bars" />
+                        Login
+                        </BarLink>
+                        </BarItem>*@
+
                 </BarStart>
             </Bar>
         </LayoutSiderContent>
     </LayoutSider>
-    <LayoutContent Margin="Margin.Is3">
-        @Body
-    </LayoutContent>
 
+    <Layout>
+        <LayoutHeader Fixed>
+            <LayoutContent>
+
+            <Bar Mode="BarMode.Horizontal"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarToggler Bar="SideBar" />
+                <AuthorizeView>
+                    <Authorized>
+                        <BarItem>
+                            Logged in
+                        </BarItem>
+                    </Authorized>
+                    <NotAuthorized>
+                        <BarItem>
+                            <BarLink To="Identity/Account/Login">
+                                Login
+                            </BarLink>
+                        </BarItem>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </Bar>
+            </LayoutContent>
+        </LayoutHeader>
+        <LayoutContent Margin="Margin.Is3">
+            @Body
+        </LayoutContent>
+    </Layout>
 </Layout>
+
+@code {
+    protected Bar SideBar { get; set; }
+}
