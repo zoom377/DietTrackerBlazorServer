@@ -43,6 +43,28 @@
           "buildMultiTargeting/Blazorise.Bootstrap.props": {}
         }
       },
+      "Blazorise.Charts/1.0.4": {
+        "type": "package",
+        "dependencies": {
+          "Blazorise": "1.0.4",
+          "Lambda2Js": "3.1.3",
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.Charts.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Charts.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazorise.Charts.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.Charts.props": {}
+        }
+      },
       "Blazorise.DataGrid/1.0.4": {
         "type": "package",
         "dependencies": {
@@ -79,6 +101,27 @@
           "lib/net6.0/Blazorise.Icons.FontAwesome.dll": {}
         }
       },
+      "Blazorise.Snackbar/1.0.4": {
+        "type": "package",
+        "dependencies": {
+          "Blazorise": "1.0.4",
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazorise.Snackbar.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazorise.Snackbar.props": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -86,6 +129,18 @@
         },
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {}
+        }
+      },
+      "Lambda2Js/3.1.3": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.0/Lambda2Js.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Lambda2Js.dll": {}
         }
       },
       "MessagePack/2.1.152": {
@@ -3493,6 +3548,27 @@
         "staticwebassets/tooltip.js"
       ]
     },
+    "Blazorise.Charts/1.0.4": {
+      "sha512": "Y915f2OWWEJ1jl2mFrFj0B7q1ZKzwAHvQeGqbv/YIJu1fWdP/+YX0W6NYh+Wijal0ot0qReQTahbSQvwDbB2eA==",
+      "type": "package",
+      "path": "blazorise.charts/1.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Blazorise.png",
+        "LICENSE.md",
+        "blazorise.charts.1.0.4.nupkg.sha512",
+        "blazorise.charts.nuspec",
+        "build/Blazorise.Charts.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazorise.Charts.props",
+        "buildTransitive/Blazorise.Charts.props",
+        "lib/net6.0/Blazorise.Charts.dll",
+        "lib/net6.0/Blazorise.Charts.xml",
+        "staticwebassets/charts.js",
+        "staticwebassets/utilities.js"
+      ]
+    },
     "Blazorise.DataGrid/1.0.4": {
       "sha512": "2bKm2pqfkK8Nqw/PS/Sqlwq2/eRlMt7VipvJslrxksMwBC6cNuvxy9osVSAT6Xke6NxDcIHH6ClvYW1vD72X0A==",
       "type": "package",
@@ -3527,6 +3603,26 @@
         "lib/net6.0/Blazorise.Icons.FontAwesome.dll"
       ]
     },
+    "Blazorise.Snackbar/1.0.4": {
+      "sha512": "PhJ2o+T1b+Aa97O8FEBWrsr1fozdfMtkBniSZUCrIboCP0h73+5HWYbVhcxR6u/85gz5p125sWAnilAfJHcGcQ==",
+      "type": "package",
+      "path": "blazorise.snackbar/1.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Blazorise.png",
+        "LICENSE.md",
+        "blazorise.snackbar.1.0.4.nupkg.sha512",
+        "blazorise.snackbar.nuspec",
+        "build/Blazorise.Snackbar.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazorise.Snackbar.props",
+        "buildTransitive/Blazorise.Snackbar.props",
+        "lib/net6.0/Blazorise.Snackbar.dll",
+        "lib/net6.0/Blazorise.Snackbar.xml",
+        "staticwebassets/blazorise.snackbar.css"
+      ]
+    },
     "Humanizer.Core/2.8.26": {
       "sha512": "OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "type": "package",
@@ -3541,6 +3637,22 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Lambda2Js/3.1.3": {
+      "sha512": "eVcf3zA2WfpCTeIG+p/rIrDYuNLvVTo9U8nrQir12Y9dvMa9aNsyVHfTFwFxQhvy/cctc4V5Ez/U6VqPX5oTVw==",
+      "type": "package",
+      "path": "lambda2js/3.1.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lambda2js.3.1.3.nupkg.sha512",
+        "lambda2js.nuspec",
+        "lib/net40/Lambda2Js.dll",
+        "lib/net40/Lambda2Js.xml",
+        "lib/netstandard1.0/Lambda2Js.dll",
+        "lib/netstandard1.0/Lambda2Js.xml"
       ]
     },
     "MessagePack/2.1.152": {
@@ -10449,8 +10561,10 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Blazorise.Bootstrap >= 1.0.4",
+      "Blazorise.Charts >= 1.0.4",
       "Blazorise.DataGrid >= 1.0.4",
       "Blazorise.Icons.FontAwesome >= 1.0.4",
+      "Blazorise.Snackbar >= 1.0.4",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 6.0.3",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.4",
       "Microsoft.AspNetCore.Identity.UI >= 6.0.4",
@@ -10508,11 +10622,19 @@
             "target": "Package",
             "version": "[1.0.4, )"
           },
+          "Blazorise.Charts": {
+            "target": "Package",
+            "version": "[1.0.4, )"
+          },
           "Blazorise.DataGrid": {
             "target": "Package",
             "version": "[1.0.4, )"
           },
           "Blazorise.Icons.FontAwesome": {
+            "target": "Package",
+            "version": "[1.0.4, )"
+          },
+          "Blazorise.Snackbar": {
             "target": "Package",
             "version": "[1.0.4, )"
           },

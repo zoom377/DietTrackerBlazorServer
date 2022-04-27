@@ -60,7 +60,6 @@ C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\staticwebassets.build.json
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\staticwebassets.development.json
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
-C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\scopedcss\bundle\DietTrackerBlazorServer.styles.css
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\scopedcss\projectbundle\DietTrackerBlazorServer.bundle.scp.css
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\DietTrackerBlazorServer.csproj.CopyComplete
@@ -282,3 +281,6 @@ C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Blazorise.Charts.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Blazorise.Snackbar.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Lambda2Js.dll

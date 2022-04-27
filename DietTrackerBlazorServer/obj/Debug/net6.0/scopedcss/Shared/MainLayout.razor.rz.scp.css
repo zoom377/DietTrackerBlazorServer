@@ -4,7 +4,7 @@
     flex-direction: column;
 }
 
-main[b-bik8keenc3] {
+.main[b-bik8keenc3] {
     flex: 1;
 }
 
@@ -63,7 +63,7 @@ main[b-bik8keenc3] {
         z-index: 1;
     }
 
-    .top-row[b-bik8keenc3], article[b-bik8keenc3] {
+    .main > div[b-bik8keenc3] {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }

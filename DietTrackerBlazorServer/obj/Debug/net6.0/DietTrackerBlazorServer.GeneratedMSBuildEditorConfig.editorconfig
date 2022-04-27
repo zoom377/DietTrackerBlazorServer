@@ -19,36 +19,24 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/DataPoints.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGF0YVBvaW50cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/EditHealthMetrics.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWRpdEhlYWx0aE1ldHJpY3MucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/HealthMetrics.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGVhbHRoTWV0cmljcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/NewDataPoint.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3RGF0YVBvaW50LnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/ViewStats.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld1N0YXRzLnJhem9y
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/Stats.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Shared/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/_Imports.razor]
@@ -59,16 +47,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-bik8keenc3
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Shared/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-0s8vxrcc5n
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Account/LogOut.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Account/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/Error.cshtml]
@@ -81,4 +89,12 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

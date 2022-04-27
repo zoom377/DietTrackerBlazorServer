@@ -9,11 +9,11 @@ namespace DietTrackerBlazorServer.Model
 {
     public class HealthDataPoint
     {
-        public int HealthDataPointId { get; set; }
+        public int Id { get; set; }
         public int HealthMetricId { get; set; }
         public HealthMetric HealthMetric { get; set; }
-        public string IdentityUserId { get; set; }
-        public IdentityUser IdentityUser { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public DateTime Date { get; set; }
         public int Value { get; set; }
 

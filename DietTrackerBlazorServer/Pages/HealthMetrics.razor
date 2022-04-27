@@ -1,0 +1,151 @@
+﻿@page "/HealthMetrics"
+
+@if (Loaded)
+{
+
+    <Card>
+        <CardHeader>
+            <CardTitle>Health metrics<Tooltip Text="Here you can add, edit and delete your health metrics."><Icon Name="IconName.QuestionCircle"></Icon></Tooltip></CardTitle>
+        </CardHeader>
+        <CardBody>
+            @if (CurrentHealthMetrics.Count > 0)
+            {
+                <DataGrid TItem="HealthMetric"
+                  Data="@CurrentHealthMetrics"
+                  @bind-SelectedRow="DataGridSelectedHealthMetric"
+                  Responsive
+                  ShowPager="true"
+                  PageSize="10">
+
+
+                    <DataGridCommandColumn TItem="HealthMetric" />
+                    @*<DataGridColumn Field="@nameof(HealthMetric.Id)" TItem="HealthMetric" Caption="#" />*@
+                    <DataGridColumn Field="@nameof(HealthMetric.Name)" TItem="HealthMetric" Caption="Name" />
+                    <DataGridColumn Field="@nameof(HealthMetric.Description)" TItem="HealthMetric" Caption="Description" />
+                </DataGrid>
+            }
+            else
+            {
+                <Paragraph>
+                    You have not defined any health metrics.
+                    Click the <Text Color="TextColor.Primary">add</Text> button to create a new health metric.
+                </Paragraph>
+            }
+            <Button Color="Color.Success" Clicked="@OnAddButtonClicked">
+                <Icon Name="IconName.Add"></Icon>
+                Add
+            </Button>
+            <Button Color="Color.Warning" Disabled="@(DataGridSelectedHealthMetric == null)" Clicked="@OnEditButtonClicked">
+                <Icon Name="IconName.Wrench"></Icon>
+                Edit
+            </Button>
+            <Button Color="Color.Danger" Disabled="@(DataGridSelectedHealthMetric == null)" Clicked="@OnDeleteButtonClicked">
+                <Icon Name="IconName.Delete"></Icon>
+                Delete
+            </Button>
+        </CardBody>
+    </Card>
+
+    <Modal @ref="AddModal">
+        <EditForm Model="@SubjectHealthMetric" OnValidSubmit="@OnValidSubmit_AddHealthMetric">
+            <ModalContent Centered>
+
+                <ModalHeader>Add health metric</ModalHeader>
+
+                <ModalBody>
+                    <Field>
+                        <FieldLabel>Name</FieldLabel>
+                        <TextEdit @bind-Text="SubjectHealthMetric.Name" Placeholder="Enter a name..."></TextEdit>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Description</FieldLabel>
+                        <TextEdit @bind-Text="SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
+                    </Field>
+                    <DataAnnotationsValidator />
+                    <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+                </ModalBody>
+
+                <ModalFooter>
+                    @*<Button Type="ButtonType.Submit" Clicked="OnAddModalAddButtonClicked" Color="Color.Success">*@
+                    <Button Type="ButtonType.Submit" Color="Color.Success">
+                        Add
+                    </Button>
+                    <Button Clicked="() => {AddModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
+                        Cancel
+                    </Button>
+                </ModalFooter>
+
+            </ModalContent>
+        </EditForm>
+    </Modal>
+
+    <Modal @ref="EditModal">
+        <EditForm Model="@SubjectHealthMetric" OnValidSubmit="@OnValidSubmit_EditHealthMetric">
+            <ModalContent Centered>
+
+                <ModalHeader>Edit health metric</ModalHeader>
+
+                <ModalBody>
+                    <Field>
+                        <FieldLabel>Name</FieldLabel>
+                        <TextEdit @bind-Text="SubjectHealthMetric.Name" Placeholder="Enter a name..."></TextEdit>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Description</FieldLabel>
+                        <TextEdit @bind-Text="SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
+                    </Field>
+                    <DataAnnotationsValidator />
+                    <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+                </ModalBody>
+
+                <ModalFooter>
+                    <Button Type="ButtonType.Submit" Color="Color.Warning">
+                        Modify
+                    </Button>
+                    <Button Clicked="() => {EditModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
+                        Cancel
+                    </Button>
+                </ModalFooter>
+
+            </ModalContent>
+        </EditForm>
+    </Modal>
+
+    <Modal @ref="DeleteModal">
+        <ModalContent Centered>
+
+            <ModalHeader>Delete health metric</ModalHeader>
+
+            <ModalBody>
+                <Alert Color="Color.Danger" Visible>
+                    <AlertMessage>
+                        @($"Delete \"{SubjectHealthMetric.Name}\"?")
+                    </AlertMessage>
+
+                    <AlertDescription>
+                        This will remove <Strong>all</Strong> data associated with this health metric.
+                        Are you sure you want to delete @($"\"{SubjectHealthMetric.Name}\"?")
+                    </AlertDescription>
+                </Alert>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button Type="ButtonType.Submit" Color="Color.Danger" Clicked="@OnDeleteHealthMetricConfirmed">
+                    Delete
+                </Button>
+                <Button Clicked="() => {DeleteModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
+                    Cancel
+                </Button>
+            </ModalFooter>
+
+        </ModalContent>
+    </Modal>
+
+
+
+}
+else
+{
+    <Heading Size="HeadingSize.Is2">Loading...</Heading>
+}
+

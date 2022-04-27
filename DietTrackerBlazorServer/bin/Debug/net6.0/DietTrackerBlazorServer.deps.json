@@ -9,8 +9,10 @@
       "DietTrackerBlazorServer/1.0.0": {
         "dependencies": {
           "Blazorise.Bootstrap": "1.0.4",
+          "Blazorise.Charts": "1.0.4",
           "Blazorise.DataGrid": "1.0.4",
           "Blazorise.Icons.FontAwesome": "1.0.4",
+          "Blazorise.Snackbar": "1.0.4",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.3",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.4",
           "Microsoft.AspNetCore.Identity.UI": "6.0.4",
@@ -51,6 +53,21 @@
           }
         }
       },
+      "Blazorise.Charts/1.0.4": {
+        "dependencies": {
+          "Blazorise": "1.0.4",
+          "Lambda2Js": "3.1.3",
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.1"
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Charts.dll": {
+            "assemblyVersion": "1.0.4.0",
+            "fileVersion": "1.0.4.0"
+          }
+        }
+      },
       "Blazorise.DataGrid/1.0.4": {
         "dependencies": {
           "Blazorise": "1.0.4",
@@ -79,11 +96,36 @@
           }
         }
       },
+      "Blazorise.Snackbar/1.0.4": {
+        "dependencies": {
+          "Blazorise": "1.0.4",
+          "Microsoft.AspNetCore.Components": "6.0.0",
+          "Microsoft.AspNetCore.Components.Web": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.1"
+        },
+        "runtime": {
+          "lib/net6.0/Blazorise.Snackbar.dll": {
+            "assemblyVersion": "1.0.4.0",
+            "fileVersion": "1.0.4.0"
+          }
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {
             "assemblyVersion": "2.8.0.0",
             "fileVersion": "2.8.26.1919"
+          }
+        }
+      },
+      "Lambda2Js/3.1.3": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.0/Lambda2Js.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -2482,6 +2524,13 @@
       "path": "blazorise.bootstrap/1.0.4",
       "hashPath": "blazorise.bootstrap.1.0.4.nupkg.sha512"
     },
+    "Blazorise.Charts/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Y915f2OWWEJ1jl2mFrFj0B7q1ZKzwAHvQeGqbv/YIJu1fWdP/+YX0W6NYh+Wijal0ot0qReQTahbSQvwDbB2eA==",
+      "path": "blazorise.charts/1.0.4",
+      "hashPath": "blazorise.charts.1.0.4.nupkg.sha512"
+    },
     "Blazorise.DataGrid/1.0.4": {
       "type": "package",
       "serviceable": true,
@@ -2496,12 +2545,26 @@
       "path": "blazorise.icons.fontawesome/1.0.4",
       "hashPath": "blazorise.icons.fontawesome.1.0.4.nupkg.sha512"
     },
+    "Blazorise.Snackbar/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PhJ2o+T1b+Aa97O8FEBWrsr1fozdfMtkBniSZUCrIboCP0h73+5HWYbVhcxR6u/85gz5p125sWAnilAfJHcGcQ==",
+      "path": "blazorise.snackbar/1.0.4",
+      "hashPath": "blazorise.snackbar.1.0.4.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
+    },
+    "Lambda2Js/3.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eVcf3zA2WfpCTeIG+p/rIrDYuNLvVTo9U8nrQir12Y9dvMa9aNsyVHfTFwFxQhvy/cctc4V5Ez/U6VqPX5oTVw==",
+      "path": "lambda2js/3.1.3",
+      "hashPath": "lambda2js.3.1.3.nupkg.sha512"
     },
     "MessagePack/2.1.152": {
       "type": "package",

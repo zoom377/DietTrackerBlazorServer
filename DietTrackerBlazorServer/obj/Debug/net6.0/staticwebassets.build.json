@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "C6r4ZMRMQy05ET+eFgtieAzRtilTNjVtYv7MkPuZ7FM=",
+  "Hash": "k3zRh6XWL8BU24wzp576DbLScO/n9nzFjN2kecqm1OI=",
   "Source": "DietTrackerBlazorServer",
   "BasePath": "_content/DietTrackerBlazorServer",
   "Mode": "Default",
@@ -340,6 +340,40 @@
       "OriginalItemSpec": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.bootstrap\\1.0.4\\staticwebassets\\tooltip.js"
     },
     {
+      "Identity": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\charts.js",
+      "SourceId": "Blazorise.Charts",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\",
+      "BasePath": "_content/Blazorise.Charts",
+      "RelativePath": "charts.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\charts.js"
+    },
+    {
+      "Identity": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\utilities.js",
+      "SourceId": "Blazorise.Charts",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\",
+      "BasePath": "_content/Blazorise.Charts",
+      "RelativePath": "utilities.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\staticwebassets\\utilities.js"
+    },
+    {
       "Identity": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.datagrid\\1.0.4\\staticwebassets\\datagrid.js",
       "SourceId": "Blazorise.DataGrid",
       "SourceType": "Package",
@@ -355,6 +389,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.datagrid\\1.0.4\\staticwebassets\\datagrid.js"
+    },
+    {
+      "Identity": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.snackbar\\1.0.4\\staticwebassets\\blazorise.snackbar.css",
+      "SourceId": "Blazorise.Snackbar",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.snackbar\\1.0.4\\staticwebassets\\",
+      "BasePath": "_content/Blazorise.Snackbar",
+      "RelativePath": "blazorise.snackbar.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.snackbar\\1.0.4\\staticwebassets\\blazorise.snackbar.css"
     },
     {
       "Identity": "C:\\Users\\zoom3\\.nuget\\packages\\blazorise\\1.0.4\\staticwebassets\\blazorise.css",

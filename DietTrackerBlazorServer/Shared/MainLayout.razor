@@ -1,92 +1,119 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Identity
+@inherits LayoutComponentBase
 
 
-<PageTitle>DietTrackerBlazorServer</PageTitle>
 
 <Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            <Bar @ref="SideBar" Mode="BarMode.VerticalPopout"
-                 CollapseMode="BarCollapseMode.Small"
-                 Breakpoint="Breakpoint.Desktop"
-                 NavigationBreakpoint="Breakpoint.Mobile">
 
-                @*<BarBrand>
-                    <BarItem>
-                    <BarLink>
-                    <Heading Size="HeadingSize.Is3">
-                    Diet Tracker
-                    </Heading>
-                    </BarLink>
-                    </BarItem>
-                    </BarBrand>*@
+    <CascadingValue Value="@SnackbarStack">
 
 
-                <BarStart>
+        <LayoutSider>
+            <LayoutSiderContent Flex="Flex.Shrink.Is1">
+                <Bar Mode="BarMode.VerticalInline"
+                     CollapseMode="BarCollapseMode.Hide"
+                     @ref="Bar"
+                     Flex="Flex.Shrink">
 
-                    <BarItem>
-                        <BarLink To="/edithealthmetrics">
-                            <BarIcon IconName="IconName.Add" />
-                            Health metrics
-                        </BarLink>
-                    </BarItem>
+                    <BarStart>
 
-                    <BarItem>
-                        <BarLink To="/newdatapoint">
-                            <BarIcon IconName="IconName.Edit" />
-                            Data points
-                        </BarLink>
-                    </BarItem>
-
-                    <BarItem>
-                        <BarLink To="/viewstats">
-                            <BarIcon IconName="IconName.Bars" />
-                            Stats
-                        </BarLink>
-                    </BarItem>
-
-                    @*<BarItem>
-                        <BarLink To="Identity/Account/Login">
-                        <BarIcon IconName="IconName.Bars" />
-                        Login
-                        </BarLink>
-                        </BarItem>*@
-
-                </BarStart>
-            </Bar>
-        </LayoutSiderContent>
-    </LayoutSider>
-
-    <Layout>
-        <LayoutHeader Fixed>
-            <LayoutContent>
-
-            <Bar Mode="BarMode.Horizontal"
-                 ThemeContrast="ThemeContrast.Light">
-                <BarToggler Bar="SideBar" />
-                <AuthorizeView>
-                    <Authorized>
                         <BarItem>
-                            Logged in
-                        </BarItem>
-                    </Authorized>
-                    <NotAuthorized>
-                        <BarItem>
-                            <BarLink To="Identity/Account/Login">
-                                Login
+                            <BarLink To="HealthMetrics">
+                                <BarIcon IconName="IconName.Add"></BarIcon>
+                                Health metrics
                             </BarLink>
                         </BarItem>
+                        <BarItem>
+                            <BarLink To="DataPoints">
+                                <BarIcon IconName="IconName.Add"></BarIcon>
+                                Data points
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="Stats">
+                                <BarIcon IconName="IconName.Add"></BarIcon>
+                                Stats
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </Bar>
+            </LayoutSiderContent>
+        </LayoutSider>
+        <Layout>
+
+            <LayoutHeader Border="Border.OnBottom.Secondary" Background="Background.Light">
+                <Bar Mode="BarMode.Horizontal">
+                    <BarStart Flex="Flex.Row">
+                        <Blazorise.Bootstrap.BarToggler Bar="@Bar"></Blazorise.Bootstrap.BarToggler>
+                        <Heading Size="HeadingSize.Is2">Diet Tracker</Heading>
+                    </BarStart>
+                    <BarEnd>
+                        <AuthorizeView>
+                            <Authorized>
+                                <BarItem>
+                                    <Text>Logged in as @UserEmail. <a href="/Identity/Account/Logout">Logout</a></Text>
+                                </BarItem>
+                            </Authorized>
+                            <NotAuthorized>
+                                <BarItem>
+                                    <Link To="Identity/Account/Login">Login</Link>
+                                </BarItem>
+                                <BarItem>
+                                    <Link To="Identity/Account/Register">Register</Link>
+                                </BarItem>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </BarEnd>
+                </Bar>
+            </LayoutHeader>
+
+            <LayoutContent Margin="Margin.Is3">
+                <AuthorizeView>
+                    <Authorized>
+                        @Body
+                    </Authorized>
+                    <NotAuthorized>
+                        <Heading Size="HeadingSize.Is2">
+                            Please <a href="/Identity/Account/Login">login</a> to access site features.
+                        </Heading>
                     </NotAuthorized>
                 </AuthorizeView>
-            </Bar>
             </LayoutContent>
-        </LayoutHeader>
-        <LayoutContent Margin="Margin.Is3">
-            @Body
-        </LayoutContent>
-    </Layout>
+        </Layout>
+
+        <SnackbarStack @ref="SnackbarStack" />
+
+    </CascadingValue>
 </Layout>
 
+
 @code {
-    protected Bar SideBar { get; set; }
+    [Inject]
+    protected UserManager<ApplicationUser> UserManager { get; set; }
+    [Inject]
+    protected AuthenticationStateProvider AuthProvider { get; set; }
+
+    bool Loading { get; set; } = true;
+
+    protected string UserEmail { get; set; }
+
+    protected Bar Bar { get; set; }
+
+    protected SnackbarStack SnackbarStack { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = await UserManager.GetUserAsync(authState.User);
+        if (user == null)
+        {
+            UserEmail = "None";
+        }
+        else
+        {
+            UserEmail = await UserManager.GetEmailAsync(user);
+        }
+
+        Loading = false;
+    }
 }

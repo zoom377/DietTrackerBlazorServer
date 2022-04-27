@@ -1,0 +1,75 @@
+﻿@page "/DataPoints"
+@using DietTrackerBlazorServer.Data
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+
+<Card>
+
+    <LineChart @ref="_LineChart" TItem="int" />
+
+</Card>
+
+
+
+
+@code {
+
+    [Inject]
+    IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
+    [Inject]
+    AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
+    [Inject]
+    UserManager<ApplicationUser> _UserManager { get; set; }
+
+    LineChart<int> _LineChart { get; set; }
+
+
+    TimeSpan _ChartTimeSpan { get; set; } =  new TimeSpan(14, 0, 0, 0);
+    DateTime _ChartEndTime { get; set; } = DateTime.Now;
+    int _MaxXAxisTicks { get; set; } = 10;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RedrawChart();
+    }
+
+    async Task RedrawChart()
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+
+        using (ApplicationDbContext dbContext = _DbContextFactory.CreateDbContext())
+        {
+            //Get all data points for the user and group by metric ID
+            var query = dbContext.HealthDataPoints
+                        .Where(h => h.ApplicationUserId == userId)
+                        .GroupBy(h => h.HealthMetricId);
+
+
+
+            //List<string> labels = new List<string>();
+            //List<LineChartDataset<int>> datasets = new List<LineChartDataset<int>>();
+            //foreach (var metricGroup in query)
+            //{
+            //    LineChartDataset<int> currentDataSet = new LineChartDataset<int>();
+            //    currentDataSet.Data = new List<int>();
+            //    currentDataSet.Label = metricGroup.First().HealthMetric.Name;
+            //    datasets.Add(currentDataSet);
+            //    foreach (var dataPoint in metricGroup)
+            //    {
+            //        currentDataSet.Data.Add(dataPoint.Value);
+            //    }
+            //}
+
+            //await LineChart.AddLabels(labels);
+            //foreach (var dataset in datasets)
+            //{
+            //    await LineChart.AddDataSet(dataset);
+            //}
+        }
+
+        //LineChartDataset<int> chartData = new LineChartDataset<int> {Laba };
+    }
+
+}

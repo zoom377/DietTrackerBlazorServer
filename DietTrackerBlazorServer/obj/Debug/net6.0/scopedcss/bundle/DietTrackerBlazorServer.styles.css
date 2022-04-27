@@ -5,7 +5,7 @@
     flex-direction: column;
 }
 
-main[b-bik8keenc3] {
+.main[b-bik8keenc3] {
     flex: 1;
 }
 
@@ -64,71 +64,8 @@ main[b-bik8keenc3] {
         z-index: 1;
     }
 
-    .top-row[b-bik8keenc3], article[b-bik8keenc3] {
+    .main > div[b-bik8keenc3] {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
-    }
-}
-/* _content/DietTrackerBlazorServer/Shared/NavMenu.razor.rz.scp.css */
-.navbar-toggler[b-0s8vxrcc5n] {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.top-row[b-0s8vxrcc5n] {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.navbar-brand[b-0s8vxrcc5n] {
-    font-size: 1.1rem;
-}
-
-.oi[b-0s8vxrcc5n] {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
-}
-
-.nav-item[b-0s8vxrcc5n] {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-}
-
-    .nav-item:first-of-type[b-0s8vxrcc5n] {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type[b-0s8vxrcc5n] {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item[b-0s8vxrcc5n]  a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-.nav-item[b-0s8vxrcc5n]  a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
-}
-
-.nav-item[b-0s8vxrcc5n]  a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
-
-@media (min-width: 641px) {
-    .navbar-toggler[b-0s8vxrcc5n] {
-        display: none;
-    }
-
-    .collapse[b-0s8vxrcc5n] {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
     }
 }

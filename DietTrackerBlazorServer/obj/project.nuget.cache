@@ -1,14 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "BYTSvOy7nJz8ECEiftso9Sr7IISQWdrS1dTt3xqTi2B4CAJrWeFRjntbOgk55L+XRia5sBdXNI68fghsWo6CQg==",
+  "dgSpecHash": "LKQCkq452yGj1G0An7DBqVs2ZLsK6ZAbA0Y6q2Lu55UwIVXle4w9KGkdMZwLHaP9N7ZrTu1gxyI6M0hJMe+xRg==",
   "success": true,
   "projectFilePath": "C:\\source\\repos\\DietTrackerBlazorServer\\DietTrackerBlazorServer\\DietTrackerBlazorServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zoom3\\.nuget\\packages\\blazorise\\1.0.4\\blazorise.1.0.4.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.bootstrap\\1.0.4\\blazorise.bootstrap.1.0.4.nupkg.sha512",
+    "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.charts\\1.0.4\\blazorise.charts.1.0.4.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.datagrid\\1.0.4\\blazorise.datagrid.1.0.4.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.icons.fontawesome\\1.0.4\\blazorise.icons.fontawesome.1.0.4.nupkg.sha512",
+    "C:\\Users\\zoom3\\.nuget\\packages\\blazorise.snackbar\\1.0.4\\blazorise.snackbar.1.0.4.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\zoom3\\.nuget\\packages\\lambda2js\\3.1.3\\lambda2js.3.1.3.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\zoom3\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
