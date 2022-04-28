@@ -13,17 +13,16 @@ using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 using DietTrackerBlazorServer;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-//using Blazorise.Bootstrap;
-using Blazorise.DataGrid;
 using DietTrackerBlazorServer.Data;
+using Blazorise;
+using Blazorise.DataGrid;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Blazorise.Snackbar;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class HealthMetrics
+    public partial class HealthMetrics : ComponentBase
     {
         [Inject]
         protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -70,7 +69,7 @@ namespace DietTrackerBlazorServer.Pages
             //Get current user id
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             SubjectHealthMetric.ApplicationUserId = await UserManager.GetUserIdAsync(await UserManager.GetUserAsync(authState.User));
-            
+
 
             using (ApplicationDbContext dbContext = DbContextFactory.CreateDbContext())
             {

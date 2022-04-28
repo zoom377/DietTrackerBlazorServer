@@ -1,5 +1,3 @@
-using DietTrackerBlazorServer.Areas.Identity;
-using DietTrackerBlazorServer.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,8 +8,11 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using DietTrackerBlazorServer.Model;
+using DietTrackerBlazorServer.Data;
+using DietTrackerBlazorServer.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

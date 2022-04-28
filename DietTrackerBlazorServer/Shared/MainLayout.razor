@@ -87,33 +87,3 @@
 </Layout>
 
 
-@code {
-    [Inject]
-    protected UserManager<ApplicationUser> UserManager { get; set; }
-    [Inject]
-    protected AuthenticationStateProvider AuthProvider { get; set; }
-
-    bool Loading { get; set; } = true;
-
-    protected string UserEmail { get; set; }
-
-    protected Bar Bar { get; set; }
-
-    protected SnackbarStack SnackbarStack { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = await UserManager.GetUserAsync(authState.User);
-        if (user == null)
-        {
-            UserEmail = "None";
-        }
-        else
-        {
-            UserEmail = await UserManager.GetEmailAsync(user);
-        }
-
-        Loading = false;
-    }
-}

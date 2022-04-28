@@ -19,7 +19,6 @@
 
 
                     <DataGridCommandColumn TItem="HealthMetric" />
-                    @*<DataGridColumn Field="@nameof(HealthMetric.Id)" TItem="HealthMetric" Caption="#" />*@
                     <DataGridColumn Field="@nameof(HealthMetric.Name)" TItem="HealthMetric" Caption="Name" />
                     <DataGridColumn Field="@nameof(HealthMetric.Description)" TItem="HealthMetric" Caption="Description" />
                 </DataGrid>
@@ -66,7 +65,6 @@
                 </ModalBody>
 
                 <ModalFooter>
-                    @*<Button Type="ButtonType.Submit" Clicked="OnAddModalAddButtonClicked" Color="Color.Success">*@
                     <Button Type="ButtonType.Submit" Color="Color.Success">
                         Add
                     </Button>
