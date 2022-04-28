@@ -5,65 +5,86 @@
 
 <Layout Sider>
 
+
     <CascadingValue Value="@SnackbarStack">
 
 
         <LayoutSider>
-            <LayoutSiderContent Flex="Flex.Shrink.Is1">
+            <LayoutSiderContent>
                 <Bar Mode="BarMode.VerticalInline"
-                     CollapseMode="BarCollapseMode.Hide"
-                     @ref="Bar"
-                     Flex="Flex.Shrink">
+                     CollapseMode="BarCollapseMode.Small"
+                     Breakpoint="Breakpoint.Desktop"
+                     NavigationBreakpoint="Breakpoint.Tablet"
+                     @ref="Bar">
 
-                    <BarStart>
-
-                        <BarItem>
-                            <BarLink To="HealthMetrics">
-                                <BarIcon IconName="IconName.Add"></BarIcon>
-                                Health metrics
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="DataPoints">
-                                <BarIcon IconName="IconName.Add"></BarIcon>
-                                Data points
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="Stats">
-                                <BarIcon IconName="IconName.Add"></BarIcon>
-                                Stats
-                            </BarLink>
-                        </BarItem>
-                    </BarStart>
+                    <BarMenu>
+                        <BarStart>
+                            <BarItem>
+                                <BarLink To="HealthMetrics">
+                                    <BarIcon IconName="IconName.Edit"></BarIcon>
+                                    Health metrics
+                                </BarLink>
+                            </BarItem>
+                            <BarItem>
+                                <BarLink To="AddHealthDataPoint">
+                                    <BarIcon IconName="IconName.Add"></BarIcon>
+                                    Add a data point
+                                </BarLink>
+                            </BarItem>
+                            <BarItem>
+                                <BarLink To="HealthDataPoints">
+                                    <BarIcon IconName="IconName.FolderOpen"></BarIcon>
+                                    Data points
+                                </BarLink>
+                            </BarItem>
+                            <BarItem>
+                                <BarLink To="Stats">
+                                    <BarIcon IconName="IconName.ChartPie"></BarIcon>
+                                    Stats
+                                </BarLink>
+                            </BarItem>
+                        </BarStart>
+                    </BarMenu>
                 </Bar>
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
 
-            <LayoutHeader Border="Border.OnBottom.Secondary" Background="Background.Light">
-                <Bar Mode="BarMode.Horizontal">
-                    <BarStart Flex="Flex.Row">
+            <LayoutHeader>
+                <Bar Breakpoint="Breakpoint.Desktop"
+                     Background="Background.Light"
+                     ThemeContrast="ThemeContrast.Light"
+                     Border="Border.OnBottom.Secondary">
+
+                    <BarBrand>
                         <Blazorise.Bootstrap.BarToggler Bar="@Bar"></Blazorise.Bootstrap.BarToggler>
-                        <Heading Size="HeadingSize.Is2">Diet Tracker</Heading>
-                    </BarStart>
-                    <BarEnd>
-                        <AuthorizeView>
-                            <Authorized>
-                                <BarItem>
-                                    <Text>Logged in as @UserEmail. <a href="/Identity/Account/Logout">Logout</a></Text>
-                                </BarItem>
-                            </Authorized>
-                            <NotAuthorized>
-                                <BarItem>
-                                    <Link To="Identity/Account/Login">Login</Link>
-                                </BarItem>
-                                <BarItem>
-                                    <Link To="Identity/Account/Register">Register</Link>
-                                </BarItem>
-                            </NotAuthorized>
-                        </AuthorizeView>
-                    </BarEnd>
+                    </BarBrand>
+
+                    <BarMenu>
+                        <BarStart>
+                            <BarItem>
+                                <Heading Size="HeadingSize.Is2">Diet Tracker</Heading>
+                            </BarItem>
+                        </BarStart>
+                        
+                        <BarEnd>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <BarItem>
+                                        <Text>Logged in as @UserEmail. <a href="/Identity/Account/Logout">Logout</a></Text>
+                                    </BarItem>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <BarItem>
+                                        <Link To="Identity/Account/Login">Login</Link>
+                                    </BarItem>
+                                    <BarItem>
+                                        <Link To="Identity/Account/Register">Register</Link>
+                                    </BarItem>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                        </BarEnd>
+                    </BarMenu>
                 </Bar>
             </LayoutHeader>
 

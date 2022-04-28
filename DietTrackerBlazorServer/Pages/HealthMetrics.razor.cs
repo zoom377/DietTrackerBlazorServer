@@ -25,118 +25,25 @@ namespace DietTrackerBlazorServer.Pages
     public partial class HealthMetrics : ComponentBase
     {
         [Inject]
-        protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
         [Inject]
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+        UserManager<ApplicationUser> _UserManager { get; set; }
         [Inject]
-        protected IDbContextFactory<ApplicationDbContext> DbContextFactory { get; set; }
-        protected bool Loaded { get; set; }
+        IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
+        bool Loaded { get; set; }
+
 
         [CascadingParameter]
-        protected SnackbarStack SnackbarStack { get; set; }
-        protected Modal AddModal { get; set; }
-        protected Modal EditModal { get; set; }
-        protected Modal DeleteModal { get; set; }
+        SnackbarStack _SnackbarStack { get; set; }
+        Modal _AddModal { get; set; }
+        Modal _EditModal { get; set; }
+        Modal _DeleteModal { get; set; }
 
-        protected List<HealthMetric> CurrentHealthMetrics { get; set; }
-        public HealthMetric DataGridSelectedHealthMetric { get; set; }
-
-
-        protected HealthMetric SubjectHealthMetric { get; set; } = new HealthMetric();
-
-        protected void OnAddButtonClicked()
-        {
-            SubjectHealthMetric = new HealthMetric();
-            AddModal.Show();
-        }
-
-        protected void OnEditButtonClicked()
-        {
-            SubjectHealthMetric = DataGridSelectedHealthMetric;
-            EditModal.Show();
-        }
-
-        protected void OnDeleteButtonClicked()
-        {
-            SubjectHealthMetric = DataGridSelectedHealthMetric;
-            DeleteModal.Show();
-        }
-
-        protected async Task OnValidSubmit_AddHealthMetric()
-        {
-            //Validation already done via aspnet EditForm
-
-            //Get current user id
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            SubjectHealthMetric.ApplicationUserId = await UserManager.GetUserIdAsync(await UserManager.GetUserAsync(authState.User));
+        List<HealthMetric> _CurrentHealthMetrics { get; set; } = new List<HealthMetric>();
+        HealthMetric _DataGridSelectedHealthMetric { get; set; }
 
 
-            using (ApplicationDbContext dbContext = DbContextFactory.CreateDbContext())
-            {
-                //Verify that a metric doesn't already exist with this name
-                var query = from metric in dbContext.HealthMetrics
-                            where metric.ApplicationUserId == SubjectHealthMetric.ApplicationUserId
-                            && metric.Name == SubjectHealthMetric.Name
-                            select metric;
-
-                if (await query.AnyAsync())
-                {
-                    await SnackbarStack.PushAsync($"A health metric of the name \"{SubjectHealthMetric.Name}\" already exists.", SnackbarColor.Danger);
-                    return;
-                }
-                else
-                {
-                    await dbContext.AddAsync(SubjectHealthMetric);
-                    int numChanges = await dbContext.SaveChangesAsync();
-
-                    if (numChanges > 0)
-                    {
-                        //Success
-                        await SnackbarStack.PushAsync($"Added health metric \"{SubjectHealthMetric.Name}\" successfully.", SnackbarColor.Success);
-                        await ReloadData();
-                    }
-                    else
-                    {
-                        throw new ApplicationException("Failed to add to database.");
-                    }
-                }
-                await AddModal.Close(CloseReason.UserClosing);
-            }
-        }
-
-        protected async Task OnValidSubmit_EditHealthMetric()
-        {
-            using (ApplicationDbContext dbContext = DbContextFactory.CreateDbContext())
-            {
-                var query = from metric in dbContext.HealthMetrics
-                            where metric.ApplicationUserId == SubjectHealthMetric.ApplicationUserId
-                            && metric.Name == SubjectHealthMetric.Name
-                            select metric;
-
-                if (query.Any())
-                {
-                    await SnackbarStack.PushAsync($"A health metric already exists with this name.", SnackbarColor.Danger);
-                }
-                else
-                {
-                    dbContext.Update(SubjectHealthMetric);
-                    await dbContext.SaveChangesAsync();
-                    await ReloadData();
-                }
-            }
-            await EditModal.Close(CloseReason.UserClosing);
-        }
-
-        protected async Task OnDeleteHealthMetricConfirmed()
-        {
-            using (ApplicationDbContext dbContext = DbContextFactory.CreateDbContext())
-            {
-                dbContext.Remove(SubjectHealthMetric);
-                await dbContext.SaveChangesAsync();
-                await DeleteModal.Close(CloseReason.UserClosing);
-                await ReloadData();
-            }
-        }
+        HealthMetric _SubjectHealthMetric { get; set; } = new HealthMetric();
 
         protected override async Task OnInitializedAsync()
         {
@@ -146,15 +53,137 @@ namespace DietTrackerBlazorServer.Pages
         protected async Task ReloadData()
         {
             Loaded = false;
-            using (ApplicationDbContext dbContext = DbContextFactory.CreateDbContext())
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                var query = from metric in dbContext.HealthMetrics
-                            select metric;
-
-                CurrentHealthMetrics = await query.ToListAsync();
+                _CurrentHealthMetrics = await dbContext.HealthMetrics.ToListAsync();
 
             }
             Loaded = true;
         }
+
+        protected void OnAddButtonClicked()
+        {
+            _SubjectHealthMetric = new HealthMetric();
+            _AddModal.Show();
+        }
+
+        protected void OnEditButtonClicked()
+        {
+            _SubjectHealthMetric = _DataGridSelectedHealthMetric.ShallowCopy();
+            //SubjectHealthMetric.ApplicationUserId = DataGridSelectedHealthMetric.ApplicationUserId;
+            //SubjectHealthMetric.Name = DataGridSelectedHealthMetric.Name;
+            //SubjectHealthMetric.Description = DataGridSelectedHealthMetric.Description;
+
+            _EditModal.Show();
+        }
+
+        protected void OnDeleteButtonClicked()
+        {
+            _SubjectHealthMetric = _DataGridSelectedHealthMetric;
+            _DeleteModal.Show();
+        }
+
+        protected async Task OnValidSubmit_AddHealthMetric()
+        {
+            //Get current user id
+            var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+            _SubjectHealthMetric.ApplicationUserId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+            {
+                var query = dbContext.HealthMetrics
+                        .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
+                        .Where(m => m.Name == _SubjectHealthMetric.Name);
+
+                if (await query.AnyAsync())
+                {
+                    await _SnackbarStack.PushAsync($"Failed: A health metric of the name \"{_SubjectHealthMetric.Name}\" already exists.", SnackbarColor.Danger);
+                }
+                else
+                {
+                    await dbContext.AddAsync(_SubjectHealthMetric);
+                    if (await dbContext.SaveChangesAsync() > 0)
+                    {
+                        await _SnackbarStack.PushAsync($"Health metric added successfully.", SnackbarColor.Success);
+                    }
+                    else
+                    {
+                        await _SnackbarStack.PushAsync($"Failed to add health metric.", SnackbarColor.Danger);
+                    }
+                }
+
+            }
+            await _AddModal.Close(CloseReason.UserClosing);
+            await ReloadData();
+        }
+
+        protected async Task OnValidSubmit_EditHealthMetric()
+        {
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+            {
+                var query = dbContext.HealthMetrics
+                        .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
+                        .Where(m => m.Name == _SubjectHealthMetric.Name);
+
+                if (await query.AnyAsync())
+                {
+                    await _SnackbarStack.PushAsync($"Failed: A health metric of the name \"{_SubjectHealthMetric.Name}\" already exists.", SnackbarColor.Danger);
+                }
+                else
+                {
+                    dbContext.Update(_SubjectHealthMetric);
+                    if (await dbContext.SaveChangesAsync() > 0)
+                    {
+                        await _SnackbarStack.PushAsync($"Health metric modified successfully.", SnackbarColor.Success);
+                    }
+                    else
+                    {
+                        await _SnackbarStack.PushAsync($"Failed to modify health metric.", SnackbarColor.Danger);
+                    }
+
+                }
+            }
+            await _EditModal.Close(CloseReason.UserClosing);
+            await ReloadData();
+        }
+
+        protected async Task OnDeleteHealthMetricConfirmed()
+        {
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+            {
+                dbContext.Remove(_SubjectHealthMetric);
+                if (await dbContext.SaveChangesAsync() > 0)
+                {
+                    await _SnackbarStack.PushAsync($"Health metric deleted successfully.", SnackbarColor.Success);
+                }
+                else
+                {
+                    await _SnackbarStack.PushAsync($"Failed to delete health metric.", SnackbarColor.Danger);
+                }
+            }
+            _DataGridSelectedHealthMetric = null;
+            await _DeleteModal.Close(CloseReason.UserClosing);
+            await ReloadData();
+        }
+
+        async Task OnSaveChangesButtonClicked()
+        {
+            //int changeCount = await dbContext.SaveChangesAsync();
+            //if (changeCount > 0)
+            //{
+            //    await _SnackbarStack.PushAsync($"Changes saved successfully!", SnackbarColor.Success);
+            //}
+            //else
+            //{
+            //    await _SnackbarStack.PushAsync($"Failed to save changes!", SnackbarColor.Danger);
+            //}
+        }
+
+        async Task OnCancelChangesButtonClicked()
+        {
+            await ReloadData();
+        }
+
+
     }
 }

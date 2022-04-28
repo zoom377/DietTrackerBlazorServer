@@ -24,6 +24,12 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
+        //public async Task<IActionResult> OnGet()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    return LocalRedirect(returnUrl);
+        //}
+
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();

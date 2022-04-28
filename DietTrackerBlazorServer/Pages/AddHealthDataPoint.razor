@@ -1,0 +1,154 @@
+﻿@page "/AddHealthDataPoint"
+@using DietTrackerBlazorServer.Areas.Identity
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+
+@if (Loaded)
+{
+    @if (HealthMetrics.Count > 0)
+    {
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Add a data point</CardTitle>
+            </CardHeader>
+            <CardBody>
+
+                <Table Bordered>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>Metric</TableHeaderCell>
+                            <TableHeaderCell>Value(0-10)</TableHeaderCell>
+                            <TableHeaderCell>Include?</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var item in NewDataPoints)
+                        {
+                            <TableRow>
+                                <TableRowCell>@item.HealthMetric.Name</TableRowCell>
+                                <TableRowCell>
+                                    <Row>
+                                        <Column ColumnSize="ColumnSize.Is2">
+                                            <Text>@item.Value</Text>
+                                        </Column>
+                                        <Column>
+                                            <Slider VerticalAlignment="VerticalAlignment.Middle" @bind-Value="@item.Value" TValue="int" Min="0" Max="10" Disabled="@(!item.Include)"></Slider>
+                                        </Column>
+                                    </Row>
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Check TValue="bool" @bind-Checked="@item.Include"></Check>
+                                </TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Text>Custom date?</Text>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Check Float="Float.Start" @bind-Checked="@UseCustomDataPointDate" TValue="bool" />
+                    </Column>
+                    <Column>
+                        <DatePicker @bind-Date="@DataPointDate" InputMode="DateInputMode.DateTime" Disabled="@(!UseCustomDataPointDate)" />
+                    </Column>
+                </Row>
+
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Success" Clicked="@OnSubmitButtonClicked">Submit</Button>
+            </CardFooter>
+        </Card>
+    }
+    else
+    {
+        <Paragraph>
+            You must <a href="HealthMetrics">define</a> at least one health metric before you can add a health data point.
+        </Paragraph>
+    }
+}
+
+
+
+@code {
+    [Inject]
+    AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject]
+    UserManager<ApplicationUser> UserManager { get; set; }
+    [Inject]
+    IDbContextFactory<ApplicationDbContext> DbContextFactory { get; set; }
+
+    [CascadingParameter]
+    SnackbarStack SnackbarStack { get; set; }
+
+    List<HealthMetric> HealthMetrics { get; set; } = new List<HealthMetric>();
+    List<HealthDataPointDGItem> NewDataPoints = new List<HealthDataPointDGItem>();
+
+    bool UseCustomDataPointDate { get; set; } = false;
+    DateTime DataPointDate { get; set; } = DateTime.Now;
+
+    bool Loaded { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Loaded = false;
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        string userId = await UserManager.GetUserIdAsync(await UserManager.GetUserAsync(authState.User));
+
+        using (ApplicationDbContext dbContext = await DbContextFactory.CreateDbContextAsync())
+        {
+            HealthMetrics = await dbContext.HealthMetrics.AsNoTracking().ToListAsync();
+        }
+
+        NewDataPoints = new List<HealthDataPointDGItem>();
+        foreach (var metric in HealthMetrics)
+        {
+            NewDataPoints.Add(new HealthDataPointDGItem { HealthMetric = metric, Include = true, Value = 5 });
+        }
+
+        Loaded = true;
+    }
+
+    async Task OnSubmitButtonClicked()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        string userId = await UserManager.GetUserIdAsync(await UserManager.GetUserAsync(authState.User));
+
+        using (ApplicationDbContext dbContext = await DbContextFactory.CreateDbContextAsync())
+        {
+            foreach (var dataPoint in NewDataPoints)
+            {
+                if (dataPoint.Include)
+                {
+                    HealthDataPoint newDataPoint = new HealthDataPoint
+                        {
+
+                            Date = UseCustomDataPointDate ? DataPointDate : DateTime.Now,
+                            Value = dataPoint.Value,
+                            ApplicationUserId = userId,
+                            HealthMetricId = dataPoint.HealthMetric.Id
+                        };
+                    dbContext.Add(newDataPoint);
+                }
+            }
+
+            if (await dbContext.SaveChangesAsync() > 0)
+            {
+                await SnackbarStack.PushAsync($"Successfully added datapoints.", SnackbarColor.Success);
+            }
+            else
+            {
+                await SnackbarStack.PushAsync($"Database failure.", SnackbarColor.Danger);
+            }
+        }
+    }
+
+    class HealthDataPointDGItem
+    {
+        public int Value { get; set; }
+        public bool Include { get; set; }
+        public HealthMetric HealthMetric { get; set; }
+    }
+}

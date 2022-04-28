@@ -19,8 +19,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/DataPoints.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGF0YVBvaW50cy5yYXpvcg==
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/AddHealthDataPoint.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkSGVhbHRoRGF0YVBvaW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/HealthDataPoints.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGVhbHRoRGF0YVBvaW50cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/HealthMetrics.razor]

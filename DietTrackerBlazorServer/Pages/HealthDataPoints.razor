@@ -1,0 +1,55 @@
+﻿@page "/HealthDataPoints"
+@using DietTrackerBlazorServer.Data
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+
+@if (CurrentHealthDataPoints.Count > 0)
+{
+
+    <DataGrid TItem="HealthDataPoint"
+          Data="@CurrentHealthDataPoints"
+          @bind-SelectedRow="SelectedHealthDataPoint"
+          Responsive
+          ShowPager="true"
+          PageSize="10">
+
+
+
+    </DataGrid>
+}
+else
+{
+    <Paragraph>
+        You have not added any data points yet.
+    </Paragraph>
+}
+
+
+
+
+@code {
+
+    [Inject]
+    IDbContextFactory<ApplicationDbContext> DbContextFactory { get; set; }
+    [Inject]
+    AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject]
+    UserManager<ApplicationUser> UserManager { get; set; }
+
+    List<HealthDataPoint> CurrentHealthDataPoints { get; set; } = new List<HealthDataPoint>();
+    HealthDataPoint SelectedHealthDataPoint { get; set; }
+
+    TimeSpan _ChartTimeSpan { get; set; } = new TimeSpan(14, 0, 0, 0);
+    DateTime _ChartEndTime { get; set; } = DateTime.Now;
+    int _MaxXAxisTicks { get; set; } = 10;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //using (ApplicatonDbContext dbContext = await DbContextFactory.CreateDbContextAsync())
+        //{
+            
+        //}
+    }
+
+}
