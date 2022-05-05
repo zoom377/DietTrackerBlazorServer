@@ -3,50 +3,49 @@
 @if (Loaded)
 {
 
-    <Card>
-        <CardHeader>
-            <CardTitle>Health metrics<Tooltip Text="Here you can add, edit and delete your health metrics."><Icon Name="IconName.QuestionCircle"></Icon></Tooltip></CardTitle>
-        </CardHeader>
-        <CardBody>
-            @if (_CurrentHealthMetrics.Count > 0)
-            {
-                <DataGrid TItem="HealthMetric"
-                  Data="@_CurrentHealthMetrics"
-                  @bind-SelectedRow="_DataGridSelectedHealthMetric"
-                  Responsive
-                  ShowPager="true"
-                  PageSize="10"
-                  Bordered>
+
+    @if (_CurrentHealthMetrics.Count > 0)
+    {
+        <DataGrid TItem="HealthMetric"
+          Data="@_CurrentHealthMetrics"
+          @bind-SelectedRow="_DataGridSelectedHealthMetric"
+          Responsive
+          ShowPager="true"
+          PageSize="10"
+          Bordered>
 
 
-                    <DataGridCommandColumn TItem="HealthMetric" />
-                    <DataGridColumn Field="@nameof(HealthMetric.Name)" TItem="HealthMetric" Caption="Name" />
-                    <DataGridColumn Field="@nameof(HealthMetric.Description)" TItem="HealthMetric" Caption="Description" />
-                </DataGrid>
-            }
-            else
-            {
-                <Paragraph>
-                    You have not defined any health metrics.
-                    Click the <Text Color="TextColor.Primary">add</Text> button to create a new health metric.
-                </Paragraph>
-            }
-        </CardBody>
-        <CardFooter>
-            <Button Color="Color.Success" Clicked="@OnAddButtonClicked">
-                <Icon Name="IconName.Add"></Icon>
-                Add
-            </Button>
-            <Button Color="Color.Warning" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnEditButtonClicked">
-                <Icon Name="IconName.Wrench"></Icon>
-                Edit
-            </Button>
-            <Button Color="Color.Danger" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnDeleteButtonClicked">
-                <Icon Name="IconName.Delete"></Icon>
-                Delete
-            </Button>
-        </CardFooter>
-    </Card>
+            <DataGridCommandColumn TItem="HealthMetric" />
+            <DataGridColumn Field="@nameof(HealthMetric.Name)" TItem="HealthMetric" Caption="Name" />
+            <DataGridColumn Field="@nameof(HealthMetric.Description)" TItem="HealthMetric" Caption="Description" />
+            <DataGridColumn Field="@nameof(HealthMetric.Color)" TItem="HealthMetric" Caption="Colour">
+                <DisplayTemplate>
+                    <ColorPicker Color="@context.Color" Disabled></ColorPicker>
+                </DisplayTemplate>
+            </DataGridColumn>
+            
+        </DataGrid>
+    }
+    else
+    {
+        <Paragraph>
+            You have not defined any health metrics.
+            Click the <Text Color="TextColor.Primary">add</Text> button to create a new health metric.
+        </Paragraph>
+    }
+    <Button Color="Color.Success" Clicked="@OnAddButtonClicked">
+        <Icon Name="IconName.Add"></Icon>
+        Add
+    </Button>
+    <Button Color="Color.Warning" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnEditButtonClicked">
+        <Icon Name="IconName.Wrench"></Icon>
+        Edit
+    </Button>
+    <Button Color="Color.Danger" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnDeleteButtonClicked">
+        <Icon Name="IconName.Delete"></Icon>
+        Delete
+    </Button>
+
 
     <Modal @ref="_AddModal">
         <EditForm Model="@_SubjectHealthMetric" OnValidSubmit="@OnValidSubmit_AddHealthMetric">
@@ -62,6 +61,10 @@
                     <Field>
                         <FieldLabel>Description</FieldLabel>
                         <TextEdit @bind-Text="_SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Color</FieldLabel>
+                        <ColorPicker @bind-Color="_SubjectHealthMetric.Color"></ColorPicker>
                     </Field>
                     <DataAnnotationsValidator />
                     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
@@ -94,6 +97,9 @@
                     <Field>
                         <FieldLabel>Description</FieldLabel>
                         <TextEdit @bind-Text="_SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
+                    </Field>
+                    <Field>
+                        <ColorPicker @bind-Color="_SubjectHealthMetric.Color"></ColorPicker>
                     </Field>
                     <DataAnnotationsValidator />
                     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />

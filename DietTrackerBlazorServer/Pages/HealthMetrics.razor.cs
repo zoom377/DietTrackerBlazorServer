@@ -55,7 +55,12 @@ namespace DietTrackerBlazorServer.Pages
             Loaded = false;
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                _CurrentHealthMetrics = await dbContext.HealthMetrics.ToListAsync();
+                var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+                var userId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+
+                _CurrentHealthMetrics = await dbContext.HealthMetrics
+                    .Where(e => e.ApplicationUserId == userId)
+                    .ToListAsync();
 
             }
             Loaded = true;
@@ -123,7 +128,9 @@ namespace DietTrackerBlazorServer.Pages
             {
                 var query = dbContext.HealthMetrics
                         .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
+                        .Where(m => m.Id != _SubjectHealthMetric.Id)
                         .Where(m => m.Name == _SubjectHealthMetric.Name);
+                
 
                 if (await query.AnyAsync())
                 {
@@ -151,6 +158,18 @@ namespace DietTrackerBlazorServer.Pages
         {
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
+                var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+                var userId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+
+                var associatedDataPoints = dbContext.HealthDataPoints
+                    .Where(e => e.ApplicationUserId == userId)
+                    .Where(e => e.HealthMetricId == _SubjectHealthMetric.Id);
+
+                foreach (var dataPoint in associatedDataPoints)
+                {
+                    dbContext.Remove(dataPoint);
+                }
+
                 dbContext.Remove(_SubjectHealthMetric);
                 if (await dbContext.SaveChangesAsync() > 0)
                 {
@@ -166,23 +185,7 @@ namespace DietTrackerBlazorServer.Pages
             await ReloadData();
         }
 
-        async Task OnSaveChangesButtonClicked()
-        {
-            //int changeCount = await dbContext.SaveChangesAsync();
-            //if (changeCount > 0)
-            //{
-            //    await _SnackbarStack.PushAsync($"Changes saved successfully!", SnackbarColor.Success);
-            //}
-            //else
-            //{
-            //    await _SnackbarStack.PushAsync($"Failed to save changes!", SnackbarColor.Danger);
-            //}
-        }
-
-        async Task OnCancelChangesButtonClicked()
-        {
-            await ReloadData();
-        }
+        
 
 
     }

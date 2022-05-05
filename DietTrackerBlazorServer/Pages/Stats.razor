@@ -1,6 +1,25 @@
 ﻿@page "/Stats"
-<h3>Stats</h3>
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
 
-@code {
 
-}
+<Select TValue="int" @bind-SelectedValue="@SelectedChartDisplayConfiguration">
+    <SelectItem Value="0">6 hours</SelectItem>
+    <SelectItem Value="1">1 day</SelectItem>
+    <SelectItem Value="2">1 week</SelectItem>
+    <SelectItem Value="3">1 month</SelectItem>
+    <SelectItem Value="4">3 months</SelectItem>
+    <SelectItem Value="5">6 months</SelectItem>
+    <SelectItem Value="6">12 months</SelectItem>
+</Select>
+
+<Button Clicked="@OnFiltersApplied" Color="Color.Primary">Apply filter</Button>
+
+<LineChart @ref="LineChart" TItem="double" Options="@LineChartOptions"></LineChart>
+
+
+
+
+
+
+

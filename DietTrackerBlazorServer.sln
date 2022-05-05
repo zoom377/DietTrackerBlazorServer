@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietTrackerBlazorServer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{56322A6D-9E3B-4AC1-969D-FF76A18803CE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietTrackerBlazorServerTests", "DietTrackerBlazorServerTests\DietTrackerBlazorServerTests.csproj", "{889C287A-0A30-4513-AF81-163EF41081A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{56322A6D-9E3B-4AC1-969D-FF76A18803CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56322A6D-9E3B-4AC1-969D-FF76A18803CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56322A6D-9E3B-4AC1-969D-FF76A18803CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889C287A-0A30-4513-AF81-163EF41081A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889C287A-0A30-4513-AF81-163EF41081A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889C287A-0A30-4513-AF81-163EF41081A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889C287A-0A30-4513-AF81-163EF41081A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

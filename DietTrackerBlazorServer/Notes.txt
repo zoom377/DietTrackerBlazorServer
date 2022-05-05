@@ -1,0 +1,4 @@
+﻿-Blazorise
+	-LineChart
+		-Add labels to chart before adding data for correct display.
+		-Labels MUST be a C# array of strings. Use List.ToArray().
