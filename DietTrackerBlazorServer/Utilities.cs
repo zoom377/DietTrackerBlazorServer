@@ -106,5 +106,10 @@ namespace DietTrackerBlazorServer
 
             return ChartColor.FromRgba(((byte)R), (byte)G, (byte)B, (float)A / (float)255);
         }
+
+        public static double MsSinceEpoch(DateTime time)
+        {
+            return (time - DateTime.UnixEpoch).TotalMilliseconds;
+        }
     }
 }

@@ -1,0 +1,61 @@
+﻿@page "/AddDietDataPoint"
+@inherits DTPageBase
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+
+<h3>AddDietDataPoint</h3>
+<Field>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel>Food type:</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+
+            <Autocomplete @bind-SelectedValue="@_SelectedFoodType"
+                          @bind-SelectedText="_AutoCompleteText"
+                          TItem="FoodType"
+                          TValue="FoodType"
+                          Data="@_FoodTypes"
+                          TextField="@((item) => item.Name)"
+                          ValueField="@((item) => item)"
+                          Placeholder="Search..."
+                          Filter="AutocompleteFilter.Contains"
+                          FreeTyping>
+
+                
+
+
+            </Autocomplete>
+
+        </Addon>
+        <Addon AddonType="AddonType.End">
+            <Button Clicked="@OnAddButtonClicked" Disabled="@string.IsNullOrWhiteSpace(_AutoCompleteText)" Color="Color.Success">@(_FoodTypes.Contains(_SelectedFoodType) ? "Add" : "Add new food type")</Button>
+        </Addon>
+    </Addons>
+</Field>
+<Field>
+    <Addons>
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel>Use current date:</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <Check @bind-Checked="@_UseCurrentDate" TValue="bool"></Check>
+        </Addon>
+    </Addons>
+</Field>
+    <Field>
+        <Addons>
+            <Addon AddonType="@AddonType.Start">
+                <AddonLabel>Date:</AddonLabel>
+            </Addon>
+            <Addon AddonType="@AddonType.Body">
+                <DateEdit @bind-Date="@_SelectedDate" TValue="DateTime" InputMode="DateInputMode.DateTime" Disabled="_UseCurrentDate"></DateEdit>
+            </Addon>
+        </Addons>
+    </Field>
+
+<Paragraph>SelectedFoodType:@_SelectedFoodType?.Name</Paragraph>
+<Paragraph>AutoCompleteText:@_AutoCompleteText</Paragraph>
+
+

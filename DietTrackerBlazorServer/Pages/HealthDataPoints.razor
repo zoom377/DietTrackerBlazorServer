@@ -1,17 +1,27 @@
 ﻿@page "/HealthDataPoints"
+@inherits DTPageBase
 @using DietTrackerBlazorServer.Data
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 
-@if (CurrentHealthDataPoints.Count > 0)
+<Heading Size="HeadingSize.Is3">Health data points</Heading>
+
+@if (_CurrentHealthDataPoints.Count > 0)
 {
     <DataGrid TItem="HealthDataPoint"
-          Data="@CurrentHealthDataPoints"
-          @bind-SelectedRow="SelectedHealthDataPoint"
+          Data="@_CurrentHealthDataPoints"
+          @bind-SelectedRow="_SelectedHealthDataPoint"
           Responsive
           ShowPager="true"
           PageSize="10">
 
+          <DataGridColumn Field="@nameof(HealthDataPoint.Date)" Caption="Date" />
+          <DataGridColumn Field="@nameof(HealthDataPoint.HealthMetric)" Caption="Metric">
+              <DisplayTemplate>
+                  <Text TextColor="@context.HealthMetric.Color">@context.HealthMetric.Name</Text>
+              </DisplayTemplate>
+          </DataGridColumn>
+          <DataGridColumn Field="@nameof(HealthDataPoint.Value)" Caption="Value" />
     </DataGrid>
 }
 else

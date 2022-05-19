@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[1.0.4, )"
             },
+            "Blazorise.Components": {
+              "target": "Package",
+              "version": "[1.0.4, )"
+            },
             "Blazorise.DataGrid": {
               "target": "Package",
               "version": "[1.0.4, )"
@@ -63,6 +67,14 @@
             "Blazorise.Snackbar": {
               "target": "Package",
               "version": "[1.0.4, )"
+            },
+            "Excubo.Blazor.Canvas": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "MathNet.Numerics": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
@@ -113,7 +125,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win10-x64": {
+          "#import": []
         }
       }
     },
@@ -189,7 +206,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win10-x64": {
+          "#import": []
         }
       }
     }

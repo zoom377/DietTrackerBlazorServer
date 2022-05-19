@@ -1,7 +1,10 @@
 ﻿@page "/charttest"
+@using DietTrackerBlazorServer.Components
+@inherits DTPageBase
 
-<h3>ChartTest</h3>
+@*<h3>ChartTest</h3>*@
+@*<LineChart TItem="ChartPoint" @ref="Chart" Options="@ChartOptions"></LineChart>*@
 
-<LineChart TItem="ChartPoint" @ref="Chart" OptionsObject="@ChartOptions"></LineChart>
+<BasicChart></BasicChart>
 
 

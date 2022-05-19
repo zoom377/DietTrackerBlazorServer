@@ -24,30 +24,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class HealthDataPoints
+    public partial class HealthDataPoints : DTPageBase
     {
-        [Inject]
-        IDbContextFactory<ApplicationDbContext> DbContextFactory { get; set; }
-
-        [Inject]
-        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-
-        [Inject]
-        UserManager<ApplicationUser> UserManager { get; set; }
-
-        List<HealthDataPoint> CurrentHealthDataPoints { get; set; } = new List<HealthDataPoint>();
-        HealthDataPoint SelectedHealthDataPoint { get; set; }
-
+        List<HealthDataPoint> _CurrentHealthDataPoints { get; set; } = new List<HealthDataPoint>();
+        HealthDataPoint _SelectedHealthDataPoint { get; set; }
         
-
-
-
         protected override async Task OnInitializedAsync()
         {
-            using (ApplicationDbContext dbContext = await DbContextFactory.CreateDbContextAsync())
+            SetAppLoading(true);
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                
+                var userId = await GetUserIdAsync();
+                var query = dbContext.HealthDataPoints
+                    .Where(e => e.ApplicationUserId == userId)
+                    .Include(e => e.HealthMetric)
+                    .OrderByDescending(e => e.Date)
+                    .AsNoTracking();
+
+                _CurrentHealthDataPoints = await query.ToListAsync();
             }
+            SetAppLoading(false);
         }
     }
 }

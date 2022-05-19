@@ -19,6 +19,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Components/BasicChart.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xCYXNpY0NoYXJ0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/AddDietDataPoint.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkRGlldERhdGFQb2ludC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/AddHealthDataPoint.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkSGVhbHRoRGF0YVBvaW50LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -39,8 +47,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/ScaffoldTest.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2NhZmZvbGRUZXN0LnJhem9y
+[C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/PageBase.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnZUJhc2UucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/repos/DietTrackerBlazorServer/DietTrackerBlazorServer/Pages/Stats.razor]

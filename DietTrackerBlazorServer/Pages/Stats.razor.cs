@@ -21,96 +21,115 @@ using Blazorise.Snackbar;
 using Blazorise.Charts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DietTrackerBlazorServer.Services;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class Stats
+    public partial class Stats : DTPageBase
     {
-        [Inject]
-        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        class ChartFilterConfiguration
+        {
+            public int Id;
+            public string Name;
+            public TimeSpan ChartSpan;
+            public int IntervalCount;
+        }
+
 
         [Inject]
-        UserManager<ApplicationUser> UserManager { get; set; }
+        ICorrelationCalculator _CorrelationCalculator { get; set; }
+        LineChart<ChartPoint> _LineChart { get; set; }
 
-        [Inject]
-        IDbContextFactory<ApplicationDbContext> DbContextFactory { get; set; }
-
-        [CascadingParameter]
-        SnackbarStack SnackbarStack { get; set; }
-
-        LineChart<double> LineChart { get; set; }
-        List<string> BorderColors { get; set; } = new List<string>();
-
-        LineChartOptions LineChartOptions { get; set; } = new LineChartOptions
+        LineChartOptions _LineChartOptions { get; set; } = new LineChartOptions
         {
             Scales = new ChartScales
             {
+                X = new ChartAxis
+                {
+                    Type = "linear",
+                    Ticks = new ChartAxisTicks
+                    {
+                        //Callback = (value, index, ticks) => $"{value * 10.0}"
+                    }
+
+                },
                 Y = new ChartAxis
                 {
                     BeginAtZero = true,
-                    Max = 10.0
+                    Max = 10.0,
+                    Type = "linear"
                 }
             },
-            Animation = new ChartAnimation
-            {
-                Delay = 0,
-                Duration = 150
-
-            },
-            Plugins = new ChartPlugins
-            {
-                Decimation = new ChartDecimation
-                {
-                    
-                }
-            }
+        };
+        List<ChartFilterConfiguration> _ChartFilterConfigurations { get; set; } = new List<ChartFilterConfiguration>
+        {
+            new ChartFilterConfiguration{Id = 0, Name = "6 hours", ChartSpan = new TimeSpan(0,6,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 1, Name = "1 day", ChartSpan = new TimeSpan(1,0,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 2, Name = "1 week", ChartSpan = new TimeSpan(7,0,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 3, Name = "1 month", ChartSpan = new TimeSpan(28,0,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 4, Name = "3 months", ChartSpan = new TimeSpan(84,0,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 5, Name = "6 months", ChartSpan = new TimeSpan(168,0,0,0), IntervalCount = 12},
+            new ChartFilterConfiguration{Id = 6, Name = "1 year", ChartSpan = new TimeSpan(336,0,0,0), IntervalCount = 12}
         };
 
 
-        int SelectedChartDisplayConfiguration { get; set; } = 1;
-        //TimeSpan ChartTimeSpan { get; set; } = new TimeSpan(7, 0, 0, 0);
-        //int ChartResolution { get; set; } = 10;
+        int _SelectedChartFilterConfigurationIndex { get; set; } = 1;
+        ChartFilterConfiguration _SelectedChartFilterConfiguration => _ChartFilterConfigurations[_SelectedChartFilterConfigurationIndex];
 
-        //protected override async Task OnInitializedAsync()
-        //{
+        TimeSpan _FoodEffectWindow = TimeSpan.FromDays(1.0);
 
-        //}
+        Dictionary<FoodType, Dictionary<HealthMetric, double>> _Correlations { get; set; } = new Dictionary<FoodType, Dictionary<HealthMetric, double>>();
+
+
+        struct ChartPoint
+        {
+            public object X { get; set; }
+            public object Y { get; set; }
+        }
+
+        public override Task SetParametersAsync(ParameterView parameters)
+        {
+            return base.SetParametersAsync(parameters);
+        }
+
+        protected override Task OnParametersSetAsync()
+        {
+            return base.OnParametersSetAsync();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            _Correlations = await _CorrelationCalculator.GetAllCorrelations();
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
+                SetAppLoading(true);
                 await UpdateChart();
+                SetAppLoading(false);
             }
         }
 
         async Task UpdateChart()
         {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var userId = await UserManager.GetUserIdAsync(await UserManager.GetUserAsync(authState.User));
+            var userId = await GetUserIdAsync();
 
-            using (ApplicationDbContext dbContext = await DbContextFactory.CreateDbContextAsync())
+            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                await LineChart.Clear();
-                //LineChart.Options = LineChartOptions;
+                await _LineChart.Clear();
 
-                ChartDisplayConfiguration chartConfiguration = ChartDisplayConfigurations[SelectedChartDisplayConfiguration];
-
-                DateTime currentTime = DateTime.Now;
-                //DateTime currentHour = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, 0, 0)
-                //    + new TimeSpan(1, 0, 0);
-                //TimeSpan chartTickInterval = ChartTickIntervals[ChartTickIntervalIndex];
-                TimeSpan chartIntervalTimeSpan = chartConfiguration.ChartSpan / chartConfiguration.IntervalCount;
-                DateTime chartStartTime = DateTime.Now - chartConfiguration.ChartSpan;
+                DateTime chartEndTime = DateTime.Now;
+                DateTime chartStartTime = chartEndTime - _SelectedChartFilterConfiguration.ChartSpan;
 
                 var query = await dbContext.HealthDataPoints
                     .Where(e => e.ApplicationUserId == userId)
-                    .Where(e => e.Date >= chartStartTime && e.Date < currentTime)
+                    .Where(e => e.Date >= chartStartTime && e.Date < chartEndTime)
                     .Include(e => e.HealthMetric)
                     .AsNoTracking()
                     .ToListAsync();
 
-                //var dataPoints = await query //Execute query
 
                 //Group by has issues being translated into a SQL query
                 //so we execute the query first, causing the group by to be run on the client.
@@ -118,44 +137,54 @@ namespace DietTrackerBlazorServer.Pages
                                            .GroupBy(e => e.HealthMetricId);
 
                 if (!dataPointGroups.Any())
-                    await SnackbarStack.PushAsync($"No data were found for the selected time span.", SnackbarColor.Warning);
+                    await _SnackbarStack.PushAsync($"No data were found for the selected time span.", SnackbarColor.Warning);
 
-                List<string> labels = new List<string>();
-                for (int i = 0; i < chartConfiguration.IntervalCount; i++)
-                {
-                    labels.Add((chartStartTime + chartIntervalTimeSpan * i).ToString());
-                }
+                //List<string> labels = new List<string>();
+                //for (int i = 0; i < chartConfiguration.IntervalCount; i++)
+                //{
+                //    labels.Add((chartStartTime + chartIntervalTimeSpan * i).ToString());
+                //}
 
-                List<LineChartDataset<double>> datasets = new List<LineChartDataset<double>>();
+                List<LineChartDataset<ChartPoint>> datasets = new List<LineChartDataset<ChartPoint>>();
 
-                BorderColors.Clear();
+                //_BorderColors.Clear();
                 foreach (var group in dataPointGroups)
                 {
-                    var dataset = new LineChartDataset<double>();
+                    var dataset = new LineChartDataset<ChartPoint>();
                     dataset.Label = group.First().HealthMetric.Name;
                     dataset.BorderColor = (string)ChartColor.FromHtmlColorCode(group.First().HealthMetric.Color);
-                    dataset.Data = new List<double>();
+                    dataset.Data = new List<ChartPoint>();
                     dataset.Fill = false;
-
                     datasets.Add(dataset);
-                    
 
-                    for (int i = 0; i < chartConfiguration.IntervalCount; i++)
+                    foreach (var datapoint in group)
                     {
-                        var dataPoints = group.ToList();
-                        var tickTime = chartStartTime + i * chartIntervalTimeSpan;
-                        dataset.Data.Add(Utilities.GetInterpolatedDataPointValue(dataPoints, tickTime));
+                        dataset.Data.Add(new ChartPoint
+                        {
+                            X = DateTimeToChartPosition(datapoint.Date, chartEndTime, _SelectedChartFilterConfiguration),
+                            Y = datapoint.Value
+                        });
                     }
                 }
 
-                //Important to add labels before data for correct display.
-                await LineChart.AddLabels(labels.ToArray());
-                for (int i = 0; i < datasets.Count; i++)
-                {
-                    //datasets[i].BorderColor = BorderColors[i];
-                    await LineChart.AddDataSet(datasets[i]);
-                }
-                await LineChart.Update();
+
+                //_LineChartOptions.Scales.X.Min = DateTimeToChartPosition(chartStartTime, chartEndTime, _SelectedChartFilterConfiguration);
+                //_LineChartOptions.Scales.X.Max = DateTimeToChartPosition(chartEndTime, chartEndTime, _SelectedChartFilterConfiguration);
+                _LineChartOptions.Scales.X.Min = 0.0;
+                _LineChartOptions.Scales.X.Max = 1.0;
+                //await _LineChart.AddLabels("a", "b", "c", "d", "e", "f", "g");
+
+                //Configure labels for chart ticks
+                //List<string> labels = new List<string>();
+                //for (int i = 0; i <= _SelectedChartFilterConfiguration.IntervalCount; i++)
+                //{
+                //    DateTime tickTime = chartStartTime + (_SelectedChartFilterConfiguration.ChartSpan / _SelectedChartFilterConfiguration.IntervalCount) * i;
+                //    labels.Add($"{chartStartTime}");
+                //}
+                //await _LineChart.AddLabels(labels);
+                //_LineChart.Options.Scales.X.Ticks.
+                datasets.ForEach(async d => await _LineChart.AddDataSet(d));
+                await _LineChart.Update();
             }
 
 
@@ -163,26 +192,25 @@ namespace DietTrackerBlazorServer.Pages
 
         async Task OnFiltersApplied()
         {
+            SetAppLoading(true);
             await UpdateChart();
+            SetAppLoading(false);
+        }
+
+
+        double DateTimeToChartPosition(DateTime time, DateTime chartEndTime, ChartFilterConfiguration config)
+        {
+            TimeSpan chartIntervalTimeSpan = config.ChartSpan / config.IntervalCount;
+            DateTime chartStartTime = chartEndTime - config.ChartSpan;
+
+            return (time - chartStartTime) / (chartEndTime - chartStartTime);
         }
 
 
 
-        struct ChartDisplayConfiguration
-        {
-            public TimeSpan ChartSpan;
-            public int IntervalCount;
-        }
 
-        List<ChartDisplayConfiguration> ChartDisplayConfigurations { get; set; } = new List<ChartDisplayConfiguration>
-        {
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(0,6,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(1,0,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(7,0,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(28,0,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(84,0,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(168,0,0,0), IntervalCount = 12},
-            new ChartDisplayConfiguration{ChartSpan = new TimeSpan(336,0,0,0), IntervalCount = 12}
-        };
+
+
     }
+
 }

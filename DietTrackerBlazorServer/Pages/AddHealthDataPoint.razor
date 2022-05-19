@@ -1,4 +1,5 @@
 ﻿@page "/AddHealthDataPoint"
+@inherits DTPageBase
 @using DietTrackerBlazorServer.Areas.Identity
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
@@ -7,52 +8,87 @@
 {
     @if (HealthMetrics.Count > 0)
     {
-        <Table Bordered>
 
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell>Metric</TableHeaderCell>
-                    <TableHeaderCell>Value(0-10)</TableHeaderCell>
-                    <TableHeaderCell>Include?</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
 
-            <TableBody>
-                @foreach (var item in NewDataPoints)
-                {
-                    <TableRow>
-                        <TableRowCell>@item.HealthMetric.Name</TableRowCell>
-                        <TableRowCell>
-                            <Row>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <Text>@item.Value</Text>
-                                </Column>
-                                <Column>
-                                    <Slider VerticalAlignment="VerticalAlignment.Middle" @bind-Value="@item.Value" TValue="int" Min="0" Max="10" Disabled="@(!item.Include)"></Slider>
-                                </Column>
-                            </Row>
-                        </TableRowCell>
-                        <TableRowCell>
-                            <Check TValue="bool" @bind-Checked="@item.Include"></Check>
-                        </TableRowCell>
-                    </TableRow>
-                }
-            </TableBody>
-        </Table>
 
-        <Row>
-            <Column ColumnSize="ColumnSize.Is3">
-                <Text>Custom date?</Text>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is1">
-                <Check Float="Float.Start" @bind-Checked="@UseCustomDataPointDate" TValue="bool" />
-            </Column>
-            <Column>
-                <DatePicker @bind-Date="@DataPointDate" InputMode="DateInputMode.DateTime" Disabled="@(!UseCustomDataPointDate)" />
-            </Column>
-        </Row>
+        <Heading Size="HeadingSize.Is3">New health data point</Heading>
+        @*<Row Border="Border.Is2.OnBottom" Margin="Margin.Is0" Padding="Padding.Is2.OnY">
+                    <Column ColumnSize="@MetricColumnSize" Padding="Padding.Is0">
+                    <Text>Metric</Text>
+                    </Column>
+                    <Column ColumnSize="@ValueColumnSize" Padding="Padding.Is0">
+                    <Text>Value</Text>
+                    </Column>
+                    <Column ColumnSize="@IncludeColumnSize" Padding="Padding.Is0">
+                    <Text Float="Float.End">Include?</Text>
+                    </Column>
+                    </Row>
+                    @foreach (var dataPoint in NewDataPoints)
+                    {
+                    <Row Border="Border.Is2.OnBottom" Margin="Margin.Is0" Padding="Padding.Is2.OnY">
+                    <Column ColumnSize="@MetricColumnSize" Padding="Padding.Is0">
+                    <Text>@dataPoint.HealthMetric.Name</Text>
+                    </Column>
+                    <Column ColumnSize="@ValueColumnSize" Padding="Padding.Is0">
+                    <Row Flex="Flex.NoWrap">
+                    <Column ColumnSize="ColumnSize.Is1" Padding="Padding.Is0">
+                    <Text>@dataPoint.Value</Text>
+                    </Column>
+                    <Column Padding="Padding.Is0">
+                    <Slider @bind-Value="@dataPoint.Value" TValue="int" Min="0" Max="10" Disabled="@(!dataPoint.Include)"></Slider>
+                    </Column>
+                    </Row>
+                    </Column>
+                    <Column ColumnSize="@IncludeColumnSize" Padding="Padding.Is0">
+                    <Check TValue="bool" @bind-Checked="@dataPoint.Include"></Check>
+                    </Column>
+                    </Row>
+                    }
 
-        <Button Color="Color.Success" Clicked="@OnSubmitButtonClicked">Submit</Button>
+                    <Row Margin="Margin.Is3.FromTop">
+                    <Column>
+                    <Fields>
+                    <Field>
+                    <Text>Use custom date:</Text>
+                    </Field>
+                    <Field>
+                    <Check @bind-Checked="@UseCustomDataPointDate" TValue="bool" Size="Size.Large" />
+                    </Field>
+                    <Field Flex="Flex.Grow">
+                    <DatePicker @bind-Date="@DataPointDate" InputMode="DateInputMode.DateTime" Disabled="@(!UseCustomDataPointDate)" />
+                    </Field>
+                    </Fields>
+                    </Column>
+                    </Row>*@
+
+        <ListGroup>
+            @foreach (var dataPoint in NewDataPoints)
+            {
+                <ListGroupItem>
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        <Heading Size="HeadingSize.Is4">@dataPoint.HealthMetric.Name</Heading>
+                        <Text>Value: @dataPoint.Value</Text>
+                    </Div>
+
+                    <Slider @bind-Value="@dataPoint.Value" TValue="int" Min="0" Max="10" Disabled="@(!dataPoint.Include)"></Slider>
+                </ListGroupItem>
+            }
+        </ListGroup>
+
+        <Div>
+            <Field>
+                <FieldLabel>Use current date</FieldLabel>
+                <Check TValue="bool" @bind-Checked="UseCurrentDate" />
+            </Field>
+            <Field>
+                <DatePicker Disabled="UseCurrentDate" TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="SelectedDate"></DatePicker>
+            </Field>
+        </Div>
+
+
+        <Button Margin="Margin.Is3.FromTop" Color="Color.Success" Size="Size.Medium" Clicked="@OnSubmitButtonClicked">Submit data point</Button>
+
+
     }
     else
     {

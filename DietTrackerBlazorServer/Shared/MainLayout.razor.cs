@@ -26,32 +26,40 @@ namespace DietTrackerBlazorServer.Shared
     public partial class MainLayout : LayoutComponentBase
     {
         [Inject]
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+        protected UserManager<ApplicationUser> _UserManager { get; set; }
 
         [Inject]
-        protected AuthenticationStateProvider AuthProvider { get; set; }
+        protected AuthenticationStateProvider _AuthProvider { get; set; }
 
-        bool Loading { get; set; } = true;
-        protected string UserEmail { get; set; }
 
-        protected Bar Bar { get; set; }
+        protected bool _Loading { get; set; }
+        protected string _UserName { get; set; }
 
-        protected SnackbarStack SnackbarStack { get; set; }
+        protected Bar _SideBar { get; set; }
+
+        protected SnackbarStack _SnackbarStack { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            var authState = await AuthProvider.GetAuthenticationStateAsync();
-            var user = await UserManager.GetUserAsync(authState.User);
+            //Loading = true;
+            var authState = await _AuthProvider.GetAuthenticationStateAsync();
+            var user = await _UserManager.GetUserAsync(authState.User);
             if (user == null)
             {
-                UserEmail = "None";
+                _UserName = "None";
             }
             else
             {
-                UserEmail = await UserManager.GetEmailAsync(user);
+                _UserName = await _UserManager.GetUserNameAsync(user);
             }
 
-            Loading = false;
+        }
+
+
+        protected void SetAppLoading(bool appLoading)
+        {
+            _Loading = appLoading;
+            StateHasChanged();
         }
     }
 }

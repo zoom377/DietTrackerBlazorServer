@@ -10,6 +10,7 @@ using Blazorise.Icons.FontAwesome;
 using DietTrackerBlazorServer.Model;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Areas.Identity;
+using DietTrackerBlazorServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,13 +41,15 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
 builder.Services.AddBlazorise(options =>
 {
     options.Immediate = true;
 })
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
+
+builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
+
 
 var app = builder.Build();
 

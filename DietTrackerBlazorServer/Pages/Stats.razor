@@ -1,25 +1,43 @@
 ﻿@page "/Stats"
+@inherits DTPageBase
+
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 
 
-<Select TValue="int" @bind-SelectedValue="@SelectedChartDisplayConfiguration">
-    <SelectItem Value="0">6 hours</SelectItem>
-    <SelectItem Value="1">1 day</SelectItem>
-    <SelectItem Value="2">1 week</SelectItem>
-    <SelectItem Value="3">1 month</SelectItem>
-    <SelectItem Value="4">3 months</SelectItem>
-    <SelectItem Value="5">6 months</SelectItem>
-    <SelectItem Value="6">12 months</SelectItem>
-</Select>
 
-<Button Clicked="@OnFiltersApplied" Color="Color.Primary">Apply filter</Button>
+<Heading Size="HeadingSize.Is3">History</Heading>
+<Addons>
+    <Addon AddonType="AddonType.Body">
+        <Select TValue="int" @bind-SelectedValue="@_SelectedChartFilterConfigurationIndex">
 
-<LineChart @ref="LineChart" TItem="double" Options="@LineChartOptions"></LineChart>
+            @foreach (var chartFilterConfiguration in _ChartFilterConfigurations)
+            {
+                <SelectItem Value="@chartFilterConfiguration.Id">@chartFilterConfiguration.Name</SelectItem>
+            }
 
+        </Select>
+    </Addon>
 
+    <Addon AddonType="AddonType.End">
+        <Button Clicked="@OnFiltersApplied" Color="Color.Primary">Apply filter</Button>
+    </Addon>
+</Addons>
 
+<LineChart @ref="_LineChart" TItem="@ChartPoint" Options="@_LineChartOptions"></LineChart>
 
+<Heading Size="HeadingSize.Is3">Correlations</Heading>
 
-
+@foreach (KeyValuePair<FoodType, Dictionary<HealthMetric, double>> pair in _Correlations)
+{
+    <Card>
+        <CardHeader>@pair.Key.Name correlations:</CardHeader>
+        <CardBody>
+            @foreach (KeyValuePair<HealthMetric, double> metricPair in pair.Value)
+            {
+                <Row>@(metricPair.Key.Name): <Strong>@(metricPair.Value.ToString("0.##"))</Strong> </Row>
+            }
+        </CardBody>
+    </Card>
+}
 

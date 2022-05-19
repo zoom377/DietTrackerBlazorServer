@@ -10,6 +10,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<HealthMetric> HealthMetrics { get; set; }
     public DbSet<HealthDataPoint> HealthDataPoints { get; set; }
+    public DbSet<FoodType> FoodTypes { get; set; }
+    public DbSet<FoodDataPoint> FoodDataPoints { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

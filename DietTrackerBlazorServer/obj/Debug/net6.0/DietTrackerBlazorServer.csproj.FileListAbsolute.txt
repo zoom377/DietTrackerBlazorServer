@@ -285,3 +285,14 @@ C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\DietTrackerBlazorServer.genruntimeconfig.cache
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\obj\Debug\net6.0\ref\DietTrackerBlazorServer.dll
 C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\appsettings.Production.json
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Blazorise.Components.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\MathNet.Numerics.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Blazor.Canvas.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Excubo.Generators.Blazor.Attributes.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.AspNetCore.Components.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Web.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.AspNetCore.Metadata.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\Microsoft.JSInterop.dll
+C:\source\repos\DietTrackerBlazorServer\DietTrackerBlazorServer\bin\Debug\net6.0\System.IO.Pipelines.dll

@@ -19,80 +19,61 @@ using Blazorise.DataGrid;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Blazorise.Snackbar;
+using DietTrackerBlazorServer.Shared;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class HealthMetrics : ComponentBase
+    public partial class HealthMetrics : DTPageBase
     {
-        [Inject]
-        AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
-        [Inject]
-        UserManager<ApplicationUser> _UserManager { get; set; }
-        [Inject]
-        IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
-        bool Loaded { get; set; }
-
-
-        [CascadingParameter]
-        SnackbarStack _SnackbarStack { get; set; }
         Modal _AddModal { get; set; }
         Modal _EditModal { get; set; }
         Modal _DeleteModal { get; set; }
 
         List<HealthMetric> _CurrentHealthMetrics { get; set; } = new List<HealthMetric>();
         HealthMetric _DataGridSelectedHealthMetric { get; set; }
-
-
         HealthMetric _SubjectHealthMetric { get; set; } = new HealthMetric();
 
         protected override async Task OnInitializedAsync()
         {
+            SetAppLoading(true);
             await ReloadData();
+            SetAppLoading(false);
         }
 
         protected async Task ReloadData()
         {
-            Loaded = false;
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
-                var userId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+                var userId = await GetUserIdAsync();
 
                 _CurrentHealthMetrics = await dbContext.HealthMetrics
                     .Where(e => e.ApplicationUserId == userId)
                     .ToListAsync();
-
             }
-            Loaded = true;
         }
 
-        protected void OnAddButtonClicked()
+        protected async Task OnAddButtonClicked()
         {
             _SubjectHealthMetric = new HealthMetric();
-            _AddModal.Show();
+            await _AddModal.Show();
         }
 
-        protected void OnEditButtonClicked()
+        protected async Task OnEditButtonClicked()
         {
             _SubjectHealthMetric = _DataGridSelectedHealthMetric.ShallowCopy();
-            //SubjectHealthMetric.ApplicationUserId = DataGridSelectedHealthMetric.ApplicationUserId;
-            //SubjectHealthMetric.Name = DataGridSelectedHealthMetric.Name;
-            //SubjectHealthMetric.Description = DataGridSelectedHealthMetric.Description;
-
-            _EditModal.Show();
+            await _EditModal.Show();
         }
 
-        protected void OnDeleteButtonClicked()
+        protected async Task OnDeleteButtonClicked()
         {
             _SubjectHealthMetric = _DataGridSelectedHealthMetric;
-            _DeleteModal.Show();
+            await _DeleteModal.Show();
         }
 
         protected async Task OnValidSubmit_AddHealthMetric()
         {
-            //Get current user id
-            var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
-            _SubjectHealthMetric.ApplicationUserId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+            SetAppLoading(true);
+            _SubjectHealthMetric.ApplicationUserId = await GetUserIdAsync();
 
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
@@ -120,10 +101,12 @@ namespace DietTrackerBlazorServer.Pages
             }
             await _AddModal.Close(CloseReason.UserClosing);
             await ReloadData();
+            SetAppLoading(false);
         }
 
         protected async Task OnValidSubmit_EditHealthMetric()
         {
+            SetAppLoading(true);
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
                 var query = dbContext.HealthMetrics
@@ -152,23 +135,25 @@ namespace DietTrackerBlazorServer.Pages
             }
             await _EditModal.Close(CloseReason.UserClosing);
             await ReloadData();
+            SetAppLoading(false);
         }
 
         protected async Task OnDeleteHealthMetricConfirmed()
         {
+            SetAppLoading(true);
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
-                var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
-                var userId = await _UserManager.GetUserIdAsync(await _UserManager.GetUserAsync(authState.User));
+                var userId = await GetUserIdAsync();
 
-                var associatedDataPoints = dbContext.HealthDataPoints
+                var dependentDataPoints = dbContext.HealthDataPoints
                     .Where(e => e.ApplicationUserId == userId)
                     .Where(e => e.HealthMetricId == _SubjectHealthMetric.Id);
 
-                foreach (var dataPoint in associatedDataPoints)
-                {
-                    dbContext.Remove(dataPoint);
-                }
+                dbContext.RemoveRange(dependentDataPoints);
+                //foreach (var dataPoint in associatedDataPoints)
+                //{
+                //    dbContext.Remove(dataPoint);
+                //}
 
                 dbContext.Remove(_SubjectHealthMetric);
                 if (await dbContext.SaveChangesAsync() > 0)
@@ -183,10 +168,7 @@ namespace DietTrackerBlazorServer.Pages
             _DataGridSelectedHealthMetric = null;
             await _DeleteModal.Close(CloseReason.UserClosing);
             await ReloadData();
+            SetAppLoading(false);
         }
-
-        
-
-
     }
 }
