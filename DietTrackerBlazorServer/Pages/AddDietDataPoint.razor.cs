@@ -56,7 +56,7 @@ namespace DietTrackerBlazorServer.Pages
                     var newFoodType = new FoodType { ApplicationUserId = await GetUserIdAsync(), Name = _AutoCompleteText };
                     await dbContext.AddAsync(newFoodType);
                     await dbContext.SaveChangesAsync();
-
+                    
                 }
 
                 FoodDataPoint dataPoint = new FoodDataPoint { ApplicationUserId = await GetUserIdAsync(), Date = date, FoodTypeId = foodType.Id };
