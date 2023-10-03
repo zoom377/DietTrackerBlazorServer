@@ -452,3 +452,7 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/DietTrackerBlazorServer/bin/Debug/net6.0/DietTrackerBlazorServer.dll
+/DietTrackerBlazorServer/bin/Debug/net6.0/DietTrackerBlazorServer.pdb
+/DietTrackerBlazorServer/obj/Debug/net6.0/DietTrackerBlazorServer.dll
+/DietTrackerBlazorServer/obj/Debug/net6.0/DietTrackerBlazorServer.pdb
