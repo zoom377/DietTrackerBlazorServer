@@ -64,12 +64,16 @@ namespace DietTrackerBlazorServer.Services
                     double foodEvent = 0.0; //Represents whether the food type was consumed recently. 0 = no; 1 = yes
                     double healthMetricValue = healthDataPoint.Value;
 
+                    //Add 1 to foodevent for each time within timespan before this point a food was eaten
+                    foodEvent += foodDataPoints.Where(e => healthDataPoint.Date >= e.Date
+                            && healthDataPoint.Date < e.Date + new TimeSpan(1, 0, 0, 0)).Count();
+
                     //If a food was eaten within a timespan before this data point, 
-                    if (foodDataPoints.Any(e => healthDataPoint.Date >= e.Date
-                        && healthDataPoint.Date < e.Date + new TimeSpan(1, 0, 0, 0)))
-                    {
-                        foodEvent = 1.0;
-                    }
+                    //if (foodDataPoints.Any(e => healthDataPoint.Date >= e.Date
+                    //    && healthDataPoint.Date < e.Date + new TimeSpan(1, 0, 0, 0)))
+                    //{
+                    //    foodEvent = 1.0;
+                    //}
 
                     foodEvents.Add(foodEvent);
                     healthMetricValues.Add(healthMetricValue);
