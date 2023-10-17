@@ -7,10 +7,7 @@
     <CascadingValue Value="@SetAppLoading">
 
         <Layout Sider
-        
             @bind-Loading="@_Loading">
-
-            
 
             <LayoutSider>
 
@@ -78,11 +75,12 @@
                     <Bar Breakpoint="Breakpoint.Desktop"
                          Background="Background.Light"
                          ThemeContrast="ThemeContrast.Light"
-                         Border="Border.OnBottom.Secondary">
+                         Border="Border.OnBottom.Secondary"
+                         Padding="Padding.Is1">
 
-                        <BarBrand>
+                        <BarBrand Flex="Flex.AlignItems.Center">
                             <Blazorise.Bootstrap.BarToggler Bar="@_SideBar"></Blazorise.Bootstrap.BarToggler>
-                            <Heading VerticalAlignment="VerticalAlignment.Middle" Display="Display.Inline">Diet Tracker</Heading>
+                            <Text Margin="Margin.Is3.FromStart" TextSize="TextSize.Heading3" Display="Display.Inline">Diet Tracker</Text>
                         </BarBrand>
 
                         <BarMenu>
