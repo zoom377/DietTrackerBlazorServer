@@ -517,3 +517,10 @@ DietTrackerBlazorServer/bin/Debug/net6.0/Model.dll
 DietTrackerBlazorServer/bin/Debug/net6.0/Model.pdb
 DietTrackerBlazorServer/obj/Debug/net6.0/DietTrackerBlazorServer.genruntimeconfig.cache
 DietTrackerBlazorServer/obj/Debug/net6.0/DietTrackerBlazorServer.MvcApplicationPartsAssemblyInfo.cs
+/Model/obj/Debug/net6.0/Model.assets.cache
+/Model/obj/Debug/net6.0/Model.csproj.AssemblyReference.cache
+/Model/obj/Debug/net6.0/Model.GeneratedMSBuildEditorConfig.editorconfig
+/Model/obj/Model.csproj.nuget.dgspec.json
+/Model/obj/project.nuget.cache
+/Model/obj/project.assets.json
+/DietTrackerBlazorServer/obj/Debug/net6.0/DietTrackerBlazorServer.GeneratedMSBuildEditorConfig.editorconfig
