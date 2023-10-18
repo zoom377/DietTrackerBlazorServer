@@ -65,7 +65,13 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor 
+    | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+});
+
+//app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
@@ -79,5 +85,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+Console.WriteLine($"\"{app.Environment.ApplicationName}\" environment is \"{app.Environment.EnvironmentName}\"");
 
 app.Run();
