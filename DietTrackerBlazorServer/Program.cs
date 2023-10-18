@@ -14,16 +14,28 @@ using DietTrackerBlazorServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+var sqlVersion = new MariaDbServerVersion(new Version(1, 0));
+
+var dbContextBuilder = (DbContextOptionsBuilder options) =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseMySql(connectionString, sqlVersion);
+    options.LogTo(Console.WriteLine, LogLevel.Information);
+    if (builder.Environment.IsDevelopment())
+    {
+        //options.EnableSensitiveDataLogging();
+        //options.EnableDetailedErrors();
+    }
+};
 
-}, ServiceLifetime.Scoped);
+builder.Services.AddDbContextFactory<ApplicationDbContext>(dbContextBuilder);
+
+//builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+//}, ServiceLifetime.Scoped);
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -67,7 +79,7 @@ else
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor 
+    ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor
     | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
 });
 
