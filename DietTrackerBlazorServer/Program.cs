@@ -12,6 +12,8 @@ using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Areas.Identity;
 using DietTrackerBlazorServer.Services;
 using DietTrackerBlazorServer;
+using MathNet.Numerics;
+using Microsoft.AspNetCore.DataProtection;
 
 internal class Program
 {
@@ -33,6 +35,10 @@ internal class Program
 
         builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+        //Todo encryption
+        builder.Services.AddDataProtection()
+            .PersistKeysToFileSystem(new DirectoryInfo("/var/www/keys/"));
 
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
