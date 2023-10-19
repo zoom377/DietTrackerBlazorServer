@@ -80,6 +80,9 @@ namespace DietTrackerBlazorServer.Pages
 
         Dictionary<FoodType, Dictionary<HealthMetric, double>> _Correlations { get; set; } = new Dictionary<FoodType, Dictionary<HealthMetric, double>>();
 
+        string _selectedTab { get; set; }
+        
+
 
         struct ChartPoint
         {
@@ -195,6 +198,12 @@ namespace DietTrackerBlazorServer.Pages
             SetAppLoading(true);
             await UpdateChart();
             SetAppLoading(false);
+        }
+
+        Task OnSelectedTabChanged(string tabName)
+        {
+            _selectedTab = tabName;
+            return Task.CompletedTask;
         }
 
 

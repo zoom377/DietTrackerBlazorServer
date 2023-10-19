@@ -4,7 +4,30 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 
-
+<Tabs SelectedTab="@_selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+    <Items>
+        <Tab Name="tab1">
+            Tab1
+        </Tab>
+        <Tab Name="tab2">
+            Tab2
+        </Tab>
+        <Tab Name="tab3">
+            Tab3
+        </Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="tab1">
+            Panel1
+        </TabPanel>
+        <TabPanel Name="tab2">
+            Panel2
+        </TabPanel>
+        <TabPanel Name="tab3">
+            Panel3
+        </TabPanel>
+    </Content>
+</Tabs>
 
 <Heading Size="HeadingSize.Is3">History</Heading>
 <Addons>
