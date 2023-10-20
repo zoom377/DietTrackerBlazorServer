@@ -25,7 +25,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class AddHealthDataPoint : DTPageBase
+    public partial class AddHealthDataPoint : DTComponentBase
     {
         List<HealthMetric> HealthMetrics { get; set; } = new List<HealthMetric>();
         List<HealthDataPointDGItem> NewDataPoints = new List<HealthDataPointDGItem>();

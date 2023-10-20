@@ -1,0 +1,30 @@
+﻿@page "/Stats"
+@using DietTrackerBlazorServer.Components
+@inherits DTComponentBase
+
+<Addons>
+    <Addon AddonType="AddonType.Start">
+        <AddonLabel>
+            Health Metric
+        </AddonLabel>
+    </Addon>
+
+    <Addon AddonType="AddonType.Body">
+        <Select TValue="@HealthMetric" SelectedValueChanged="@OnSelectedHealthMetricChanged" SelectedValue="@SelectedHealthMetric">
+            @if (HealthMetrics != null)
+            {
+                @foreach (var metric in HealthMetrics)
+                {
+                    <SelectItem Value="metric">
+                        @metric.Name
+                    </SelectItem>
+                }
+            }
+        </Select>
+    </Addon>
+</Addons>
+
+<Divider></Divider>
+
+
+<DTMetricChart ViewSpan="DTMetricChart.ViewSpanType.Day"/>

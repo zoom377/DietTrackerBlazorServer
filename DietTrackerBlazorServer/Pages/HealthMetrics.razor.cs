@@ -23,7 +23,7 @@ using DietTrackerBlazorServer.Shared;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class HealthMetrics : DTPageBase
+    public partial class HealthMetrics : DTComponentBase
     {
         Modal _AddModal { get; set; }
         Modal _EditModal { get; set; }

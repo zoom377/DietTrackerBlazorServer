@@ -23,7 +23,7 @@ using Blazorise.Charts;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class ChartTest :DTPageBase
+    public partial class ChartTest :DTComponentBase
     {
     }
 }

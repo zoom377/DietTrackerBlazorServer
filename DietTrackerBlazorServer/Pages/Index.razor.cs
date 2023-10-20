@@ -25,7 +25,7 @@ using Microsoft.AspNetCore.Razor.Language.Extensions;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class Index : DTPageBase
+    public partial class Index : DTComponentBase
     {
         public async Task Clicked()
         {

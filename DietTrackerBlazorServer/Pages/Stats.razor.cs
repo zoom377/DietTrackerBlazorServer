@@ -25,7 +25,7 @@ using DietTrackerBlazorServer.Services;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class Stats : DTPageBase
+    public partial class Stats : DTComponentBase
     {
         class ChartFilterConfiguration
         {

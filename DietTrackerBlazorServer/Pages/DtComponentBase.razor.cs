@@ -26,7 +26,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    public partial class DTPageBase : ComponentBase
+    public partial class DTComponentBase : ComponentBase
     {
         [Inject]
         protected UserManager<ApplicationUser> _UserManager { get; set; }
