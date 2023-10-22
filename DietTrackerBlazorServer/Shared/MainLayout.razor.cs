@@ -15,10 +15,6 @@ using DietTrackerBlazorServer;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
 using Microsoft.AspNetCore.Identity;
 
 namespace DietTrackerBlazorServer.Shared
@@ -32,33 +28,37 @@ namespace DietTrackerBlazorServer.Shared
         protected AuthenticationStateProvider _AuthProvider { get; set; }
 
 
-        protected bool _Loading { get; set; }
-        protected string _UserName { get; set; }
+        public bool _drawerOpen { get; set; } = true;
 
-        protected Bar _SideBar { get; set; }
 
-        protected SnackbarStack _SnackbarStack { get; set; }
+
+        //protected bool _Loading { get; set; }
+        //protected string _UserName { get; set; }
+
 
         protected override async Task OnInitializedAsync()
         {
             //Loading = true;
-            var authState = await _AuthProvider.GetAuthenticationStateAsync();
-            var user = await _UserManager.GetUserAsync(authState.User);
-            if (user == null)
-            {
-                _UserName = "None";
-            }
-            else
-            {
-                _UserName = await _UserManager.GetUserNameAsync(user);
-            }
+            //var authState = await _AuthProvider.GetAuthenticationStateAsync();
+            //var user = await _UserManager.GetUserAsync(authState.User);
+            //if (user == null)
+            //{
+            //    _UserName = "None";
+            //}
+            //else
+            //{
+            //    _UserName = await _UserManager.GetUserNameAsync(user);
+            //}
 
         }
 
+        protected void DrawerToggle()
+        {
+            _drawerOpen = !_drawerOpen;
+        }
 
         protected void SetAppLoading(bool appLoading)
         {
-            _Loading = appLoading;
             StateHasChanged();
         }
     }

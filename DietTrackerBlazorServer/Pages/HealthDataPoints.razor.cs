@@ -14,10 +14,6 @@ using Microsoft.JSInterop;
 using DietTrackerBlazorServer;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
 using DietTrackerBlazorServer.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +27,7 @@ namespace DietTrackerBlazorServer.Pages
         
         protected override async Task OnInitializedAsync()
         {
-            SetAppLoading(true);
+            
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
                 var userId = await GetUserIdAsync();
@@ -43,7 +39,7 @@ namespace DietTrackerBlazorServer.Pages
 
                 _CurrentHealthDataPoints = await query.ToListAsync();
             }
-            SetAppLoading(false);
+            
         }
     }
 }

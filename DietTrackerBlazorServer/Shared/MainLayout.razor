@@ -2,122 +2,32 @@
 @inherits LayoutComponentBase
 
 
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<CascadingValue Value="@_SnackbarStack">
-    <CascadingValue Value="@SetAppLoading">
-        <Layout>
-            <LayoutHeader Style="border-bottom-width:1px;border-bottom-color:black;">
-                <Bar Breakpoint="Breakpoint.Desktop"
-                    @ref="_SideBar">
+<MudLayout>
 
-                    <BarToggler />
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        Health Tracker
+    </MudAppBar>
 
-                    <BarBrand>
-                        <BarItem>
-                            Diet Tracker
-                        </BarItem>
-                    </BarBrand>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <MudNavMenu>
+            <MudNavLink Href="/">Dashboard</MudNavLink>
+            <MudNavLink Href="/HealthMetrics">Edit metrics</MudNavLink>
+            <MudNavGroup Title="Stats" Expanded="true">
+                <MudNavLink Href="/Stats">Users</MudNavLink>
+                <MudNavLink Href="/HealthDataPoints">Security</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="/about">About</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
 
-                    <BarMenu>
-                        <BarStart>
-                            <BarItem>
-                                <BarLink To="HealthMetrics" Style="flex-wrap:nowrap;">
-                                    <BarIcon IconName="IconName.Edit"></BarIcon>
-                                    Health metrics
-                                </BarLink>
-                            </BarItem>
-                            <BarItem>
-                                <BarLink To="AddHealthDataPoint">
-                                    <BarIcon IconName="IconName.Add"></BarIcon>
-                                    Add a health data point
-                                </BarLink>
-                            </BarItem>
-                            <BarItem>
-                                <BarLink To="AddDietDataPoint">
-                                    <BarIcon IconName="IconName.Add"></BarIcon>
-                                    Add a diet data point
-                                </BarLink>
-                            </BarItem>
-
-                            <BarItem>
-                                <BarLink To="HealthDataPoints">
-                                    <BarIcon IconName="IconName.FolderOpen"></BarIcon>
-                                    Data points
-                                </BarLink>
-                            </BarItem>
-                            <BarItem>
-                                <BarLink To="Stats">
-                                    <BarIcon IconName="IconName.ChartPie"></BarIcon>
-                                    Stats
-                                </BarLink>
-                            </BarItem>
-                            <BarItem>
-                                <BarLink To="ChartTest">
-                                    <BarIcon IconName="IconName.Code"></BarIcon>
-                                    Test
-                                </BarLink>
-                            </BarItem>
-                            <BarItem>
-                                <BarLink Clicked="@(async () => {SetAppLoading(true); await Task.Delay(2500); _Loading = false;})">
-                                    <BarIcon IconName="IconName.Code"></BarIcon>
-                                    Loading test
-                                </BarLink>
-                            </BarItem>
-                        </BarStart>
-                    </BarMenu>
-                </Bar>
-                @* <Bar Breakpoint="Breakpoint.Desktop"
-                Background="Background.Light"
-                ThemeContrast="ThemeContrast.Light"
-                Border="Border.OnBottom.Secondary"
-                Padding="Padding.Is1">
-
-                <BarBrand Flex="Flex.AlignItems.Center">
-                <Blazorise.Bootstrap.BarToggler Bar="@_SideBar"></Blazorise.Bootstrap.BarToggler>
-                <Text Margin="Margin.Is3.FromStart" TextSize="TextSize.Heading3" Display="Display.Inline">Diet Tracker</Text>
-                </BarBrand>
-
-                <BarMenu>
-                <BarEnd>
-                <AuthorizeView>
-                <Authorized>
-                <BarItem>
-                <Text>Logged in as @_UserName. <a href="/Identity/Account/Logout">Logout</a></Text>
-                </BarItem>
-                </Authorized>
-                <NotAuthorized>
-                <BarItem>
-                <Link To="Identity/Account/Login">Login</Link>
-                </BarItem>
-                <BarItem>
-                <Link To="Identity/Account/Register">Register</Link>
-                </BarItem>
-                </NotAuthorized>
-                </AuthorizeView>
-                </BarEnd>
-                </BarMenu>
-                </Bar> *@
-            </LayoutHeader>
-
-            <LayoutContent Margin="Margin.Is1.OnMobile.Is3.OnTablet">
-                <AuthorizeView>
-                    <Authorized>
-                        @Body
-                    </Authorized>
-                    <NotAuthorized>
-                        <Heading Size="HeadingSize.Is2">
-                            Please <a href="/Identity/Account/Login">login</a> to access site features.
-                        </Heading>
-                    </NotAuthorized>
-                </AuthorizeView>
-            </LayoutContent>
-
-            <LayoutFooter>
-
-            </LayoutFooter>
-        </Layout>
-        <SnackbarStack @ref="_SnackbarStack" />
-
-
-    </CascadingValue>
-</CascadingValue>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>

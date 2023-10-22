@@ -16,11 +16,6 @@ using DietTrackerBlazorServer.Pages;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
-using Blazorise.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,10 +29,6 @@ namespace DietTrackerBlazorServer.Pages
         protected AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
         [Inject]
         protected IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
-        [CascadingParameter]
-        protected SnackbarStack _SnackbarStack { get; set; }
-        [CascadingParameter]
-        protected Action<bool> SetAppLoading { get; set; }
 
         protected async Task<ApplicationUser> GetUser()
         {

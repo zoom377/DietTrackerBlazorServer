@@ -16,11 +16,6 @@ using DietTrackerBlazorServer.Pages;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
-using Blazorise.Components;
 
 namespace DietTrackerBlazorServer.Pages
 {

@@ -15,10 +15,6 @@ using DietTrackerBlazorServer;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
 using DietTrackerBlazorServer.Areas.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,14 +29,10 @@ namespace DietTrackerBlazorServer.Pages
         DateTime SelectedDate { get; set; } = DateTime.Now;
         bool Loaded { get; set; } = false;
 
-        IFluentColumnOnBreakpointWithOffsetAndSize MetricColumnSize = ColumnSize.Is2;
-        IFluentColumnOnBreakpointWithOffsetAndSize ValueColumnSize = ColumnSize.Is8;
-        IFluentColumnOnBreakpointWithOffsetAndSize IncludeColumnSize = ColumnSize.Is2;
-
 
         protected override async Task OnInitializedAsync()
         {
-            SetAppLoading(true);
+            
             Loaded = false;
             string userId = await GetUserIdAsync();
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
@@ -55,13 +47,13 @@ namespace DietTrackerBlazorServer.Pages
             }
 
             Loaded = true;
-            SetAppLoading(false);
+            
             //table.
         }
 
         async Task OnSubmitButtonClicked()
         {
-            SetAppLoading(true);
+            
             string userId = await GetUserIdAsync();
             using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
             {
@@ -76,14 +68,14 @@ namespace DietTrackerBlazorServer.Pages
 
                 if (await dbContext.SaveChangesAsync() > 0)
                 {
-                    await _SnackbarStack.PushAsync($"Successfully added datapoints.", SnackbarColor.Success);
+                    //await _SnackbarStack.PushAsync($"Successfully added datapoints.", SnackbarColor.Success);
                 }
                 else
                 {
-                    await _SnackbarStack.PushAsync($"Database failure.", SnackbarColor.Danger);
+                    //await _SnackbarStack.PushAsync($"Database failure.", SnackbarColor.Danger);
                 }
             }
-            SetAppLoading(false);
+            
         }
 
         class HealthDataPointDGItem

@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 
-@if (Loaded)
+@* @if (Loaded)
 {
     @if (HealthMetrics.Count > 0)
     {
@@ -12,54 +12,7 @@
 
 
         <Heading Size="HeadingSize.Is3">New health data point</Heading>
-        @*<Row Border="Border.Is2.OnBottom" Margin="Margin.Is0" Padding="Padding.Is2.OnY">
-                    <Column ColumnSize="@MetricColumnSize" Padding="Padding.Is0">
-                    <Text>Metric</Text>
-                    </Column>
-                    <Column ColumnSize="@ValueColumnSize" Padding="Padding.Is0">
-                    <Text>Value</Text>
-                    </Column>
-                    <Column ColumnSize="@IncludeColumnSize" Padding="Padding.Is0">
-                    <Text Float="Float.End">Include?</Text>
-                    </Column>
-                    </Row>
-                    @foreach (var dataPoint in NewDataPoints)
-                    {
-                    <Row Border="Border.Is2.OnBottom" Margin="Margin.Is0" Padding="Padding.Is2.OnY">
-                    <Column ColumnSize="@MetricColumnSize" Padding="Padding.Is0">
-                    <Text>@dataPoint.HealthMetric.Name</Text>
-                    </Column>
-                    <Column ColumnSize="@ValueColumnSize" Padding="Padding.Is0">
-                    <Row Flex="Flex.NoWrap">
-                    <Column ColumnSize="ColumnSize.Is1" Padding="Padding.Is0">
-                    <Text>@dataPoint.Value</Text>
-                    </Column>
-                    <Column Padding="Padding.Is0">
-                    <Slider @bind-Value="@dataPoint.Value" TValue="int" Min="0" Max="10" Disabled="@(!dataPoint.Include)"></Slider>
-                    </Column>
-                    </Row>
-                    </Column>
-                    <Column ColumnSize="@IncludeColumnSize" Padding="Padding.Is0">
-                    <Check TValue="bool" @bind-Checked="@dataPoint.Include"></Check>
-                    </Column>
-                    </Row>
-                    }
-
-                    <Row Margin="Margin.Is3.FromTop">
-                    <Column>
-                    <Fields>
-                    <Field>
-                    <Text>Use custom date:</Text>
-                    </Field>
-                    <Field>
-                    <Check @bind-Checked="@UseCustomDataPointDate" TValue="bool" Size="Size.Large" />
-                    </Field>
-                    <Field Flex="Flex.Grow">
-                    <DatePicker @bind-Date="@DataPointDate" InputMode="DateInputMode.DateTime" Disabled="@(!UseCustomDataPointDate)" />
-                    </Field>
-                    </Fields>
-                    </Column>
-                    </Row>*@
+        
 
         <ListGroup>
             @foreach (var dataPoint in NewDataPoints)
@@ -96,7 +49,7 @@
             You must <a href="HealthMetrics">define</a> at least one health metric before you can add a health data point.
         </Paragraph>
     }
-}
+} *@
 
 
 

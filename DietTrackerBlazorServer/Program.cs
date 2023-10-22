@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
 using DietTrackerBlazorServer.Model;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Areas.Identity;
@@ -14,6 +11,7 @@ using DietTrackerBlazorServer.Services;
 using DietTrackerBlazorServer;
 using MathNet.Numerics;
 using Microsoft.AspNetCore.DataProtection;
+using MudBlazor.Services;
 
 internal class Program
 {
@@ -42,12 +40,14 @@ internal class Program
 
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddBlazorise(options =>
-        {
-            options.Immediate = true;
-        })
-            .AddBootstrapProviders()
-            .AddFontAwesomeIcons();
+
+        builder.Services.AddMudServices();
+        //builder.Services.AddBlazorise(options =>
+        //{
+        //    options.Immediate = true;
+        //})
+        //    .AddBootstrapProviders()
+        //    .AddFontAwesomeIcons();
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
 

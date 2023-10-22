@@ -1,5 +1,4 @@
-﻿using Blazorise.Charts;
-using DietTrackerBlazorServer.Model;
+﻿using DietTrackerBlazorServer.Model;
 
 namespace DietTrackerBlazorServer
 {
@@ -78,34 +77,34 @@ namespace DietTrackerBlazorServer
             
         //}
 
-        public static ChartColor ChartColorFromHex(string color)
-        {
-            //#FFFFFFFF
-            int R = 0;
-            int G = 0;
-            int B = 0;
-            int A = 0;
+        //public static ChartColor ChartColorFromHex(string color)
+        //{
+        //    //#FFFFFFFF
+        //    int R = 0;
+        //    int G = 0;
+        //    int B = 0;
+        //    int A = 0;
 
-            if (color.Length >= 9)
-            {
-                //Includes alpha
-                //A is index 7 & 8
-                R = HexCharToByte(color[7]) * 16 + HexCharToByte(color[8]);
+        //    if (color.Length >= 9)
+        //    {
+        //        //Includes alpha
+        //        //A is index 7 & 8
+        //        R = HexCharToByte(color[7]) * 16 + HexCharToByte(color[8]);
 
-            }
-            if (color.Length >= 7)
-            {
-                //Excludes alpha
-                //R is index 1 & 2
-                R = HexCharToByte(color[1]) * 16 + HexCharToByte(color[2]);
-                //G is index 3 & 4
-                G = HexCharToByte(color[3]) * 16 + HexCharToByte(color[4]);
-                //B is index 5 & 6
-                B = HexCharToByte(color[5]) * 16 + HexCharToByte(color[6]);
-            }
+        //    }
+        //    if (color.Length >= 7)
+        //    {
+        //        //Excludes alpha
+        //        //R is index 1 & 2
+        //        R = HexCharToByte(color[1]) * 16 + HexCharToByte(color[2]);
+        //        //G is index 3 & 4
+        //        G = HexCharToByte(color[3]) * 16 + HexCharToByte(color[4]);
+        //        //B is index 5 & 6
+        //        B = HexCharToByte(color[5]) * 16 + HexCharToByte(color[6]);
+        //    }
 
-            return ChartColor.FromRgba(((byte)R), (byte)G, (byte)B, (float)A / (float)255);
-        }
+        //    return ChartColor.FromRgba(((byte)R), (byte)G, (byte)B, (float)A / (float)255);
+        //}
 
         public static double MsSinceEpoch(DateTime time)
         {

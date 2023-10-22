@@ -16,11 +16,6 @@ using DietTrackerBlazorServer.Pages;
 using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
-using Blazorise;
-using Blazorise.DataGrid;
-using Blazorise.Snackbar;
-using Blazorise.Charts;
-using Blazorise.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,9 +33,9 @@ namespace DietTrackerBlazorServer.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            SetAppLoading(true);
+            
             await LoadFoodTypes();
-            SetAppLoading(false);
+            
         }
 
         async Task OnAddButtonClicked()
