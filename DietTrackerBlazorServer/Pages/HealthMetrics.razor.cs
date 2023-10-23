@@ -17,11 +17,14 @@ using DietTrackerBlazorServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DietTrackerBlazorServer.Shared;
+using MudBlazor;
 
 namespace DietTrackerBlazorServer.Pages
 {
     public partial class HealthMetrics : DTComponentBase
     {
+        [Inject] IDialogService _DialogService { get; set; }
+
 
         List<HealthMetric> _HealthMetrics { get; set; }
 

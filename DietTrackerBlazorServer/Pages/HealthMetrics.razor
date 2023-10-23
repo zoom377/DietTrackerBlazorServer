@@ -3,16 +3,39 @@
 
 <MudDataGrid Items="@_HealthMetrics"
              ReadOnly="false"
-             EditMode="DataGridEditMode.Form">
+             EditMode="DataGridEditMode.Form"
+             Dense="true"
+             Elevation="10">
     <Columns>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Description" />
         <TemplateColumn Title="Color">
             <CellTemplate>
-                <MudColorPicker @bind-Text="context.Item.Color" />
+                <div class="d-flex flex-nowrap align-items-center flex-1">
+                    <MudColorPicker @bind-Text="context.Item.Color"
+                                    Class="me-2"
+                                    DisableAlpha="true" />
+                    <MudIcon Icon="@Icons.Material.Rounded.Circle" Style="@($"color: {context.Item.Color}; align-self: center;")" />
+                </div>
             </CellTemplate>
         </TemplateColumn>
     </Columns>
+    <NoRecordsContent>
+        You do not have any health metrics yet.
+    </NoRecordsContent>
+    <PagerContent>
+        @if (_HealthMetrics.Count >= 10)
+        {
+            <MudDataGridPager DisableRowsPerPage="true" />
+        }
+    </PagerContent>
+    <ToolBarContent>
+        <MudToolBar Dense>
+            <MudIconButton Icon="@Icons.Material.Outlined.Add" Color="Color.Success" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Info" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Delete" Color="Color.Error" />
+        </MudToolBar>
+    </ToolBarContent>
 </MudDataGrid>
 
 
