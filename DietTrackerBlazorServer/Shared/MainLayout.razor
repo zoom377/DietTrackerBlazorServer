@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inherits LayoutComponentBase
+@inherits DTComponentBase
 
 
 <MudThemeProvider />
@@ -8,31 +8,41 @@
 
 <MudLayout>
 
-    <MudAppBar>
+    <MudAppBar Elevation="20" Dense>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         Health Tracker
+        <MudSpacer />
+        <LoginDisplay />
     </MudAppBar>
 
     <MudDrawer @bind-Open="@_drawerOpen">
-        <MudNavMenu>
+        <MudNavMenu >
             <MudNavLink Href="/">Dashboard</MudNavLink>
-            <MudNavLink Href="/HealthMetrics">Edit metrics</MudNavLink>
-            <MudNavGroup Title="Stats" Expanded="true">
-                <MudNavLink Href="/Stats">Stats</MudNavLink>
-                <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
-            </MudNavGroup>
+            <MudNavLink Href="/HealthMetrics">
+                <MudIcon Icon="@Icons.Material.Filled.List" />
+                Edit metrics
+            </MudNavLink>
+            <MudNavLink Href="/Stats">Stats</MudNavLink>
+            <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
             <MudNavLink Href="/about">About</MudNavLink>
         </MudNavMenu>
     </MudDrawer>
 
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium">
-            @Body
-            <MudSelect T="string" Label="Character" Variant="Variant.Filled" AnchorOrigin="Origin.CenterRight">
-                <MudSelectItem Value="@("A")" />
-                <MudSelectItem Value="@("B")" />
-                <MudSelectItem Value="@("C")" />
-            </MudSelect>
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
+            <AuthorizeView>
+                <Authorized>
+                    @Body
+                </Authorized>
+                <Authorizing>
+                    Authorising...
+                </Authorizing>
+                <NotAuthorized>
+                    <MudText Align="Align.Center" Typo="Typo.h4">
+                        Please log in to access site features.
+                    </MudText>
+                </NotAuthorized>
+            </AuthorizeView>
         </MudContainer>
     </MudMainContent>
 </MudLayout>

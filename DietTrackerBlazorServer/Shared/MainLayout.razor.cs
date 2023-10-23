@@ -16,17 +16,15 @@ using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
 using Microsoft.AspNetCore.Identity;
+using DietTrackerBlazorServer.Pages;
 
 namespace DietTrackerBlazorServer.Shared
 {
-    public partial class MainLayout : LayoutComponentBase
+    public partial class MainLayout : DTComponentBase
     {
-        [Inject]
-        protected UserManager<ApplicationUser> _UserManager { get; set; }
 
-        [Inject]
-        protected AuthenticationStateProvider _AuthProvider { get; set; }
-
+        [Parameter]
+        public RenderFragment? Body { get; set; }
 
         public bool _drawerOpen { get; set; } = true;
 
