@@ -1,6 +1,21 @@
 ﻿@page "/HealthMetrics"
 @inherits DTComponentBase
 
+<MudDataGrid Items="@_HealthMetrics"
+             ReadOnly="false"
+             EditMode="DataGridEditMode.Form">
+    <Columns>
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Description" />
+        <TemplateColumn Title="Color">
+            <CellTemplate>
+                <MudColorPicker @bind-Text="context.Item.Color" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+
 
 
 @* @if (_CurrentHealthMetrics.Count > 0)

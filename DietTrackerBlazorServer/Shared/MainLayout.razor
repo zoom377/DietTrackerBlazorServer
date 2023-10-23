@@ -18,8 +18,8 @@
             <MudNavLink Href="/">Dashboard</MudNavLink>
             <MudNavLink Href="/HealthMetrics">Edit metrics</MudNavLink>
             <MudNavGroup Title="Stats" Expanded="true">
-                <MudNavLink Href="/Stats">Users</MudNavLink>
-                <MudNavLink Href="/HealthDataPoints">Security</MudNavLink>
+                <MudNavLink Href="/Stats">Stats</MudNavLink>
+                <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
             </MudNavGroup>
             <MudNavLink Href="/about">About</MudNavLink>
         </MudNavMenu>
@@ -28,6 +28,11 @@
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
+            <MudSelect T="string" Label="Character" Variant="Variant.Filled" AnchorOrigin="Origin.CenterRight">
+                <MudSelectItem Value="@("A")" />
+                <MudSelectItem Value="@("B")" />
+                <MudSelectItem Value="@("C")" />
+            </MudSelect>
         </MudContainer>
     </MudMainContent>
 </MudLayout>

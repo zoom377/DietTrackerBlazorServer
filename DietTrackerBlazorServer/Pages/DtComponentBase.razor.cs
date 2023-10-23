@@ -18,27 +18,28 @@ using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace DietTrackerBlazorServer.Pages
 {
     public partial class DTComponentBase : ComponentBase
     {
         [Inject]
-        protected UserManager<ApplicationUser> _UserManager { get; set; }
-        [Inject]
         protected AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
         [Inject]
         protected IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
 
-        protected async Task<ApplicationUser> GetUser()
+        protected async Task<ClaimsPrincipal> GetUser()
         {
             var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
-            return await _UserManager.GetUserAsync(authState.User);
+            return authState.User;
         }
 
         protected async Task<string> GetUserIdAsync()
         {
-            return await _UserManager.GetUserIdAsync(await GetUser());
+            var user = await GetUser();
+            var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+            return userId;
         }
 
         

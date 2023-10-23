@@ -23,9 +23,8 @@ namespace DietTrackerBlazorServer.Pages
     public partial class HealthMetrics : DTComponentBase
     {
 
-        List<HealthMetric> _CurrentHealthMetrics { get; set; } = new List<HealthMetric>();
-        HealthMetric _DataGridSelectedHealthMetric { get; set; }
-        HealthMetric _SubjectHealthMetric { get; set; } = new HealthMetric();
+        List<HealthMetric> _HealthMetrics { get; set; }
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -38,109 +37,109 @@ namespace DietTrackerBlazorServer.Pages
             {
                 var userId = await GetUserIdAsync();
 
-                _CurrentHealthMetrics = await dbContext.HealthMetrics
+                _HealthMetrics = await dbContext.HealthMetrics
                     .Where(e => e.ApplicationUserId == userId)
                     .ToListAsync();
             }
         }
 
-        protected async Task OnAddButtonClicked()
-        {
-            _SubjectHealthMetric = new HealthMetric();
-        }
+        //protected async Task OnAddButtonClicked()
+        //{
+        //    _SubjectHealthMetric = new HealthMetric();
+        //}
 
-        protected async Task OnEditButtonClicked()
-        {
-            _SubjectHealthMetric = _DataGridSelectedHealthMetric.ShallowCopy();
-        }
+        //protected async Task OnEditButtonClicked()
+        //{
+        //    _SubjectHealthMetric = _DataGridSelectedHealthMetric.ShallowCopy();
+        //}
 
-        protected async Task OnDeleteButtonClicked()
-        {
-            _SubjectHealthMetric = _DataGridSelectedHealthMetric;
-        }
+        //protected async Task OnDeleteButtonClicked()
+        //{
+        //    _SubjectHealthMetric = _DataGridSelectedHealthMetric;
+        //}
 
-        protected async Task OnValidSubmit_AddHealthMetric()
-        {
-            _SubjectHealthMetric.ApplicationUserId = await GetUserIdAsync();
+        //protected async Task OnValidSubmit_AddHealthMetric()
+        //{
+        //    _SubjectHealthMetric.ApplicationUserId = await GetUserIdAsync();
 
-            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-            {
-                var query = dbContext.HealthMetrics
-                        .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
-                        .Where(m => m.Name == _SubjectHealthMetric.Name);
+        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+        //    {
+        //        var query = dbContext.HealthMetrics
+        //                .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
+        //                .Where(m => m.Name == _SubjectHealthMetric.Name);
 
-                if (await query.AnyAsync())
-                {
-                }
-                else
-                {
-                    await dbContext.AddAsync(_SubjectHealthMetric);
-                    if (await dbContext.SaveChangesAsync() > 0)
-                    {
-                    }
-                    else
-                    {
-                    }
-                }
+        //        if (await query.AnyAsync())
+        //        {
+        //        }
+        //        else
+        //        {
+        //            await dbContext.AddAsync(_SubjectHealthMetric);
+        //            if (await dbContext.SaveChangesAsync() > 0)
+        //            {
+        //            }
+        //            else
+        //            {
+        //            }
+        //        }
 
-            }
-            await ReloadData();
-        }
+        //    }
+        //    await ReloadData();
+        //}
 
-        protected async Task OnValidSubmit_EditHealthMetric()
-        {
-            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-            {
-                var query = dbContext.HealthMetrics
-                        .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
-                        .Where(m => m.Id != _SubjectHealthMetric.Id)
-                        .Where(m => m.Name == _SubjectHealthMetric.Name);
+        //protected async Task OnValidSubmit_EditHealthMetric()
+        //{
+        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+        //    {
+        //        var query = dbContext.HealthMetrics
+        //                .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
+        //                .Where(m => m.Id != _SubjectHealthMetric.Id)
+        //                .Where(m => m.Name == _SubjectHealthMetric.Name);
                 
 
-                if (await query.AnyAsync())
-                {
-                }
-                else
-                {
-                    dbContext.Update(_SubjectHealthMetric);
-                    if (await dbContext.SaveChangesAsync() > 0)
-                    {
-                    }
-                    else
-                    {
-                    }
+        //        if (await query.AnyAsync())
+        //        {
+        //        }
+        //        else
+        //        {
+        //            dbContext.Update(_SubjectHealthMetric);
+        //            if (await dbContext.SaveChangesAsync() > 0)
+        //            {
+        //            }
+        //            else
+        //            {
+        //            }
 
-                }
-            }
-            await ReloadData();
-        }
+        //        }
+        //    }
+        //    await ReloadData();
+        //}
 
-        protected async Task OnDeleteHealthMetricConfirmed()
-        {
-            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-            {
-                var userId = await GetUserIdAsync();
+        //protected async Task OnDeleteHealthMetricConfirmed()
+        //{
+        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
+        //    {
+        //        var userId = await GetUserIdAsync();
 
-                var dependentDataPoints = dbContext.HealthDataPoints
-                    .Where(e => e.ApplicationUserId == userId)
-                    .Where(e => e.HealthMetricId == _SubjectHealthMetric.Id);
+        //        var dependentDataPoints = dbContext.HealthDataPoints
+        //            .Where(e => e.ApplicationUserId == userId)
+        //            .Where(e => e.HealthMetricId == _SubjectHealthMetric.Id);
 
-                dbContext.RemoveRange(dependentDataPoints);
-                //foreach (var dataPoint in associatedDataPoints)
-                //{
-                //    dbContext.Remove(dataPoint);
-                //}
+        //        dbContext.RemoveRange(dependentDataPoints);
+        //        //foreach (var dataPoint in associatedDataPoints)
+        //        //{
+        //        //    dbContext.Remove(dataPoint);
+        //        //}
 
-                dbContext.Remove(_SubjectHealthMetric);
-                if (await dbContext.SaveChangesAsync() > 0)
-                {
-                }
-                else
-                {
-                }
-            }
-            _DataGridSelectedHealthMetric = null;
-            await ReloadData();
-        }
+        //        dbContext.Remove(_SubjectHealthMetric);
+        //        if (await dbContext.SaveChangesAsync() > 0)
+        //        {
+        //        }
+        //        else
+        //        {
+        //        }
+        //    }
+        //    _DataGridSelectedHealthMetric = null;
+        //    await ReloadData();
+        //}
     }
 }
