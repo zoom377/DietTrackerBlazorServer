@@ -25,16 +25,16 @@ namespace DietTrackerBlazorServer.Tests
                 new HealthDataPoint{Date = new DateTime(5000), Value = 4}
             };
 
-            var value = Utilities.GetInterpolatedDataPointValue(exampleData, new DateTime(750));
-            Assert.IsTrue(Utilities.AreEqual(value, 2));
+            var value = Utility.GetInterpolatedDataPointValue(exampleData, new DateTime(750));
+            Assert.IsTrue(Utility.AreEqual(value, 2));
 
-            value = Utilities.GetInterpolatedDataPointValue(exampleData, new DateTime(6500));
-            Assert.IsTrue(Utilities.AreEqual(value, 4));
+            value = Utility.GetInterpolatedDataPointValue(exampleData, new DateTime(6500));
+            Assert.IsTrue(Utility.AreEqual(value, 4));
 
-            value = Utilities.GetInterpolatedDataPointValue(exampleData, new DateTime(3500));
+            value = Utility.GetInterpolatedDataPointValue(exampleData, new DateTime(3500));
             Assert.IsTrue(value > 5);
 
-            value = Utilities.GetInterpolatedDataPointValue(exampleData, new DateTime(3500));
+            value = Utility.GetInterpolatedDataPointValue(exampleData, new DateTime(3500));
             Assert.IsTrue(value < 9);
 
         }

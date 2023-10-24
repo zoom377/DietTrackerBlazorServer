@@ -18,6 +18,7 @@ using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
 using MudBlazor;
 using System.Text;
+using Humanizer;
 
 namespace DietTrackerBlazorServer.Components
 {
@@ -50,7 +51,7 @@ namespace DietTrackerBlazorServer.Components
             Mode = mode;
             _Visible = true;
 
-            var itemName = Utilities.SplitPascal(typeof(TItem).Name);
+            var itemName = typeof(TItem).Name.Humanize(LetterCasing.Title);
 
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -64,7 +65,19 @@ namespace DietTrackerBlazorServer.Components
             _Title = title;
         }
 
-        
+        string GetBorderColour()
+        {
+            string result = "";
+
+            if (Mode == DialogMode.Add)
+                result = "mud-border-success";
+            else if (Mode == DialogMode.Edit)
+                result = "mud-border-warning";
+            else if (Mode == DialogMode.Delete)
+                result = "mud-border-error";
+
+            return result;
+        }
 
         protected override async Task OnInitializedAsync()
         {

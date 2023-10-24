@@ -39,28 +39,28 @@
     </ToolBarContent>
 </MudDataGrid>
 
-<MudDivider />
+<MudDivider Vertical />
 
-<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric()))">
-    Show add dialog
-</MudButton>
-<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Edit))">
-    Show edit dialog
-</MudButton>
-<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Delete))">
-    Show delete dialog
-</MudButton>
+ <MudButton Color="Color.Primary" OnClick="@(async () => await _AddDialog.Show(new HealthMetric()))">
+     Show add dialog
+ </MudButton>
+ <MudButton Color="Color.Secondary" OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Edit))">
+     Show edit dialog
+ </MudButton>
+ <MudButton Color="Color.Tertiary" OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Delete))">
+     Show delete dialog
+ </MudButton>
 
 
-<DTDialog @ref="_AddDialog" TItem="HealthMetric">
-    <ItemFields>
-        <MudTextField @bind-Value="context.Item.Name" Disabled="@context.Disabled" Placeholder="Name"></MudTextField>
-        <MudTextField @bind-Value="context.Item.Description" Disabled="@context.Disabled" Placeholder="Description"></MudTextField>
-        <MudColorPicker @bind-Text="context.Item.Color" Disabled="@context.Disabled"></MudColorPicker>
-    </ItemFields>
-</DTDialog>
+ <DTDialog @ref="_AddDialog" TItem="HealthMetric">
+     <ItemFields>
+         <MudTextField @bind-Value="context.Item.Name" Disabled="@context.Disabled" Placeholder="Name"></MudTextField>
+         <MudTextField @bind-Value="context.Item.Description" Disabled="@context.Disabled" Placeholder="Description"></MudTextField>
+         <MudColorPicker @bind-Text="context.Item.Color" Disabled="@context.Disabled"></MudColorPicker>
+     </ItemFields>
+ </DTDialog>
 
-@* @if (_CurrentHealthMetrics.Count > 0)
+ @* @if (_CurrentHealthMetrics.Count > 0)
 {
     <DataGrid TItem="HealthMetric"
           Data="@_CurrentHealthMetrics"
