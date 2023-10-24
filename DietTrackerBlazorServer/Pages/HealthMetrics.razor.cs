@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DietTrackerBlazorServer.Shared;
 using MudBlazor;
+using DietTrackerBlazorServer.Components;
 
 namespace DietTrackerBlazorServer.Pages
 {
@@ -25,13 +26,22 @@ namespace DietTrackerBlazorServer.Pages
     {
         [Inject] IDialogService _DialogService { get; set; }
 
-
         List<HealthMetric> _HealthMetrics { get; set; }
+
+        MudDialog _Dialog { get; set; }
+        bool _AddDialogVisible { get; set; }
+
+        DTDialog<HealthMetric> _AddDialog { get; set; }
+
+        public HealthMetric Metric { get; set; }
 
 
         protected override async Task OnInitializedAsync()
         {
             await ReloadData();
+            _AddDialogVisible = true;
+            Metric = new HealthMetric() { };
+
         }
 
         protected async Task ReloadData()
@@ -97,7 +107,7 @@ namespace DietTrackerBlazorServer.Pages
         //                .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
         //                .Where(m => m.Id != _SubjectHealthMetric.Id)
         //                .Where(m => m.Name == _SubjectHealthMetric.Name);
-                
+
 
         //        if (await query.AnyAsync())
         //        {

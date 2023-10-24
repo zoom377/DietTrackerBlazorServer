@@ -1,4 +1,5 @@
 ﻿@page "/HealthMetrics"
+@using DietTrackerBlazorServer.Components
 @inherits DTComponentBase
 
 <MudDataGrid Items="@_HealthMetrics"
@@ -38,8 +39,26 @@
     </ToolBarContent>
 </MudDataGrid>
 
+<MudDivider />
+
+<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric()))">
+    Show add dialog
+</MudButton>
+<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Edit))">
+    Show edit dialog
+</MudButton>
+<MudButton OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Delete))">
+    Show delete dialog
+</MudButton>
 
 
+<DTDialog @ref="_AddDialog" TItem="HealthMetric">
+    <ItemFields>
+        <MudTextField @bind-Value="context.Item.Name" Disabled="@context.Disabled" Placeholder="Name"></MudTextField>
+        <MudTextField @bind-Value="context.Item.Description" Disabled="@context.Disabled" Placeholder="Description"></MudTextField>
+        <MudColorPicker @bind-Text="context.Item.Color" Disabled="@context.Disabled"></MudColorPicker>
+    </ItemFields>
+</DTDialog>
 
 @* @if (_CurrentHealthMetrics.Count > 0)
 {

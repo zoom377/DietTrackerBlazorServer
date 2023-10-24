@@ -1,0 +1,46 @@
+﻿@typeparam TItem
+
+
+<MudDialog @bind-IsVisible="_Visible ">
+    <TitleContent>
+        @_Title
+    </TitleContent>
+    <DialogContent>
+        @{
+            if (ItemFields != null)
+            {
+                if (Mode == DialogMode.Add)
+                {
+                    @ItemFields(new DialogContext(){Item = this._Item, Disabled = false})
+                }
+                else if (Mode == DialogMode.Edit)
+                {
+                    @ItemFields(new DialogContext(){Item = this._Item, Disabled = false})
+                }
+                else if (Mode == DialogMode.Delete)
+                {
+                    @ItemFields(new DialogContext(){Item = this._Item, Disabled = true})
+                }
+            }
+
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (Mode == DialogMode.Add)
+        {
+            <MudButton Color="Color.Success">Add</MudButton>
+            <MudButton>Cancel</MudButton>
+        }
+        else if (Mode == DialogMode.Edit)
+        {
+            <MudButton Color="Color.Warning">Save changes</MudButton>
+            <MudButton>Cancel</MudButton>
+        }
+        else if (Mode == DialogMode.Delete)
+        {
+            <MudButton Color="Color.Error">Delete</MudButton>
+            <MudButton>Cancel</MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+

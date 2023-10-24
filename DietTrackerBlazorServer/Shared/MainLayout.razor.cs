@@ -23,6 +23,7 @@ namespace DietTrackerBlazorServer.Shared
     public partial class MainLayout : DTComponentBase
     {
 
+        //LayoutView automatically passes a renderfragment named body to the layout that is specified.
         [Parameter]
         public RenderFragment? Body { get; set; }
 

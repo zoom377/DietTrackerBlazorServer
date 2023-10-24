@@ -1,9 +1,43 @@
 ﻿using DietTrackerBlazorServer.Model;
+using System.Text;
 
 namespace DietTrackerBlazorServer
 {
     public static class Utilities
     {
+        public static string SplitPascal(string str)
+        {
+            var sb = new StringBuilder();
+            int lastWord = 0;
+            bool lastUpper = false;
+            int i = 0;
+            while (i < str.Length)
+            {
+                if (char.IsUpper(str[i]))
+                {
+                    lastUpper = true;
+                }
+                else
+                {
+                    if (lastUpper == true &&
+                        i - 1 > 1)
+                    {
+                        //Split word only if last char was upper and this is not and we are not at the first char
+                        //"CatDog"
+                        sb.Append($"{str.Substring(lastWord, i - 1 - lastWord)} ");
+                        lastWord = i - 1;
+                    }
+
+                    lastUpper = false;
+                }
+
+                i++;
+            }
+
+            sb.Append(str.Substring(lastWord, str.Length - lastWord));
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Calculates and returns an interpolated value. Example use: display on a Blazorise line chart.
         /// </summary>

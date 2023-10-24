@@ -16,11 +16,13 @@
     </MudAppBar>
 
     <MudDrawer @bind-Open="@_drawerOpen">
-        <MudNavMenu >
+        <MudNavMenu>
             <MudNavLink Href="/">Dashboard</MudNavLink>
             <MudNavLink Href="/HealthMetrics">
-                <MudIcon Icon="@Icons.Material.Filled.List" />
-                Edit metrics
+                <div class="d-flex align-items-center justify-content-between">
+                    <MudIcon Icon="@Icons.Material.Filled.List" />
+                    Edit metrics
+                </div>
             </MudNavLink>
             <MudNavLink Href="/Stats">Stats</MudNavLink>
             <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
