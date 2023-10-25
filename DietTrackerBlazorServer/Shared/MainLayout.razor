@@ -2,49 +2,54 @@
 @inherits DTComponentBase
 
 
-<MudThemeProvider Theme="@(new MudTheme(){})" />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<CascadingValue TValue="MudTheme"
+                IsFixed="true"
+                Value="@Theme">
 
-<MudLayout>
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
 
-    <MudAppBar Dense>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        Health Tracker
-        <MudSpacer />
-        <LoginDisplay />
-    </MudAppBar>
+    <MudLayout>
+        <MudAppBar Dense>
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            Health Tracker
+            <MudSpacer />
+            <LoginDisplay />
+        </MudAppBar>
 
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <MudNavMenu>
-            <MudNavLink Href="/">Dashboard</MudNavLink>
-            <MudNavLink Href="/HealthMetrics">
-                <div class="d-flex align-items-center justify-content-between">
-                    <MudIcon Icon="@Icons.Material.Filled.List" />
-                    Edit metrics
-                </div>
-            </MudNavLink>
-            <MudNavLink Href="/Stats">Stats</MudNavLink>
-            <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
-            <MudNavLink Href="/about">About</MudNavLink>
-        </MudNavMenu>
-    </MudDrawer>
+        <MudDrawer @bind-Open="@_drawerOpen">
+            <MudNavMenu>
+                <MudNavLink Href="/">Dashboard</MudNavLink>
+                <MudNavLink Href="/HealthMetrics">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <MudIcon Icon="@Icons.Material.Filled.List" />
+                        Edit metrics
+                    </div>
+                </MudNavLink>
+                <MudNavLink Href="/Stats">Stats</MudNavLink>
+                <MudNavLink Href="/HealthDataPoints">Data points</MudNavLink>
+                <MudNavLink Href="/about">About</MudNavLink>
+            </MudNavMenu>
+        </MudDrawer>
 
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
-            <AuthorizeView>
-                <Authorized>
-                    @Body
-                </Authorized>
-                <Authorizing>
-                    Authorising...
-                </Authorizing>
-                <NotAuthorized>
-                    <MudText Align="Align.Center" Typo="Typo.h4">
-                        Please log in to access site features.
-                    </MudText>
-                </NotAuthorized>
-            </AuthorizeView>
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
+                <AuthorizeView>
+                    <Authorized>
+                        @Body
+                    </Authorized>
+                    <Authorizing>
+                        Authorising...
+                    </Authorizing>
+                    <NotAuthorized>
+                        <MudText Align="Align.Center" Typo="Typo.h4">
+                            Please log in to access site features.
+                        </MudText>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+
+</CascadingValue>

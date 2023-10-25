@@ -17,6 +17,7 @@ using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
 using Microsoft.AspNetCore.Identity;
 using DietTrackerBlazorServer.Pages;
+using MudBlazor;
 
 namespace DietTrackerBlazorServer.Shared
 {
@@ -29,6 +30,7 @@ namespace DietTrackerBlazorServer.Shared
 
         public bool _drawerOpen { get; set; } = true;
 
+        protected MudTheme Theme { get; set; }
 
 
         //protected bool _Loading { get; set; }
