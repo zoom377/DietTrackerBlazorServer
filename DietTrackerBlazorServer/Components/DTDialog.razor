@@ -29,18 +29,18 @@
         @if (Mode == DialogMode.Add)
         {
             <MudButton Color="Color.Success">Add</MudButton>
-            <MudButton>Cancel</MudButton>
         }
         else if (Mode == DialogMode.Edit)
         {
             <MudButton Color="Color.Warning">Save changes</MudButton>
-            <MudButton>Cancel</MudButton>
         }
         else if (Mode == DialogMode.Delete)
         {
             <MudButton Color="Color.Error">Delete</MudButton>
-            <MudButton>Cancel</MudButton>
         }
+
+        <MudButton OnClick="@(() => _Visible = false)">Cancel</MudButton>
+
     </DialogActions>
 </MudDialog>
 

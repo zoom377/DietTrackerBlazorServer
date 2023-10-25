@@ -24,24 +24,14 @@ namespace DietTrackerBlazorServer.Pages
 {
     public partial class HealthMetrics : DTComponentBase
     {
-        [Inject] IDialogService _DialogService { get; set; }
-
+        MudDataGrid<HealthMetric> _Grid { get; set; }
         List<HealthMetric> _HealthMetrics { get; set; }
-
-        MudDialog _Dialog { get; set; }
-        bool _AddDialogVisible { get; set; }
-
-        DTDialog<HealthMetric> _AddDialog { get; set; }
-
-        public HealthMetric Metric { get; set; }
-
+        HealthMetric _SelectedItem { get; set; }
+        DTDialog<HealthMetric> _Dialog { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await ReloadData();
-            _AddDialogVisible = true;
-            Metric = new HealthMetric() { };
-
         }
 
         protected async Task ReloadData()
@@ -54,6 +44,21 @@ namespace DietTrackerBlazorServer.Pages
                     .Where(e => e.ApplicationUserId == userId)
                     .ToListAsync();
             }
+        }
+
+        async Task SelectedItemChanged(HealthMetric metric)
+        {
+            _SelectedItem = metric;
+        }
+
+        string GetRowClass(HealthMetric item, int index)
+        {
+            if (item == _SelectedItem)
+            {
+                return $"border-2 border-striped";
+            }
+
+            return string.Empty;
         }
 
         //protected async Task OnAddButtonClicked()

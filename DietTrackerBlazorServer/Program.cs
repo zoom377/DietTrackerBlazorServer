@@ -41,13 +41,10 @@ internal class Program
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
 
-        builder.Services.AddMudServices();
-        //builder.Services.AddBlazorise(options =>
-        //{
-        //    options.Immediate = true;
-        //})
-        //    .AddBootstrapProviders()
-        //    .AddFontAwesomeIcons();
+        builder.Services.AddMudServices(c =>
+        {
+            //MUD options
+        });
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
 
