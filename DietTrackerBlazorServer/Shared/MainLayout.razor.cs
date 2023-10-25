@@ -30,7 +30,7 @@ namespace DietTrackerBlazorServer.Shared
 
         public bool _drawerOpen { get; set; } = true;
 
-        protected MudTheme Theme { get; set; }
+        protected MudTheme Theme { get; set; } = new MudTheme();
 
 
         //protected bool _Loading { get; set; }
