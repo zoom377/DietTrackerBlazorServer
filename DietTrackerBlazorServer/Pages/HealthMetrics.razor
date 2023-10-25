@@ -7,24 +7,38 @@
              Items=@_HealthMetrics
              SelectedItem=@_SelectedItem
              SelectedItemChanged=@SelectedItemChanged
-             ReadOnly="true"
-             SelectOnRowClick=true
-             Dense="true"
              MultiSelection="false"
+             Dense="true"
              Elevation="10"
-             RowClassFunc="@GetRowClass">
-    
+             RowClassFunc="@GetRowClass"
+             RowStyleFunc="@GetRowStyle">
+
     <Columns>
-        <SelectColumn ShowInFooter=false ShowInHeader=false Size="Size.Small" />
+        @* <SelectColumn ShowInFooter=false ShowInHeader=false Size="Size.Small" /> *@
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Description" />
         <TemplateColumn Title="Color">
             <CellTemplate>
-                <div class="d-flex flex-nowrap align-items-center flex-1">
+                <div class="d-flex flex-nowrap justify-space-around align-center flex-1">
                     <MudColorPicker @bind-Text="context.Item.Color"
                                     Class="me-2"
                                     DisableAlpha="true" />
                     <MudIcon Icon="@Icons.Material.Rounded.Circle" Style="@($"color: {context.Item.Color}; align-self: center;")" />
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Edit">
+            <CellTemplate>
+                <div class="d-flex flex-nowrap justify-space-around align-center flex-1">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Info"
+                                   OnClick="@(async () => await _Dialog.Show(context.Item, DialogMode.Edit))" />
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(async () => await _Dialog.Show(context.Item, DialogMode.Delete))" />
                 </div>
             </CellTemplate>
         </TemplateColumn>
@@ -41,33 +55,17 @@
     </PagerContent>
 </MudDataGrid>
 
-<MudToolBar Dense>
-    <MudIconButton Icon="@Icons.Material.Outlined.Add"
-                   Variant="Variant.Outlined"
-                   Color="Color.Success"
-                   OnClick="@(async () => await _Dialog.Show(new HealthMetric()))" />
-    <MudIconButton Icon="@Icons.Material.Outlined.Edit"
-                   Variant="Variant.Outlined"
-                   Disabled="@(_SelectedItem == null)"
-                   Color="Color.Info"
-                   OnClick="@(async () => await _Dialog.Show(_SelectedItem, DialogMode.Edit))" />
-    <MudIconButton Icon="@Icons.Material.Outlined.Delete"
-                   Variant="Variant.Outlined"
-                   Disabled="@(_SelectedItem == null)"
-                   Color="Color.Error"
-                   OnClick="@(async () => await _Dialog.Show(_SelectedItem, DialogMode.Delete))" />
-</MudToolBar>
+<div class="d-flex justify-center justify-content-around">
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Success"
+               Class="mt-4"
+               OnClick="@(async () => await _Dialog.Show(new HealthMetric()))">
 
-@* <MudButton Color="Color.Success" OnClick="@(async () => await _AddDialog.Show(new HealthMetric()))">
-    Show add dialog
-</MudButton>
-<MudButton Color="Color.Warning" OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Edit))">
-    Show edit dialog
-</MudButton>
-<MudButton Color="Color.Error" OnClick="@(async () => await _AddDialog.Show(new HealthMetric(), DialogMode.Delete))">
-    Show delete dialog
-</MudButton> *@
+        <MudIcon Icon="@Icons.Material.Outlined.Add" />
+        Add new health metric
+    </MudButton>
 
+</div>
 
 <DTDialog @ref="_Dialog" TItem="HealthMetric">
     <ItemFields>

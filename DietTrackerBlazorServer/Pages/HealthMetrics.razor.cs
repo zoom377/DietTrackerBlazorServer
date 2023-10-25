@@ -19,11 +19,15 @@ using Microsoft.AspNetCore.Identity;
 using DietTrackerBlazorServer.Shared;
 using MudBlazor;
 using DietTrackerBlazorServer.Components;
+using MudBlazor.Utilities;
 
 namespace DietTrackerBlazorServer.Pages
 {
     public partial class HealthMetrics : DTComponentBase
     {
+        [CascadingParameter]
+        MudTheme _Theme { get; set; }
+
         MudDataGrid<HealthMetric> _Grid { get; set; }
         List<HealthMetric> _HealthMetrics { get; set; }
         HealthMetric _SelectedItem { get; set; }
@@ -55,7 +59,17 @@ namespace DietTrackerBlazorServer.Pages
         {
             if (item == _SelectedItem)
             {
-                return $"border-2 border-striped";
+                return $"border-4";
+            }
+
+            return string.Empty;
+        }
+
+        string GetRowStyle(HealthMetric item, int index)
+        {
+            if (item == _SelectedItem)
+            {
+                return $"background-color: {_Theme.Palette.GrayLighter};";
             }
 
             return string.Empty;
