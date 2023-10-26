@@ -35,12 +35,12 @@
                     <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                    Variant="Variant.Filled"
                                    Color="Color.Info"
-                                   OnClick="@(async () => await _Dialog.Show(context.Item, DialogMode.Edit))" />
+                                   OnClick="@(async () => await _Dialog.ShowAsync(context.Item, DialogMode.Edit))" />
 
                     <MudIconButton Icon="@Icons.Material.Filled.Delete"
                                    Variant="Variant.Filled"
                                    Color="Color.Error"
-                                   OnClick="@(async () => await _Dialog.Show(context.Item, DialogMode.Delete))" />
+                                   OnClick="@(async () => await _Dialog.ShowAsync(context.Item, DialogMode.Delete))" />
                 </div>
             </CellTemplate>
         </TemplateColumn>
@@ -61,7 +61,7 @@
     <MudButton Variant="Variant.Filled"
                Color="Color.Success"
                Class="mt-4"
-               OnClick="@(async () => await _Dialog.Show(new HealthMetric()))">
+               OnClick="@(async () => await _Dialog.ShowAsync(new HealthMetric()))">
 
         <MudIcon Icon="@Icons.Material.Outlined.Add" />
         Add new health metric
@@ -69,168 +69,23 @@
 
 </div>
 
-<DTDialog @ref="_Dialog" TItem="HealthMetric">
-    <ItemFields>
-        <MudTextField @bind-Value="context.Item.Name"
-                      Label="Name"
-                      Disabled="@context.Disabled"
-                      Variant="Variant.Filled"
-                      Placeholder="Name" />
-        <MudTextField @bind-Value="context.Item.Description"
-                      Label="Description"
-                      Disabled="@context.Disabled"
-                      Variant="Variant.Filled"
-                      Placeholder="Description" />
-        <MudColorPicker @bind-Text="context.Item.Color"
-                        Label="Colour"
-                        Variant="Variant.Filled"
-                        Disabled="@context.Disabled" />
-    </ItemFields>
+
+<DTDialog TItem="@HealthMetric" @ref="_Dialog">
+    <MudTextField @bind-Value="@context.Item.Name"
+                  Label="Name"
+                  Disabled="@context.Disabled"
+                  Variant="Variant.Filled"
+                  Placeholder="Name" />
+    <MudTextField @bind-Value="@context.Item.Description"
+                  Label="Description"
+                  Disabled="@context.Disabled"
+                  Variant="Variant.Filled"
+                  Placeholder="Description" />
+    <MudColorPicker @bind-Text="@context.Item.Color"
+                    Label="Colour"
+                    Variant="Variant.Filled"
+                    Disabled="@context.Disabled" />
 </DTDialog>
-
- @* @if (_CurrentHealthMetrics.Count > 0)
-{
-    <DataGrid TItem="HealthMetric"
-          Data="@_CurrentHealthMetrics"
-          @bind-SelectedRow="_DataGridSelectedHealthMetric"
-          Responsive
-          ShowPager="true"
-          PageSize="10"
-          Bordered>
-
-
-        <DataGridCommandColumn TItem="HealthMetric" />
-        <DataGridColumn Field="@nameof(HealthMetric.Name)" TItem="HealthMetric" Caption="Name" />
-        <DataGridColumn Field="@nameof(HealthMetric.Description)" TItem="HealthMetric" Caption="Description" />
-        <DataGridColumn Field="@nameof(HealthMetric.Color)" TItem="HealthMetric" Caption="Colour">
-            <DisplayTemplate>
-                <ColorPicker Color="@context.Color" Disabled></ColorPicker>
-            </DisplayTemplate>
-        </DataGridColumn>
-
-    </DataGrid>
-}
-else
-{
-    <Paragraph>
-        You have not defined any health metrics.
-        Click the <Text Color="TextColor.Primary">add</Text> button to create a new health metric.
-    </Paragraph>
-}
-<Button Color="Color.Success" Clicked="@OnAddButtonClicked">
-    <Icon Name="IconName.Add"></Icon>
-    Add
-</Button>
-<Button Color="Color.Warning" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnEditButtonClicked">
-    <Icon Name="IconName.Wrench"></Icon>
-    Edit
-</Button>
-<Button Color="Color.Danger" Disabled="@(_DataGridSelectedHealthMetric == null)" Clicked="@OnDeleteButtonClicked">
-    <Icon Name="IconName.Delete"></Icon>
-    Delete
-</Button>
-
-
-<Modal @ref="_AddModal">
-    <EditForm Model="@_SubjectHealthMetric" OnValidSubmit="@OnValidSubmit_AddHealthMetric">
-        <ModalContent Centered>
-
-            <ModalHeader>Add health metric</ModalHeader>
-
-            <ModalBody>
-                <Field>
-                    <FieldLabel>Name</FieldLabel>
-                    <TextEdit @bind-Text="_SubjectHealthMetric.Name" Placeholder="Enter a name..."></TextEdit>
-                </Field>
-                <Field>
-                    <FieldLabel>Description</FieldLabel>
-                    <TextEdit @bind-Text="_SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
-                </Field>
-                <Field>
-                    <FieldLabel>Color</FieldLabel>
-                    <ColorPicker @bind-Color="_SubjectHealthMetric.Color"></ColorPicker>
-                </Field>
-                <DataAnnotationsValidator />
-                <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
-            </ModalBody>
-
-            <ModalFooter>
-                <Button Type="ButtonType.Submit" Color="Color.Success">
-                    Add
-                </Button>
-                <Button Clicked="() => {_AddModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
-                    Cancel
-                </Button>
-            </ModalFooter>
-
-        </ModalContent>
-    </EditForm>
-</Modal>
-
-<Modal @ref="_EditModal">
-    <EditForm Model="@_SubjectHealthMetric" OnValidSubmit="@OnValidSubmit_EditHealthMetric">
-        <ModalContent Centered>
-
-            <ModalHeader>Edit health metric</ModalHeader>
-
-            <ModalBody>
-                <Field>
-                    <FieldLabel>Name</FieldLabel>
-                    <TextEdit @bind-Text="_SubjectHealthMetric.Name" Placeholder="Enter a name..."></TextEdit>
-                </Field>
-                <Field>
-                    <FieldLabel>Description</FieldLabel>
-                    <TextEdit @bind-Text="_SubjectHealthMetric.Description" Placeholder="Enter a description..."></TextEdit>
-                </Field>
-                <Field>
-                    <ColorPicker @bind-Color="_SubjectHealthMetric.Color"></ColorPicker>
-                </Field>
-                <DataAnnotationsValidator />
-                <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
-            </ModalBody>
-
-            <ModalFooter>
-                <Button Type="ButtonType.Submit" Color="Color.Warning">
-                    Modify
-                </Button>
-                <Button Clicked="() => {_EditModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
-                    Cancel
-                </Button>
-            </ModalFooter>
-
-        </ModalContent>
-    </EditForm>
-</Modal>
-
-<Modal @ref="_DeleteModal">
-    <ModalContent Centered>
-
-        <ModalHeader>Delete health metric</ModalHeader>
-
-        <ModalBody>
-            <Alert Color="Color.Danger" Visible>
-                <AlertMessage>
-                    @($"Delete \"{_SubjectHealthMetric.Name}\"?")
-                </AlertMessage>
-
-                <AlertDescription>
-                    This will remove <Strong>all</Strong> data associated with this health metric.
-                    Are you sure you want to delete @($"\"{_SubjectHealthMetric.Name}\"?")
-                </AlertDescription>
-            </Alert>
-        </ModalBody>
-
-        <ModalFooter>
-            <Button Type="ButtonType.Submit" Color="Color.Danger" Clicked="@OnDeleteHealthMetricConfirmed">
-                Delete
-            </Button>
-            <Button Clicked="() => {_DeleteModal.Close(CloseReason.UserClosing);}" Color="Color.Warning">
-                Cancel
-            </Button>
-        </ModalFooter>
-
-    </ModalContent>
-</Modal> *@
 
 
 

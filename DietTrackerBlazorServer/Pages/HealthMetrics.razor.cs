@@ -24,7 +24,6 @@ using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 
 namespace DietTrackerBlazorServer.Pages
 {
-    //[Authorize("CoolPeopleOnly")]
     public partial class HealthMetrics : DTComponentBase
     {
         [Inject] ISnackbar _Snackbar { get; set; }
@@ -60,7 +59,7 @@ namespace DietTrackerBlazorServer.Pages
         async Task OnItemAdd()
         {
             HealthMetric newMetric = new HealthMetric();
-            bool confirmed = await _Dialog.Show(newMetric, DialogMode.Add); //Wait for user to close dialog
+            bool confirmed = await _Dialog.ShowAsync(newMetric, DialogMode.Add); //Wait for user to close dialog
             if (confirmed)
             {
                 using var dbc = await _DbContextFactory.CreateDbContextAsync();
@@ -79,7 +78,7 @@ namespace DietTrackerBlazorServer.Pages
         async Task OnItemEdit(HealthMetric metric)
         {
             HealthMetric editedMetric = new HealthMetric();
-            bool confirmed = await _Dialog.Show(editedMetric, DialogMode.Add); //Wait for user to close dialog
+            bool confirmed = await _Dialog.ShowAsync(editedMetric, DialogMode.Add); //Wait for user to close dialog
             if (confirmed)
             {
                 _HealthMetrics.Add(editedMetric);

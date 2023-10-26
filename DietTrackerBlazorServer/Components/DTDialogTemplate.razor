@@ -1,0 +1,44 @@
+﻿@typeparam TItem
+
+
+<MudDialog ClassContent="@($"border-t-2 {GetBorderColour()}")">
+
+    <DialogContent>
+        @{
+            if (ItemFields != null)
+            {
+                if (Mode == DialogMode.Add)
+                {
+                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = false})
+                }
+                else if (Mode == DialogMode.Edit)
+                {
+                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = false})
+                }
+                else if (Mode == DialogMode.Delete)
+                {
+                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = true})
+                }
+            }
+
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (Mode == DialogMode.Add)
+        {
+            <MudButton Color="Color.Success">Add</MudButton>
+        }
+        else if (Mode == DialogMode.Edit)
+        {
+            <MudButton Color="Color.Warning">Save changes</MudButton>
+        }
+        else if (Mode == DialogMode.Delete)
+        {
+            <MudButton Color="Color.Error">Delete</MudButton>
+        }
+
+        <MudButton OnClick="@(() => _Instance.Cancel())">Cancel</MudButton>
+
+    </DialogActions>
+</MudDialog>
+

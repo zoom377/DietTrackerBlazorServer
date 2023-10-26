@@ -17,40 +17,23 @@ using DietTrackerBlazorServer.Shared;
 using DietTrackerBlazorServer.Data;
 using DietTrackerBlazorServer.Model;
 using MudBlazor;
-using System.Text;
 using Humanizer;
 
 namespace DietTrackerBlazorServer.Components
 {
-    public enum DialogMode
-    {
-        Add,
-        Edit,
-        Delete
-    }
-
     public partial class DTDialog<TItem>
     {
         [Inject] IDialogService _DialogService { get; set; }
-        [Parameter] public RenderFragment<DialogContext> ItemFields { get; set; }
-        protected DialogMode _Mode { get; set; }
-        protected TItem _Item { get; set; }
-        protected string _Title { get; set; }
-        protected bool _Visible { get; set; }
-        public MudDialog _Dialog { get; set; }
+        [Parameter] public RenderFragment<DTDialogTemplate<TItem>.DialogContext> ChildContent { get; set; }
 
-        public class DialogContext
+        public async Task<bool> ShowAsync(TItem item, DialogMode mode = DialogMode.Add, string title = "")
         {
-            public TItem Item { get; set; }
-            public bool Disabled { get; set; }
-        }
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add(nameof(DTDialogTemplate<TItem>.Item), item);
+            parameters.Add(nameof(DTDialogTemplate<TItem>.Mode), mode);
+            parameters.Add(nameof(DTDialogTemplate<TItem>.ItemFields), ChildContent);
 
-        public async Task<bool> Show(TItem item, DialogMode mode = DialogMode.Add, string title = "")
-        {
-            _Item = item;
-            _Mode = mode;
             var itemName = typeof(TItem).Name.Humanize(LetterCasing.Title);
-
             if (string.IsNullOrWhiteSpace(title))
             {
                 if (mode == DialogMode.Add)
@@ -60,31 +43,13 @@ namespace DietTrackerBlazorServer.Components
                 else if (mode == DialogMode.Delete)
                     title = $"Delete {itemName}";
             }
-            _Title = title;
 
-            var dialogRef = await _DialogService.ShowAsync<DTDialog<HealthMetric>>();
-            //dialogRef.re
-            var result = await dialogRef.Result;
+            DialogOptions options = new DialogOptions();
 
-            return false;
-        }
+            var dialogReference = await _DialogService.ShowAsync<DTDialogTemplate<TItem>>(title, parameters);
+            var result = await dialogReference.Result;
 
-        string GetBorderColour()
-        {
-            string result = "";
-
-            if (_Mode == DialogMode.Add)
-                result = "mud-border-success";
-            else if (_Mode == DialogMode.Edit)
-                result = "mud-border-warning";
-            else if (_Mode == DialogMode.Delete)
-                result = "mud-border-error";
-
-            return result;
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
+            return !result.Canceled;
         }
 
     }
