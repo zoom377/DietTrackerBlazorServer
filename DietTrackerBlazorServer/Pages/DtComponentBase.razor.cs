@@ -24,14 +24,22 @@ namespace DietTrackerBlazorServer.Pages
 {
     public partial class DTComponentBase : ComponentBase
     {
-        [Inject]
-        protected AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
-        [Inject]
-        protected IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
+        //[Inject] protected AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
+        [Inject] protected IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
+        [CascadingParameter] private Task<AuthenticationState>? _AuthenticationState { get; set; }
+
+        protected async Task<bool> UserIsAuthenticated()
+        {
+            var id = (await _AuthenticationState)?.User?.Identity;
+            if (id != null)
+                return id.IsAuthenticated;
+            else
+                return false;
+        }
 
         protected async Task<ClaimsPrincipal> GetUser()
         {
-            var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var authState = (await _AuthenticationState);
             return authState.User;
         }
 
@@ -42,7 +50,7 @@ namespace DietTrackerBlazorServer.Pages
             return userId;
         }
 
-        
+
 
 
     }

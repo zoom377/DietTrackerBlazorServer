@@ -34,6 +34,11 @@ internal class Program
         builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+        builder.Services.AddAuthorization(b =>
+        {
+            b.AddPolicy("CoolPeopleOnly", p => p.RequireClaim("CoolPerson"));
+        });
+
         //Todo encryption
         builder.Services.AddDataProtection()
             .PersistKeysToFileSystem(new DirectoryInfo("/var/www/keys/"));
@@ -47,6 +52,7 @@ internal class Program
         });
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
+
 
 
         var app = builder.Build();

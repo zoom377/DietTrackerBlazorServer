@@ -20,13 +20,15 @@ using DietTrackerBlazorServer.Shared;
 using MudBlazor;
 using DietTrackerBlazorServer.Components;
 using MudBlazor.Utilities;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 
 namespace DietTrackerBlazorServer.Pages
 {
+    //[Authorize("CoolPeopleOnly")]
     public partial class HealthMetrics : DTComponentBase
     {
-        [CascadingParameter]
-        MudTheme _Theme { get; set; }
+        [Inject] ISnackbar _Snackbar { get; set; }
+        [CascadingParameter] MudTheme _Theme { get; set; }
 
         MudDataGrid<HealthMetric> _Grid { get; set; }
         List<HealthMetric> _HealthMetrics { get; set; }
@@ -55,25 +57,59 @@ namespace DietTrackerBlazorServer.Pages
             _SelectedItem = metric;
         }
 
-        string GetRowClass(HealthMetric item, int index)
+        async Task OnItemAdd()
         {
-            if (item == _SelectedItem)
+            HealthMetric newMetric = new HealthMetric();
+            bool confirmed = await _Dialog.Show(newMetric, DialogMode.Add); //Wait for user to close dialog
+            if (confirmed)
             {
-                return $"border-4";
+                using var dbc = await _DbContextFactory.CreateDbContextAsync();
+                if (await UserIsAuthenticated())
+                {
+                    //_Snackbar
+                    _HealthMetrics.Add(newMetric);
+                }
+                else
+                {
+
+                }
             }
 
-            return string.Empty;
         }
-
-        string GetRowStyle(HealthMetric item, int index)
+        async Task OnItemEdit(HealthMetric metric)
         {
-            if (item == _SelectedItem)
+            HealthMetric editedMetric = new HealthMetric();
+            bool confirmed = await _Dialog.Show(editedMetric, DialogMode.Add); //Wait for user to close dialog
+            if (confirmed)
             {
-                return $"background-color: {_Theme.Palette.GrayLighter};";
+                _HealthMetrics.Add(editedMetric);
             }
-
-            return string.Empty;
         }
+        async Task OnItemDelete(HealthMetric metric)
+        {
+
+        }
+
+
+        //string GetRowClass(HealthMetric item, int index)
+        //{
+        //    if (item == _SelectedItem)
+        //    {
+        //        return $"border-4";
+        //    }
+
+        //    return string.Empty;
+        //}
+
+        //string GetRowStyle(HealthMetric item, int index)
+        //{
+        //    if (item == _SelectedItem)
+        //    {
+        //        return $"background-color: {_Theme.Palette.GrayLighter};";
+        //    }
+
+        //    return string.Empty;
+        //}
 
         //protected async Task OnAddButtonClicked()
         //{

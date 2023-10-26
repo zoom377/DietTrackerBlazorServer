@@ -31,13 +31,13 @@ namespace DietTrackerBlazorServer.Components
 
     public partial class DTDialog<TItem>
     {
+        [Inject] IDialogService _DialogService { get; set; }
         [Parameter] public RenderFragment<DialogContext> ItemFields { get; set; }
-
-        public DialogMode Mode { get; private set; }
+        protected DialogMode _Mode { get; set; }
         protected TItem _Item { get; set; }
         protected string _Title { get; set; }
         protected bool _Visible { get; set; }
-
+        public MudDialog _Dialog { get; set; }
 
         public class DialogContext
         {
@@ -45,12 +45,10 @@ namespace DietTrackerBlazorServer.Components
             public bool Disabled { get; set; }
         }
 
-        public async Task Show(TItem item, DialogMode mode = DialogMode.Add, string title = "")
+        public async Task<bool> Show(TItem item, DialogMode mode = DialogMode.Add, string title = "")
         {
             _Item = item;
-            Mode = mode;
-            _Visible = true;
-
+            _Mode = mode;
             var itemName = typeof(TItem).Name.Humanize(LetterCasing.Title);
 
             if (string.IsNullOrWhiteSpace(title))
@@ -63,17 +61,23 @@ namespace DietTrackerBlazorServer.Components
                     title = $"Delete {itemName}";
             }
             _Title = title;
+
+            var dialogRef = await _DialogService.ShowAsync<DTDialog<HealthMetric>>();
+            //dialogRef.re
+            var result = await dialogRef.Result;
+
+            return false;
         }
 
         string GetBorderColour()
         {
             string result = "";
 
-            if (Mode == DialogMode.Add)
+            if (_Mode == DialogMode.Add)
                 result = "mud-border-success";
-            else if (Mode == DialogMode.Edit)
+            else if (_Mode == DialogMode.Edit)
                 result = "mud-border-warning";
-            else if (Mode == DialogMode.Delete)
+            else if (_Mode == DialogMode.Delete)
                 result = "mud-border-error";
 
             return result;

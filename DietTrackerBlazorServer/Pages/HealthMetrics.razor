@@ -2,6 +2,7 @@
 @using DietTrackerBlazorServer.Components
 @inherits DTComponentBase
 
+
 <MudDataGrid @ref="_Grid"
              T=@HealthMetric
              Items=@_HealthMetrics
@@ -9,10 +10,11 @@
              SelectedItemChanged=@SelectedItemChanged
              MultiSelection="false"
              Dense="true"
-             Elevation="10"
-             RowClassFunc="@GetRowClass"
-             RowStyleFunc="@GetRowStyle">
+             Elevation="10">
 
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Health Metrics</MudText>
+    </ToolBarContent>
     <Columns>
         @* <SelectColumn ShowInFooter=false ShowInHeader=false Size="Size.Small" /> *@
         <PropertyColumn Property="x => x.Name" />
@@ -55,7 +57,7 @@
     </PagerContent>
 </MudDataGrid>
 
-<div class="d-flex justify-center justify-content-around">
+<div class="d-flex justify-center">
     <MudButton Variant="Variant.Filled"
                Color="Color.Success"
                Class="mt-4"

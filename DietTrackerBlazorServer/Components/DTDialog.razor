@@ -1,7 +1,10 @@
 ﻿@typeparam TItem
 
 
-<MudDialog @bind-IsVisible="_Visible" ClassContent="@($"border-t-2 {GetBorderColour()}")">
+<MudDialog @ref="@_Dialog"
+        @bind-IsVisible="_Visible"
+        ClassContent="@($"border-t-2 {GetBorderColour()}")">
+
     <TitleContent>
         @_Title
     </TitleContent>
@@ -9,15 +12,15 @@
         @{
             if (ItemFields != null)
             {
-                if (Mode == DialogMode.Add)
+                if (_Mode == DialogMode.Add)
                 {
                     @ItemFields(new DialogContext(){Item = this._Item, Disabled = false})
                 }
-                else if (Mode == DialogMode.Edit)
+                else if (_Mode == DialogMode.Edit)
                 {
                     @ItemFields(new DialogContext(){Item = this._Item, Disabled = false})
                 }
-                else if (Mode == DialogMode.Delete)
+                else if (_Mode == DialogMode.Delete)
                 {
                     @ItemFields(new DialogContext(){Item = this._Item, Disabled = true})
                 }
@@ -26,15 +29,15 @@
         }
     </DialogContent>
     <DialogActions>
-        @if (Mode == DialogMode.Add)
+        @if (_Mode == DialogMode.Add)
         {
             <MudButton Color="Color.Success">Add</MudButton>
         }
-        else if (Mode == DialogMode.Edit)
+        else if (_Mode == DialogMode.Edit)
         {
             <MudButton Color="Color.Warning">Save changes</MudButton>
         }
-        else if (Mode == DialogMode.Delete)
+        else if (_Mode == DialogMode.Delete)
         {
             <MudButton Color="Color.Error">Delete</MudButton>
         }
