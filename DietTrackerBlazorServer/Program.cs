@@ -40,8 +40,8 @@ internal class Program
         });
 
         //Todo encryption
-        builder.Services.AddDataProtection()
-            .PersistKeysToFileSystem(new DirectoryInfo("/var/www/keys/"));
+        //builder.Services.AddDataProtection()
+        //    .PersistKeysToFileSystem(new DirectoryInfo("/var/www/keys/"));
 
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();

@@ -1,0 +1,54 @@
+﻿@page "/FoodTypes"
+@inherits DTComponentBase
+@using DietTrackerBlazorServer.Components
+
+<MudDataGrid @ref="_Grid"
+             T="@FoodType"
+@bind-SelectedItem="_SelectedItem"
+             Items=@_FoodTypes
+             Dense="true"
+             Elevation="10">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Food Types</MudText>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Name" />
+        <TemplateColumn Title="Edit">
+            <CellTemplate>
+                <div class="d-flex justify-space-around align-center flex-nowrap">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                   Variant="Variant.Filled"
+                                   Color="@Color.Warning"
+                                   OnClick="@(async () => await OnEditItem(context.Item))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                   Variant="Variant.Filled"
+                                   Color="@Color.Error"
+                                   OnClick="@(async () => await OnDeleteItem(context.Item))" />
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+
+</MudDataGrid>
+
+<div class="d-flex justify-center">
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Success"
+               Class="mt-4"
+               OnClick="@OnAddItem">
+
+        <MudIcon Icon="@Icons.Material.Outlined.Add" />
+        Add new Food Type
+    </MudButton>
+
+</div>
+
+<DTDialog @ref="_Dialog"
+          TItem="@FoodType">
+    <MudTextField Label="Name"
+    @bind-Value="context.Item.Name"
+                  Disabled="@context.Delete" />
+</DTDialog>
+
+

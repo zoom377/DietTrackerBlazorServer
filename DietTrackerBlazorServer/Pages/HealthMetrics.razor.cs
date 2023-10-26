@@ -81,20 +81,31 @@ namespace DietTrackerBlazorServer.Pages
                 }
             }
         }
+
         async Task OnItemEdit(HealthMetric metric)
         {
             HealthMetric editedMetric = new HealthMetric();
             editedMetric.Name = metric.Name;
             editedMetric.Description = metric.Description;
             editedMetric.Color = metric.Color;
+
             bool confirmed = await _Dialog.ShowAsync(editedMetric, DialogMode.Edit); //Wait for user to close dialog
             if (confirmed)
             {
                 metric.Name = editedMetric.Name;
                 metric.Description = editedMetric.Description;
                 metric.Color = editedMetric.Color;
+
+                using var dbc = await _DbContextFactory.CreateDbContextAsync();
+                dbc.Update(metric);
+                var count = await dbc.SaveChangesAsync();
+                if (count > 0)
+                {
+                    _Snackbar.Add($"Modified {metric.Name}", Severity.Success);
+                }
             }
         }
+
         async Task OnItemDelete(HealthMetric metric)
         {
             bool confirmed = await _Dialog.ShowAsync(metric, DialogMode.Delete); //Wait for user to close dialog
@@ -123,89 +134,5 @@ namespace DietTrackerBlazorServer.Pages
             }
         }
 
-
-        //protected async Task OnValidSubmit_AddHealthMetric()
-        //{
-        //    _SubjectHealthMetric.ApplicationUserId = await GetUserIdAsync();
-
-        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-        //    {
-        //        var query = dbContext.HealthMetrics
-        //                .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
-        //                .Where(m => m.Name == _SubjectHealthMetric.Name);
-
-        //        if (await query.AnyAsync())
-        //        {
-        //        }
-        //        else
-        //        {
-        //            await dbContext.AddAsync(_SubjectHealthMetric);
-        //            if (await dbContext.SaveChangesAsync() > 0)
-        //            {
-        //            }
-        //            else
-        //            {
-        //            }
-        //        }
-
-        //    }
-        //    await ReloadData();
-        //}
-
-        //protected async Task OnValidSubmit_EditHealthMetric()
-        //{
-        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-        //    {
-        //        var query = dbContext.HealthMetrics
-        //                .Where(m => m.ApplicationUserId == _SubjectHealthMetric.ApplicationUserId)
-        //                .Where(m => m.Id != _SubjectHealthMetric.Id)
-        //                .Where(m => m.Name == _SubjectHealthMetric.Name);
-
-
-        //        if (await query.AnyAsync())
-        //        {
-        //        }
-        //        else
-        //        {
-        //            dbContext.Update(_SubjectHealthMetric);
-        //            if (await dbContext.SaveChangesAsync() > 0)
-        //            {
-        //            }
-        //            else
-        //            {
-        //            }
-
-        //        }
-        //    }
-        //    await ReloadData();
-        //}
-
-        //protected async Task OnDeleteHealthMetricConfirmed()
-        //{
-        //    using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-        //    {
-        //        var userId = await GetUserIdAsync();
-
-        //        var dependentDataPoints = dbContext.HealthDataPoints
-        //            .Where(e => e.ApplicationUserId == userId)
-        //            .Where(e => e.HealthMetricId == _SubjectHealthMetric.Id);
-
-        //        dbContext.RemoveRange(dependentDataPoints);
-        //        //foreach (var dataPoint in associatedDataPoints)
-        //        //{
-        //        //    dbContext.Remove(dataPoint);
-        //        //}
-
-        //        dbContext.Remove(_SubjectHealthMetric);
-        //        if (await dbContext.SaveChangesAsync() > 0)
-        //        {
-        //        }
-        //        else
-        //        {
-        //        }
-        //    }
-        //    _DataGridSelectedHealthMetric = null;
-        //    await ReloadData();
-        //}
     }
 }

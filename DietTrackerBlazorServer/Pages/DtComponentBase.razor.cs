@@ -24,7 +24,6 @@ namespace DietTrackerBlazorServer.Pages
 {
     public partial class DTComponentBase : ComponentBase
     {
-        //[Inject] protected AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
         [Inject] protected IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
         [CascadingParameter] private Task<AuthenticationState>? _AuthenticationState { get; set; }
 

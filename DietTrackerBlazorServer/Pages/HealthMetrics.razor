@@ -85,7 +85,10 @@
                     Label="Colour"
                     Variant="Variant.Filled"
                     Disabled="@context.Delete" />
-    <MudText Color="Color.Error">Deleting this metric will remove all data points associated with it.</MudText>
+    @if (context.Delete)
+    {
+        <MudText Color="Color.Error">Deleting this metric will remove all data points associated with it.</MudText>
+    }
 </DTDialog>
 
 

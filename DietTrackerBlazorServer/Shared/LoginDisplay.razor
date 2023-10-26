@@ -3,9 +3,10 @@
 <AuthorizeView>
     <Authorized>
         <MudLink Color="Color.Inherit" Href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</MudLink>
-        <form method="post" action="Identity/Account/LogOut">
-            <MudButton Color="Color.Inherit" ButtonType="ButtonType.Submit">Log out</MudButton>
-        </form>
+        @* <form method="post" action="Identity/Account/LogOut"> *@
+        @* </form> *@
+        <MudLink Color="Color.Inherit" Href="Identity/Account/LogOut">Log Out</MudLink>
+        @* <MudButton Color="Color.Inherit" ButtonType="ButtonType.Submit">Log out</MudButton> *@
     </Authorized>
     <NotAuthorized>
         <MudLink Class="me-3" Color="Color.Inherit" Href="Identity/Account/Register">Register</MudLink>
