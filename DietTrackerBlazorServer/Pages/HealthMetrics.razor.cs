@@ -21,6 +21,7 @@ using MudBlazor;
 using DietTrackerBlazorServer.Components;
 using MudBlazor.Utilities;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+using System.Runtime.ExceptionServices;
 
 namespace DietTrackerBlazorServer.Pages
 {
@@ -62,31 +63,57 @@ namespace DietTrackerBlazorServer.Pages
             bool confirmed = await _Dialog.ShowAsync(newMetric, DialogMode.Add); //Wait for user to close dialog
             if (confirmed)
             {
-                using var dbc = await _DbContextFactory.CreateDbContextAsync();
                 if (await UserIsAuthenticated())
                 {
-                    //_Snackbar
+                    using var dbc = await _DbContextFactory.CreateDbContextAsync();
+                    newMetric.ApplicationUserId = await GetUserIdAsync();
                     _HealthMetrics.Add(newMetric);
-                }
-                else
-                {
-
+                    dbc.HealthMetrics.UpdateRange(_HealthMetrics);
+                    var changeCount = await dbc.SaveChangesAsync();
+                    if (changeCount != 0)
+                    {
+                        _Snackbar.Add("Added health metric", Severity.Success);
+                    }
+                    else
+                    {
+                        _Snackbar.Add("Failed to add health metric", Severity.Error);
+                    }
                 }
             }
-
         }
         async Task OnItemEdit(HealthMetric metric)
         {
             HealthMetric editedMetric = new HealthMetric();
-            bool confirmed = await _Dialog.ShowAsync(editedMetric, DialogMode.Add); //Wait for user to close dialog
+            editedMetric.Name = metric.Name;
+            editedMetric.Description = metric.Description;
+            editedMetric.Color = metric.Color;
+            bool confirmed = await _Dialog.ShowAsync(editedMetric, DialogMode.Edit); //Wait for user to close dialog
             if (confirmed)
             {
-                _HealthMetrics.Add(editedMetric);
+                metric.Name = editedMetric.Name;
+                metric.Description = editedMetric.Description;
+                metric.Color = editedMetric.Color;
             }
         }
         async Task OnItemDelete(HealthMetric metric)
         {
+            bool confirmed = await _Dialog.ShowAsync(metric, DialogMode.Delete); //Wait for user to close dialog
+            if (confirmed)
+            {
+                using var dbc = await _DbContextFactory.CreateDbContextAsync();
 
+                dbc.Remove(metric);
+                var changeCount = await dbc.SaveChangesAsync();
+                if (changeCount > 0)
+                {
+                    _Snackbar.Add($"Removed {metric.Name}", Severity.Success);
+                    _HealthMetrics.Remove(metric);
+                }
+                else
+                {
+                    _Snackbar.Add($"Failed to remove {metric.Name}", Severity.Error);
+                }
+            }
         }
 
 

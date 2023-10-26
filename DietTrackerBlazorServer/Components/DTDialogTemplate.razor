@@ -26,15 +26,15 @@
     <DialogActions>
         @if (Mode == DialogMode.Add)
         {
-            <MudButton Color="Color.Success">Add</MudButton>
+            <MudButton Color="Color.Success" OnClick="() => _Instance.Close()">Add</MudButton>
         }
         else if (Mode == DialogMode.Edit)
         {
-            <MudButton Color="Color.Warning">Save changes</MudButton>
+            <MudButton Color="Color.Warning" OnClick="() => _Instance.Close()">Save changes</MudButton>
         }
         else if (Mode == DialogMode.Delete)
         {
-            <MudButton Color="Color.Error">Delete</MudButton>
+            <MudButton Color="Color.Error" OnClick="() => _Instance.Close()">Delete</MudButton>
         }
 
         <MudButton OnClick="@(() => _Instance.Cancel())">Cancel</MudButton>
