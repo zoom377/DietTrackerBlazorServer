@@ -73,18 +73,19 @@
 <DTDialog TItem="@HealthMetric" @ref="_Dialog">
     <MudTextField @bind-Value="@context.Item.Name"
                   Label="Name"
-                  Disabled="@context.Disabled"
+                  Disabled="@context.Delete"
                   Variant="Variant.Filled"
                   Placeholder="Name" />
     <MudTextField @bind-Value="@context.Item.Description"
                   Label="Description"
-                  Disabled="@context.Disabled"
+                  Disabled="@context.Delete"
                   Variant="Variant.Filled"
                   Placeholder="Description" />
     <MudColorPicker @bind-Text="@context.Item.Color"
                     Label="Colour"
                     Variant="Variant.Filled"
-                    Disabled="@context.Disabled" />
+                    Disabled="@context.Delete" />
+    <MudText Color="Color.Error">Deleting this metric will remove all data points associated with it.</MudText>
 </DTDialog>
 
 

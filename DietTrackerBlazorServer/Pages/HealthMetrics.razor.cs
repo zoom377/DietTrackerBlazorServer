@@ -101,8 +101,15 @@ namespace DietTrackerBlazorServer.Pages
             if (confirmed)
             {
                 using var dbc = await _DbContextFactory.CreateDbContextAsync();
+                var userId = await GetUserIdAsync();
 
+                //Delete all data points that rely on this metric before removing it.
+                var dataPoints = dbc.HealthDataPoints
+                    .Where(x => x.ApplicationUserId == userId && x.HealthMetricId == metric.Id);
+
+                dbc.RemoveRange(dataPoints);
                 dbc.Remove(metric);
+
                 var changeCount = await dbc.SaveChangesAsync();
                 if (changeCount > 0)
                 {
@@ -116,41 +123,6 @@ namespace DietTrackerBlazorServer.Pages
             }
         }
 
-
-        //string GetRowClass(HealthMetric item, int index)
-        //{
-        //    if (item == _SelectedItem)
-        //    {
-        //        return $"border-4";
-        //    }
-
-        //    return string.Empty;
-        //}
-
-        //string GetRowStyle(HealthMetric item, int index)
-        //{
-        //    if (item == _SelectedItem)
-        //    {
-        //        return $"background-color: {_Theme.Palette.GrayLighter};";
-        //    }
-
-        //    return string.Empty;
-        //}
-
-        //protected async Task OnAddButtonClicked()
-        //{
-        //    _SubjectHealthMetric = new HealthMetric();
-        //}
-
-        //protected async Task OnEditButtonClicked()
-        //{
-        //    _SubjectHealthMetric = _DataGridSelectedHealthMetric.ShallowCopy();
-        //}
-
-        //protected async Task OnDeleteButtonClicked()
-        //{
-        //    _SubjectHealthMetric = _DataGridSelectedHealthMetric;
-        //}
 
         //protected async Task OnValidSubmit_AddHealthMetric()
         //{

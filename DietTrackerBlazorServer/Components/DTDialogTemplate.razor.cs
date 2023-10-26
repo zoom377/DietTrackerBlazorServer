@@ -39,7 +39,7 @@ namespace DietTrackerBlazorServer.Components
         public class DialogContext
         {
             public TItem Item { get; set; }
-            public bool Disabled { get; set; }
+            public bool Delete { get; set; }
         }
 
         string GetBorderColour()

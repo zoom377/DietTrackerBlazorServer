@@ -9,15 +9,15 @@
             {
                 if (Mode == DialogMode.Add)
                 {
-                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = false})
+                    @ItemFields(new DialogContext(){Item = this.Item, Delete = false})
                 }
                 else if (Mode == DialogMode.Edit)
                 {
-                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = false})
+                    @ItemFields(new DialogContext(){Item = this.Item, Delete = false})
                 }
                 else if (Mode == DialogMode.Delete)
                 {
-                    @ItemFields(new DialogContext(){Item = this.Item, Disabled = true})
+                    @ItemFields(new DialogContext(){Item = this.Item, Delete = true})
                 }
             }
 
