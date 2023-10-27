@@ -4,6 +4,17 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@* <header class="mud-appbar mud-appbar-dense mud-appbar-fixed-top mud-elevation-4">
+    <div class="mud-toolbar mud-toolbar-dense mud-toolbar-gutters mud-toolbar-appbar">
+        <button type="button" class="mud-button-root mud-icon-button mud-inherit-text hover:mud-inherit-hover mud-ripple mud-ripple-icon mud-icon-button-edge-start" _bl_4a9c034e-7169-4feb-935a-ea334131907a=""><span class="mud-icon-button-label"><!--!--><svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><!--!--><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></span></button>
+        Health Tracker
+        
+        <div class="flex-grow-1"></div>
+        <a href="Identity/Account/Manage" class="mud-typography mud-link mud-inherit-text mud-link-underline-hover mud-typography-body1">Hello, zoom377@googlemail.com!</a>
+        <a href="Identity/Account/LogOut" class="mud-typography mud-link mud-inherit-text mud-link-underline-hover mud-typography-body1">Log Out</a>
+    </div>
+</header> *@
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {

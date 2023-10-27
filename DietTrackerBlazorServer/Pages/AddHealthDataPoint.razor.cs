@@ -23,68 +23,39 @@ namespace DietTrackerBlazorServer.Pages
 {
     public partial class AddHealthDataPoint : DTComponentBase
     {
-        List<HealthMetric> HealthMetrics { get; set; } = new List<HealthMetric>();
-        List<HealthDataPointDGItem> NewDataPoints = new List<HealthDataPointDGItem>();
-        bool UseCurrentDate { get; set; } = true;
-        DateTime SelectedDate { get; set; } = DateTime.Now;
-        bool Loaded { get; set; } = false;
+        List<HealthMetric> _HealthMetrics { get; set; } = new List<HealthMetric>();
+        List<HealthDataPoint> _DataPoints { get; set; } = new List<HealthDataPoint>();
+        bool _UseCurrentDate { get; set; } = true;
+        DateTime _SelectedDate { get; set; } = DateTime.Now;
+        bool _Loaded { get; set; } = false;
 
 
         protected override async Task OnInitializedAsync()
         {
-            
-            Loaded = false;
-            string userId = await GetUserIdAsync();
-            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-            {
-                HealthMetrics = await dbContext.HealthMetrics.Where(e => e.ApplicationUserId == userId).AsNoTracking().ToListAsync();
-            }
+            using var dbc = await _DbContextFactory.CreateDbContextAsync();
+            var userId = await GetUserIdAsync();
 
-            NewDataPoints = new List<HealthDataPointDGItem>();
-            foreach (var metric in HealthMetrics)
-            {
-                NewDataPoints.Add(new HealthDataPointDGItem { HealthMetric = metric, Include = true, Value = 5 });
-            }
+            _HealthMetrics = dbc.HealthMetrics
+                .Where(x => x.ApplicationUserId == userId)
+                .ToList();
 
-            Loaded = true;
-            
-            //table.
+            _DataPoints.Clear();
+            foreach (var metric in _HealthMetrics)
+            {
+                _DataPoints.Add(new HealthDataPoint()
+                {
+                    ApplicationUserId = userId,
+                    HealthMetricId = metric.Id,
+                    Value = 5
+                });
+            }
         }
 
         async Task OnSubmitButtonClicked()
         {
             
-            string userId = await GetUserIdAsync();
-            using (ApplicationDbContext dbContext = await _DbContextFactory.CreateDbContextAsync())
-            {
-                foreach (var dataPoint in NewDataPoints)
-                {
-                    if (dataPoint.Include)
-                    {
-                        HealthDataPoint newDataPoint = new HealthDataPoint { Date = UseCurrentDate ? DateTime.Now : SelectedDate, Value = dataPoint.Value, ApplicationUserId = userId, HealthMetricId = dataPoint.HealthMetric.Id };
-                        dbContext.Add(newDataPoint);
-                    }
-                }
-
-                if (await dbContext.SaveChangesAsync() > 0)
-                {
-                    //await _SnackbarStack.PushAsync($"Successfully added datapoints.", SnackbarColor.Success);
-                }
-                else
-                {
-                    //await _SnackbarStack.PushAsync($"Database failure.", SnackbarColor.Danger);
-                }
-            }
             
-        }
-
-        class HealthDataPointDGItem
-        {
-            public int Value { get; set; }
-
-            public bool Include { get; set; }
-
-            public HealthMetric HealthMetric { get; set; }
+            
         }
     }
 }

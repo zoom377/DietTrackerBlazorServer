@@ -4,52 +4,31 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 
-@* @if (Loaded)
+
+@if (_HealthMetrics.Count > 0)
 {
-    @if (HealthMetrics.Count > 0)
+
+    @for (int i = 0; i < _HealthMetrics.Count; i++)
     {
-
-
-
-        <Heading Size="HeadingSize.Is3">New health data point</Heading>
-        
-
-        <ListGroup>
-            @foreach (var dataPoint in NewDataPoints)
-            {
-                <ListGroupItem>
-                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center">
-                        <Heading Size="HeadingSize.Is4">@dataPoint.HealthMetric.Name</Heading>
-                        <Text>Value: @dataPoint.Value</Text>
-                    </Div>
-
-                    <Slider @bind-Value="@dataPoint.Value" TValue="int" Min="0" Max="10" Disabled="@(!dataPoint.Include)"></Slider>
-                </ListGroupItem>
-            }
-        </ListGroup>
-
-        <Div>
-            <Field>
-                <FieldLabel>Use current date</FieldLabel>
-                <Check TValue="bool" @bind-Checked="UseCurrentDate" />
-            </Field>
-            <Field>
-                <DatePicker Disabled="UseCurrentDate" TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="SelectedDate"></DatePicker>
-            </Field>
-        </Div>
-
-
-        <Button Margin="Margin.Is3.FromTop" Color="Color.Success" Size="Size.Medium" Clicked="@OnSubmitButtonClicked">Submit data point</Button>
-
-
+        var metric = _HealthMetrics[i];
+        var healthDataPoint = _DataPoints[i];
+        <MudField Label="@metric.Name"
+                  Variant="Variant.Filled"
+                  Class="border-b-4">
+            <div class="d-flex flex-nowrap gap-4 justify-space-around align-center">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Style="@($"color: {metric.Color};")" />
+                <MudText>@healthDataPoint.Value</MudText>
+                <MudSlider @bind-Value="healthDataPoint.Value" Min="0" Max="10" />
+            </div>
+        </MudField>
     }
-    else
-    {
-        <Paragraph>
-            You must <a href="HealthMetrics">define</a> at least one health metric before you can add a health data point.
-        </Paragraph>
-    }
-} *@
+}
+else
+{
+    <MudText Typo="Typo.h6"
+             Class="justify-center">You need to <MudLink Href="/HealthMetrics">add a Health Metric</MudLink> before adding a data point.</MudText>
+}
+
 
 
 
