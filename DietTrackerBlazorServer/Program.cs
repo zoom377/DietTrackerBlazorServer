@@ -53,6 +53,7 @@ internal class Program
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
 
+        builder.Services.AddScoped<EmailVerificationManager>();
 
 
         var app = builder.Build();

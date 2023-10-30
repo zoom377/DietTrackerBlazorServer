@@ -22,11 +22,13 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            this._userManager = userManager;
         }
 
         [BindProperty]
@@ -80,6 +82,7 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -95,11 +98,21 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else
+
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if (user != null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    var emailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+                    if (!emailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "You must verify your email address before you can log in.");
+                        return Page();
+                    }
                 }
+
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
             }
 
             // If we got this far, something failed, redisplay form
