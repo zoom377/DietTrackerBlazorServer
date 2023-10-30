@@ -36,7 +36,7 @@ namespace DietTrackerBlazorServer.Pages
                 return false;
         }
 
-        protected async Task<ClaimsPrincipal> GetUser()
+        protected async Task<ClaimsPrincipal> GetUserAsync()
         {
             var authState = (await _AuthenticationState);
             return authState.User;
@@ -44,7 +44,7 @@ namespace DietTrackerBlazorServer.Pages
 
         protected async Task<string> GetUserIdAsync()
         {
-            var user = await GetUser();
+            var user = await GetUserAsync();
             var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
             return userId;
         }

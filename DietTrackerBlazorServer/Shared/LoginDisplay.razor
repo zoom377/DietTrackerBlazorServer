@@ -1,11 +1,14 @@
-﻿
+﻿@inherits DTComponentBase
 
 <AuthorizeView>
     <Authorized>
-        <MudLink Color="Color.Inherit" Href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</MudLink>
-        @* <form method="post" action="Identity/Account/LogOut"> *@
+        <MudLink Color="Color.Inherit" Href="Identity/Account/Manage">@context.User.Identity.Name</MudLink>
+
+        @* <form method="post" asp-area="Identity" asp-page="/Account/Logout"> *@
+        <MudLink Class="ml-6" Color="Color.Inherit" Href="Identity/Account/LogOut">Log Out</MudLink>
+        @* <MudButton OnClick="@OnLogoutClicked" Class="ml-4 mud-link-underline-hover" Color="Color.Inherit" ButtonType="ButtonType.Submit">Log out</MudButton> *@
         @* </form> *@
-        <MudLink Color="Color.Inherit" Href="Identity/Account/LogOut">Log Out</MudLink>
+
         @* <MudButton Color="Color.Inherit" ButtonType="ButtonType.Submit">Log out</MudButton> *@
     </Authorized>
     <NotAuthorized>
@@ -13,4 +16,3 @@
         <MudLink Color="Color.Inherit" Href="Identity/Account/Login">Log in</MudLink>
     </NotAuthorized>
 </AuthorizeView>
-
