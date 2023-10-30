@@ -1,7 +1,10 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');*/
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Roboto, Helvetica, Arial, "sans-serif";
+    letter-spacing: 0.14994px;
+    line-height: 20px;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
 }
 
 h1:focus {
@@ -60,3 +63,61 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.dt-header {
+    height: 48px;
+    padding: 16px;
+    background-color: rgb(89 74 226);
+}
+
+.dt-header-text{
+    color: rgb(255,255,255);
+}
+
+/*.dt-panel {
+    background-color: rgb(230,230,230);
+}*/
+
+/* Style inputs with type="text", select elements and textareas */
+.dt-input{
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+.dt-input-group{
+    width: 100%;
+}
+
+/* Style the submit button with a specific background color etc */
+button {
+    background-color: rgb(89 74 226);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+button:hover {
+    background-color: rgb(89 74 226);
+}
+
+/* Add a background color and some padding around the form */
+.dt-panel {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    /*width: 50%;*/
+}
+
+a:hover {
+    text-decoration: underline;
+}
