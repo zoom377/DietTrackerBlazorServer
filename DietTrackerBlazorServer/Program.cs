@@ -23,7 +23,7 @@ internal class Program
 
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
-            options.SignIn.RequireConfirmedEmail = false;
+            options.SignIn.RequireConfirmedEmail = true;
             options.SignIn.RequireConfirmedAccount = false;
             options.SignIn.RequireConfirmedPhoneNumber = false;
 
@@ -52,8 +52,8 @@ internal class Program
         });
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
-        //builder.Services.AddSingleton<EmailVerificationManager>();
-        builder.Services.AddHostedService<EmailVerificationService>();
+        builder.Services.AddScoped<EmailVerificationService>();
+        //builder.Services.AddHostedService<EmailVerificationService>();
 
         var app = builder.Build();
 

@@ -26,22 +26,23 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IServiceProvider _serviceProvider;
+        private readonly EmailVerificationService _emailVerificationService;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
-            ILogger<LoginModel> logger, 
+            ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            EmailVerificationService emailVerificationService)
         {
             _signInManager = signInManager;
             _logger = logger;
             this._userManager = userManager;
             this._serviceProvider = serviceProvider;
+            this._emailVerificationService = emailVerificationService;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -70,12 +71,7 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
             }
 
             returnUrl ??= Url.Content("~/");
-
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             ReturnUrl = returnUrl;
         }
 
@@ -83,47 +79,30 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
-
                 var user = await _userManager.FindByNameAsync(Input.Email);
-                if (user != null)
-                {
-                    var emailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-                    if (!emailConfirmed)
-                    {
-                        ModelState.AddModelError(string.Empty, "You must verify your email address before you can log in.");
-                        var emailVerificationManager = _serviceProvider.GetBackgroundService<EmailVerificationService>();
-
-                        await emailVerificationManager.SendVerificationEmail(user);
-                        return Page();
-                    }
-                }
-                //_signInManager.UserManager.GenerateEmailConfirmationTokenAsync()
-
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
+                else if (user != null)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    var emailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+                    if (!emailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "You must verify your email address before you can log in. An email has been sent to you.");
+                        await _emailVerificationService.SendVerificationEmail(user);
+                        return Page();
+                    }
                 }
-                if (result.IsLockedOut)
+                else
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
-
-                
-
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return Page();
             }
 
             // If we got this far, something failed, redisplay form

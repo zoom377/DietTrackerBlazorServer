@@ -3,81 +3,85 @@ using DietTrackerBlazorServer.Model;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using MimeKit;
 using Org.BouncyCastle.Tls;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using System.Text;
+using System.Web;
 
 namespace DietTrackerBlazorServer.Services
 {
-    public class EmailVerificationService : BackgroundService
+    public class EmailVerificationService
     {
-        [Inject] public IDbContextFactory<ApplicationDbContext> _DbContextFactory { get; set; }
-        [Inject] public UserManager<ApplicationUser> _UserManager { get; set; }
-        [Inject] public IConfiguration _cfg { get; set; }
+        private readonly ILogger<EmailVerificationService> _Logger;
+        private readonly IDbContextFactory<ApplicationDbContext> _DbContextFactory;
+        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly IConfiguration _cfg;
+        private readonly IWebHostEnvironment _host;
 
-        List<PendingVerificationEmail> _pendingVerificationEmails = new List<PendingVerificationEmail>();
-
-        class PendingVerificationEmail
+        public EmailVerificationService(ILogger<EmailVerificationService> logger,
+            IDbContextFactory<ApplicationDbContext> dbContextFactory,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration cfg,
+            IWebHostEnvironment host)
         {
-            public string UserId { get; set; }
-            public string Token { get; set; }
-            public DateTime ExpiryTime { get; set; }
-        }
-
-        public async Task IsVerificationPending(ApplicationUser user)
-        {
+            _Logger = logger;
+            _DbContextFactory = dbContextFactory;
+            _UserManager = userManager;
+            _cfg = cfg;
+            _host = host;
         }
 
         public async Task SendVerificationEmail(ApplicationUser user)
         {
-            //If there is already one pending, overwrite it
-            var current = _pendingVerificationEmails
-                .FirstOrDefault(x => x.UserId == user.Id);
 
-            if (current != null)
-                _pendingVerificationEmails.Remove(current);
+            string token = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
+            string code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            //string code = HttpUtility.UrlEncode(token, Encoding.);
+            var confirmationLink = $"https://localhost:7171/Identity/Account/ConfirmEmail?userId={user.Id}&emailToken={code}";
 
-            var duration = _cfg.GetValue<int>("VerificationEmailValidDuration");
-            var expiry = DateTime.Now + TimeSpan.FromMinutes(duration);
-
-            PendingVerificationEmail pending = new PendingVerificationEmail
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("dt-app", "dtapp@dtapp.test"));
+            message.To.Add(new MailboxAddress(_cfg["Mail:Name"], _cfg["Mail:Username"]));
+            message.Subject = "Health tracker email verification";
+            message.Body = new TextPart("html")
             {
-                UserId = user.Id,
-                Token = await _UserManager.GenerateEmailConfirmationTokenAsync(user),
-                ExpiryTime = expiry
+                Text = $"Thanks for registering with Health Tracker!" +
+                $"<br/>" +
+                $"<a href=\"{confirmationLink}\">Click here to confirm your email address.</a>"
             };
 
-            _pendingVerificationEmails.Add(pending);
-
-            var message = new MimeMessage(_cfg.GetValue<string>("Mail/Username"),
-                _cfg.GetValue<string>("Mail/Username"),
-                "Health tracker email verification",
-                "Please click the link to activate your account.");
+            //Todo:
+            //Email sending can be an unreliable operation.
+            //Rework this to handle failures (mail server down, credentials incorrect, etc)
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(_cfg.GetValue<string>("Mail/Host"), _cfg.GetValue<int>("Mail/Port"), false);
-                await client.AuthenticateAsync(_cfg.GetValue<string>("Mail/Username"), _cfg.GetValue<string>("Mail/Password"));
+                var host = _cfg["Mail:Hostname"];
+                var port = _cfg.GetValue<int>("Mail:Port");
+                var username = _cfg["Mail:Username"];
+                var password = _cfg["Mail:Password"];
+
+                await client.ConnectAsync(host, port, false);
+                await client.AuthenticateAsync(username, password);
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);
             }
 
         }
 
-        public async Task ConfirmToken(string emailVerificationToken)
+        public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string emailVerificationToken)
         {
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(emailVerificationToken));
+            //var decodedToken = HttpUtility.UrlDecode(emailVerificationToken);
 
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-
-                await Task.Delay(10, stoppingToken);
-            }
+            var result = await _UserManager.ConfirmEmailAsync(user, decodedToken);
+            return result.Succeeded;
         }
     }
 }
