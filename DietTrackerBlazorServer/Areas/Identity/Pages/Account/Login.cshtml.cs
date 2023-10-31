@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using DietTrackerBlazorServer.Services;
+using DietTrackerBlazorServer.Extensions;
 
 namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
 {
@@ -23,12 +25,17 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IServiceProvider _serviceProvider;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger, 
+            UserManager<ApplicationUser> userManager,
+            IServiceProvider serviceProvider)
         {
             _signInManager = signInManager;
             _logger = logger;
             this._userManager = userManager;
+            this._serviceProvider = serviceProvider;
         }
 
         [BindProperty]
@@ -80,8 +87,21 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if (user != null)
+                {
+                    var emailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+                    if (!emailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "You must verify your email address before you can log in.");
+                        var emailVerificationManager = _serviceProvider.GetBackgroundService<EmailVerificationService>();
+
+                        await emailVerificationManager.SendVerificationEmail(user);
+                        return Page();
+                    }
+                }
+                //_signInManager.UserManager.GenerateEmailConfirmationTokenAsync()
 
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -99,16 +119,7 @@ namespace DietTrackerBlazorServer.Areas.Identity.Pages.Account
                     return RedirectToPage("./Lockout");
                 }
 
-                var user = await _userManager.FindByNameAsync(Input.Email);
-                if (user != null)
-                {
-                    var emailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-                    if (!emailConfirmed)
-                    {
-                        ModelState.AddModelError(string.Empty, "You must verify your email address before you can log in.");
-                        return Page();
-                    }
-                }
+                
 
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

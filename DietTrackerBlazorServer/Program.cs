@@ -52,9 +52,8 @@ internal class Program
         });
 
         builder.Services.AddTransient<ICorrelationCalculator, PearsonsRCorrelation>();
-
-        builder.Services.AddScoped<EmailVerificationManager>();
-
+        //builder.Services.AddSingleton<EmailVerificationManager>();
+        builder.Services.AddHostedService<EmailVerificationService>();
 
         var app = builder.Build();
 
